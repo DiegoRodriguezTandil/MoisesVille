@@ -2,102 +2,69 @@
 
 namespace app\models;
 
-class User extends \yii\base\Object implements \yii\web\IdentityInterface
+use Yii;
+		
+/**
+ * * This is the model class for table "user".
+*
+* @property integer $id
+* @property string $username
+* @property string $auth_key
+* @property string $password
+* @property string $email
+* @property string $created_at
+* @property string $updated_at
+* @property string $firstName
+* @property string $lastName
+*
+* @property Ingreso[] $ingresos
+*/
+class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
-
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentity($id)
-    {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+    public static function tableName(){
+        return 'user';
     }
-
-    /**
-     * @inheritdoc
-     */
-    public static function findIdentityByAccessToken($token, $type = null)
-    {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+    
+    public static function findIdentity($id){
+	return static::findOne($id);
     }
-
-    /**
-     * Finds user by username
-     *
-     * @param  string      $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
+    
+    public static function findIdentityByAccessToken($token, $type = null){
+	throw new NotSupportedException();//I don't implement this method because I don't have any access token column in my database
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getId()
-    {
-        return $this->id;
+    
+    public function getId(){
+	return $this->id;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getAuthKey()
-    {
-        return $this->authKey;
+ 
+    public function getAuthKey(){
+	return $this->auth_key;//Here I return a value of my authKey column
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function validateAuthKey($authKey)
-    {
-        return $this->authKey === $authKey;
+ 
+    public function validateAuthKey($authKey){
+	return $this->auth_key === $auth_key;
     }
-
-    /**
-     * Validates password
-     *
-     * @param  string  $password password to validate
-     * @return boolean if password provided is valid for current user
-     */
-    public function validatePassword($password)
-    {
-        return $this->password === $password;
+    
+    public static function findByUsername($username){
+	return self::findOne(['username'=>$username]);
     }
+ 
+    public function validatePassword($password){
+	return $this->password === $password;
+    }
+    
+    public function attributeLabels(){
+        return [
+            'id' => 'ID',
+	    'username' => 'Username',
+	    'auth_key' => 'Auth Key',
+	    'password' => 'Password',
+	    'email' => 'Email',
+	    'created_at' => 'Created At',
+	    'updated_at' => 'Updated At',
+	    'firstName' => 'First Name',
+	    'lastName' => 'Last Name',
+		       ];
+    }
+    
 }

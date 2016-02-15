@@ -5,18 +5,23 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log'],  
+    'language'=>'es',
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '',
+            'cookieValidationKey' => 'dfsdfhsdfhsduhfsduihf2364asd',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'user' => [
+        'user' => [/*
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => true,*/
+            'identityClass' => 'app\models\User',
+            'enableAutoLogin' => true,//If you don't have authKey column in your DB, set enableAutoLogin field to false
+            'enableSession' => true,
+            
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -34,6 +39,19 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['error', 'warning'],
+                ],
+            ],
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'es-ES',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
                 ],
             ],
         ],
