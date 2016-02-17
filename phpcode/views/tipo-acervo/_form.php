@@ -4,6 +4,7 @@ use yii\helpers\Html;
 //use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
+//use yii\kartik\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\TipoAcervo */
@@ -41,8 +42,14 @@ use yii\bootstrap\ActiveForm;
     
     ?>
 
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+     <div class="form-group">
+        <div class="col-lg-offset-4 col-lg-8">
+             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+    </div>
+
+    <!--div class="form-group">
+       
     </div>
 
     <?php ActiveForm::end(); ?>
