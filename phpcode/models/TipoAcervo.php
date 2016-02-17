@@ -44,7 +44,7 @@ class TipoAcervo extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'descripcion' => 'Descripcion',
-            'tipoAcervo_id' => 'Tipo Acervo ID',
+            'tipoAcervo_id' => 'Depende de Tipo Acervo',
         ];
     }
 
@@ -70,5 +70,15 @@ class TipoAcervo extends \yii\db\ActiveRecord
     public function getTipoAcervos()
     {
         return $this->hasMany(TipoAcervo::className(), ['tipoAcervo_id' => 'id']);
+    }
+    
+    public function getTipoAcervoPadre()
+    {
+        $padre = TipoAcervo::findOne($this->tipoAcervo_id); 
+             //   $this->hasOne(TipoAcervo::className(), ['id'=> $this->tipoAcervo_id]);
+        //var_dump($padre);
+        if (!isset($padre))            
+            return "";
+        return $padre->descripcion;
     }
 }

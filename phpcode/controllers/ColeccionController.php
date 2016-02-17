@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\TipoAcervo;
+use app\models\Coleccion;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * TipoAcervoController implements the CRUD actions for TipoAcervo model.
+ * ColeccionController implements the CRUD actions for Coleccion model.
  */
-class TipoAcervoController extends Controller
+class ColeccionController extends Controller
 {
     public function behaviors()
     {
@@ -27,13 +27,13 @@ class TipoAcervoController extends Controller
     }
 
     /**
-     * Lists all TipoAcervo models.
+     * Lists all Coleccion models.
      * @return mixed
      */
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => TipoAcervo::find(),
+            'query' => Coleccion::find(),
         ]);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class TipoAcervoController extends Controller
     }
 
     /**
-     * Displays a single TipoAcervo model.
+     * Displays a single Coleccion model.
      * @param integer $id
      * @return mixed
      */
@@ -54,29 +54,25 @@ class TipoAcervoController extends Controller
     }
 
     /**
-     * Creates a new TipoAcervo model.
+     * Creates a new Coleccion model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new TipoAcervo(); 
-        $request = Yii::$app->request;
-        $tipoac = $request->post('TipoAcervo');
-        $tipoac_id = $tipoac['tipoAcervo_id'];        
-        if ($tipoac_id == "")
-            $model["tipoAcervo_id"] = 0;            
+        $model = new Coleccion();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model, 
+                'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing TipoAcervo model.
+     * Updates an existing Coleccion model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -95,7 +91,7 @@ class TipoAcervoController extends Controller
     }
 
     /**
-     * Deletes an existing TipoAcervo model.
+     * Deletes an existing Coleccion model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -108,15 +104,15 @@ class TipoAcervoController extends Controller
     }
 
     /**
-     * Finds the TipoAcervo model based on its primary key value.
+     * Finds the Coleccion model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return TipoAcervo the loaded model
+     * @return Coleccion the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = TipoAcervo::findOne($id)) !== null) {
+        if (($model = Coleccion::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
