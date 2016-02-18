@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ingreso */
@@ -36,5 +37,28 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_id',
         ],
     ]) ?>
+    
+    <?php
+    
+        if (isset($acervos)){
+            GridView::widget([
+            'dataProvider' => $acervos,
+            'columns' => [
+                ['class' => 'yii\grid\SerialColumn'],
+
+                'id',
+                'descripcion',
+                'fechaEntrada',
+                'observaciones',
+                'fechaBaja',
+                // 'user_id',
+
+                ['class' => 'yii\grid\ActionColumn'],
+            ],
+            ]);
+        }
+        ?>
+    
+    
 
 </div>

@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
+//use kartik\dynagrid\DynaGrid;	
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\IngresoSearch */
@@ -34,6 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);?>
+   
 
 </div>

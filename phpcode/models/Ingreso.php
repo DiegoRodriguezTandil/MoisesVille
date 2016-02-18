@@ -48,11 +48,11 @@ class Ingreso extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'descripcion' => Yii::t('app', 'Descripcion'),
+            'descripcion' => Yii::t('app', 'Descripción'),
             'fechaEntrada' => Yii::t('app', 'Fecha Entrada'),
             'observaciones' => Yii::t('app', 'Observaciones'),
             'fechaBaja' => Yii::t('app', 'Fecha Baja'),
-            'user_id' => Yii::t('app', 'User ID'),
+            'user_id' => Yii::t('app', 'Usuario'),
         ];
     }
 

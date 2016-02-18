@@ -27,7 +27,7 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'Moises ille',
+        'brandLabel' => 'Museo Moises Ville',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -39,10 +39,11 @@ AppAsset::register($this);
           //  ['label' => 'Home', 'url' => ['/site/index']],
           //  ['label' => 'About', 'url' => ['/site/about']],
           //  ['label' => 'Contact', 'url' => ['/site/contact']],    
-            ['label' =>  Yii::t('app', 'Home'), 'url' => ['/site/index']],
-            ['label' => Yii::t('app','Status'), 'url' => ['/status/index']],
-            ['label' => Yii::t('app','About'), 'url' => ['/site/about']],
-            ['label' => Yii::t('app','Contact'), 'url' => ['/site/contact']],
+            ['label' =>  Yii::t('app', 'Inicio'), 'url' => ['/site/index']],
+            ['label' => Yii::t('app','Ingreso'), 'url' => ['/ingreso']],
+            ['label' => Yii::t('app','Acervo'), 'url' => ['/acervo']],
+            ['label' => Yii::t('app','Usuarios'), 'url' => ['/user']],
+            ['label' => Yii::t('app','Contacto'), 'url' => ['/site/contacto']],
             Yii::$app->user->isGuest ?
                 ['label' => 'Login', 'url' => ['/site/login']] :
                 [
@@ -65,7 +66,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Moises Ville Museo <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

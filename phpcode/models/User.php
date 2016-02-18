@@ -56,14 +56,14 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function attributeLabels(){
         return [
             'id' => 'ID',
-	    'username' => 'Username',
+	    'username' => 'Usuario',
 	    'auth_key' => 'Auth Key',
 	    'password' => 'Password',
 	    'email' => 'Email',
 	    'created_at' => 'Created At',
 	    'updated_at' => 'Updated At',
-	    'firstName' => 'First Name',
-	    'lastName' => 'Last Name',
+	    'firstName' => 'Nombre',
+	    'lastName' => 'Apellido',
 		       ];
     }
     

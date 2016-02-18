@@ -61,7 +61,7 @@ class AcervoController extends Controller
     public function actionCreate()
     {
         $model = new Acervo();
-
+//        var_dump(Yii::$app->request->post()); die();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
