@@ -8,6 +8,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * MultimediaController implements the CRUD actions for Multimedia model.
@@ -62,15 +63,36 @@ class MultimediaController extends Controller
     public function actionCreate()
     {
         $model = new Multimedia();
+        
+        if ($model->load(Yii::$app->request->post())){
+            // process uploaded image file instance
+            $image = $model->uploadImage();
+            if ($model->save()) {
+                // upload only if valid uploaded file instance found
+                if ($image !== false) {
+                    $path = $model->getImageFile();
+                    $image->saveAs($path);
+                }
+                return $this->redirect(['view', 'id' => $model->id, 'tipoMultimedia_id' => $model->tipoMultimedia_id]);
+            }
+            
+        }else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+        /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id, 'tipoMultimedia_id' => $model->tipoMultimedia_id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
             ]);
-        }
+        }*/
+        
     }
+    
 
     /**
      * Updates an existing Multimedia model.

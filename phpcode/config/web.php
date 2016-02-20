@@ -61,6 +61,12 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+       /* 'params' => [
+            'uploadPath' => basePath . '/uploads/';,
+            'uploadUrl' => Yii::$app->urlManager->baseUrl . '/uploads/',
+            'thumbnail.size' => [128, 128],
+            
+        ],*/
     ],
     'params' => $params,
 ];

@@ -15,12 +15,12 @@ use Yii;
  * @property string $material
  * @property integer $tema_id
  * @property integer $tipoAcervo_id
- * @property integer $ancho
- * @property integer $largo
- * @property integer $alto
- * @property integer $peso
- * @property integer $diametroInterno
- * @property integer $diametroExterno
+ * @property string $ancho
+ * @property string $largo
+ * @property string $alto
+ * @property string $peso
+ * @property string $diametroInterno
+ * @property string $diametroExterno
  * @property string $fechaIngreso
  * @property integer $ingreso_id
  * @property integer $coleccion_id
@@ -48,10 +48,12 @@ class Acervo extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion'], 'string'],
-            [['tema_id', 'tipoAcervo_id', 'ingreso_id', 'coleccion_id'], 'required'],
-            [['tema_id', 'tipoAcervo_id', 'ancho', 'largo', 'alto', 'peso', 'diametroInterno', 'diametroExterno', 'ingreso_id', 'coleccion_id'], 'integer'],
+            [['tema_id', 'tipoAcervo_id', 'coleccion_id'], 'required'],
+            [['tema_id', 'tipoAcervo_id', 'ingreso_id', 'coleccion_id'], 'integer'],
+            [['ancho', 'largo', 'alto', 'peso', 'diametroInterno', 'diametroExterno'], 'number'],
+            [['fechaIngreso'], 'safe'],
             [['nombre'], 'string', 'max' => 255],
-            [['nroInventario', 'fechaIngreso'], 'string', 'max' => 45],
+            [['nroInventario'], 'string', 'max' => 45],
             [['forma', 'material'], 'string', 'max' => 100]
         ];
     }

@@ -1,7 +1,12 @@
 <?php
 
-use yii\helpers\Html;
+/*use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;*/
+
+use kartik\helpers\Html; // or yii\helpers\Html
+use kartik\widgets\ActiveForm; // or yii\widgets\ActiveForm
+use kartik\widgets\FileInput;
 use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
@@ -11,10 +16,17 @@ use yii\helpers\ArrayHelper;
 
 <div class="multimedia-form">
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'path')->textInput(['maxlength' => true]) ?>
-
+    <?php 
+    $form = ActiveForm::begin([
+        'options'=>['enctype'=>'multipart/form-data'] // important
+    ]);
+    // your fileinput widget for single file upload
+        echo $form->field($model, 'path')->widget(FileInput::classname(), [
+            'options'=>['accept'=>'image/*'],
+            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']
+        ]]);
+    ?>
+    
     <?= $form->field($model, 'webPath')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'tipoMultimedia_id')->textInput() ?>
