@@ -12,6 +12,7 @@ $config = [
          'class' => '\kartik\grid\Module'
             ]
         ],
+    'sourceLanguage'=>'en-US',    
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -52,11 +53,16 @@ $config = [
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
                     'basePath' => '@app/messages',
-                    'sourceLanguage' => 'es-ES',
+                    'sourceLanguage' => 'en-US',
                     'fileMap' => [
                         'app' => 'app.php',
                         'app/error' => 'error.php',
                     ],
+                ],
+                'yii' => [  
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@yii/messages',
                 ],
             ],
         ],
