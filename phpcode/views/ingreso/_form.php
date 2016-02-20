@@ -1,17 +1,14 @@
 <?php
 
 use yii\helpers\Html;
-//use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
 use yii\bootstrap\ActiveForm;
-//use yii\kartik\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\TipoAcervo */
+/* @var $model app\models\Ingreso */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="tipo-acervo-form">
+<div class="ingreso-form">
 
     <?php $form = ActiveForm::begin([
                     'layout' => 'horizontal',
@@ -29,27 +26,19 @@ use yii\bootstrap\ActiveForm;
     ?>
 
     <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'fechaEntrada')->textInput() ?>
     
-    <?php 
-        $dataPost=ArrayHelper::map(\app\models\TipoAcervo::find()->where(['is', 'tipoAcervo_id', NULL])->asArray()->all(), 'id', 'descripcion');
-        echo $form->field($model, 'tipoAcervo_id')
-        ->dropDownList(
-            $dataPost,
-            ['prompt' => '---'],
-            ['id'=>'tipoAcervo_id'],
-            ['style'=>'width:50%']    
-        );
-    
-    ?>
+    <?= $form->field($model, 'observaciones')->textInput() ?>
+
+    <?= $form->field($model, 'fechaBaja')->textInput() ?>
+
+    <?= $form->field($model, 'user_id')->textInput() ?>
 
     <div class="form-group">
         <div class="col-lg-offset-4 col-lg-8">
              <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
-    </div>
-
-    <!--div class="form-group">
-       
     </div>
 
     <?php ActiveForm::end(); ?>

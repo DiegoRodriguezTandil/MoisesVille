@@ -4,13 +4,13 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\TipoAcervo */
+/* @var $model app\models\Tema */
 
-$this->title = Yii::t('app', 'Nuevo Tipo Acervo');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Tipo Acervos'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Create Tema');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Temas'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="tipo-acervo-create">
+<div class="tema-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
