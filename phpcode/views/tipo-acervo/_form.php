@@ -2,9 +2,10 @@
 
 use yii\helpers\Html;
 //use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
+use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
-use yii\bootstrap\ActiveForm;
-//use yii\kartik\widgets\ActiveForm;
+use kartik\builder\Form;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\TipoAcervo */
@@ -13,43 +14,36 @@ use yii\bootstrap\ActiveForm;
 
 <div class="tipo-acervo-form">
 
-    <?php $form = ActiveForm::begin([
-                    'layout' => 'horizontal',
-                    'fieldConfig' => [
-                        'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
-                        'horizontalCssClasses' => [
-                            'label' => 'col-sm-4',
-                            'offset' => 'col-sm-offset-4',
-                            'wrapper' => 'col-sm-8',
-                            'error' => '',
-                            'hint' => '',
-                        ],
-                    ],
-                ]); 
+    <?php 
+    $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL]);
     ?>
 
-    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
-    
     <?php 
-        $dataPost=ArrayHelper::map(\app\models\TipoAcervo::find()->where(['is', 'tipoAcervo_id', NULL])->asArray()->all(), 'id', 'descripcion');
-        echo $form->field($model, 'tipoAcervo_id')
-        ->dropDownList(
-            $dataPost,
-            ['prompt' => '---'],
-            ['id'=>'tipoAcervo_id'],
-            ['style'=>'width:50%']    
-        );
-    
-    ?>
+        $dataTipoAcervo=ArrayHelper::map(\app\models\TipoAcervo::find()->where(['is', 'tipoAcervo_id', NULL])->asArray()->all(), 'id', 'descripcion');
+        echo Form::widget([
+                'model'=>$model,
+                'form'=>$form,
+                'columns'=>2,
+                'attributes'=>[       // 2 column layout                    
+                    'descripcion'=>['type'=>Form::INPUT_TEXT,                                     
+                                    'options'=>['placeholder'=>'Descripcion...']],
+                    'tipoAcervo_id'=>['type'=>Form::INPUT_WIDGET, 
+                                    'widgetClass'=>'\kartik\widgets\Select2', 
+                                    'options'=>['data'=>$dataTipoAcervo], 
+                                    'pluginOptions' => [
+                                        'allowClear' => true
+                                    ],
+                                    'hint'=>'Seleccione la colección a la que pertenece el acervo'
+                    ]
+
+                    ,
+                ]
+            ]);
+        
+     ?>
 
     <div class="form-group">
-        <div class="col-lg-offset-4 col-lg-8">
-             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        </div>
-    </div>
-
-    <!--div class="form-group">
-       
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

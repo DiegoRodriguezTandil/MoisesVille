@@ -61,8 +61,11 @@ class AcervoController extends Controller
     public function actionCreate()
     {
         $model = new Acervo();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//        var_dump(Yii::$app->request->post()); die();
+        $m = $model->load(Yii::$app->request->post());
+        $s = $model->save();
+        print_r($model->errors);
+        if ($m && $s) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -118,4 +121,11 @@ class AcervoController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    /*public function beforeSave() 
+    {
+        if ($this->isNewRecord)
+               Yii::app()->dateFormatter->format("yyyy-mm-dd",$this->fechaIngreso);
+        return parent::beforeSave();
+    }*/
 }

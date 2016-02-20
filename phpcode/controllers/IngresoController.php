@@ -48,9 +48,19 @@ class IngresoController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        $m = $this->findModel($id);
+        $acervos = $m->getAcervos();
+        if (count($m->acervos)) {
+            return $this->render('view', [
             'model' => $this->findModel($id),
+            'acervos' => $acervos,
+        ]);}
+        else {
+            return $this->render('view', [
+            'model' => $this->findModel($id),
+            'acervos' => NULL,
         ]);
+        }
     }
 
     /**

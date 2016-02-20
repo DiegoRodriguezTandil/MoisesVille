@@ -29,7 +29,7 @@ return [
     'Missing required arguments: {params}' => '',
     'Missing required parameters: {params}' => '',
     'No' => '',
-    'No results found.' => '',
+    'No results found.' => 'No se encontraron resultados',
     'Only files with these MIME types are allowed: {mimeTypes}.' => '',
     'Only files with these extensions are allowed: {extensions}.' => '',
     'Page not found.' => '',

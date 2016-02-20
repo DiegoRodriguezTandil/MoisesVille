@@ -7,6 +7,11 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],  
     'language'=>'es',
+    'modules' => [
+    'gridview' =>  [
+         'class' => '\kartik\grid\Module'
+            ]
+        ],
     'sourceLanguage'=>'en-US',    
     'components' => [
         'request' => [
@@ -62,6 +67,12 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+       /* 'params' => [
+            'uploadPath' => basePath . '/uploads/';,
+            'uploadUrl' => Yii::$app->urlManager->baseUrl . '/uploads/',
+            'thumbnail.size' => [128, 128],
+            
+        ],*/
     ],
     'params' => $params,
 ];

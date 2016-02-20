@@ -1,8 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
-use kartik\daterange\DateRangePicker;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
+//use kartik\dynagrid\DynaGrid;	
+//use kartik\daterange\DatePicker;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\IngresoSearch */
@@ -28,29 +31,30 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'descripcion',
             'fechaEntrada',
-            [
-                'attribute' => 'fechaEntrada',
-                'value' => 'fechaEntrada',
-                'format' => 'raw',
-                'options' => ['style' => 'width: 25%;'],
-                'filter' => DatePicker::widget([
-                    'model' => $searchModel,
-                    'attribute' => 'fechaEntrada',
-                    'options' => ['placeholder' => ''],
-                    'pluginOptions' => [
-                        'id' => 'fechaEntrada2',
-                        'autoclose'=>true,
-                        'format' => 'dd/mm/yyyy',
-                        'startView' => 'year',
-                    ]
-                ])
-            ],            
+//            [
+//                'attribute' => 'fechaEntrada',
+//                'value' => 'fechaEntrada',
+//                'format' => 'raw',
+//                'options' => ['style' => 'width: 25%;'],
+//                'filter' => DatePicker::widget([
+//                    'model' => $searchModel,
+//                    'attribute' => 'fechaEntrada',
+//                    'options' => ['placeholder' => ''],
+//                    'pluginOptions' => [
+//                        'id' => 'fechaEntrada2',
+//                        'autoclose'=>true,
+//                        'format' => 'dd/mm/yyyy',
+//                        'startView' => 'year',
+//                    ]
+//                ])
+//            ],            
             'observaciones',
             'fechaBaja',
             // 'user_id',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]);?>
+   
 
 </div>

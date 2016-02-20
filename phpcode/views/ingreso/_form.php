@@ -1,7 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+//use yii\bootstrap\ActiveForm;
+use kartik\widgets\ActiveForm;
+use kartik\date\DatePicker;
+use yii\helpers\ArrayHelper;
+use kartik\builder\Form;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ingreso */
@@ -10,7 +14,7 @@ use yii\bootstrap\ActiveForm;
 
 <div class="ingreso-form">
 
-    <?php $form = ActiveForm::begin([
+    <?php /* $form = ActiveForm::begin([
                     'layout' => 'horizontal',
                     'fieldConfig' => [
                         'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
@@ -22,21 +26,58 @@ use yii\bootstrap\ActiveForm;
                             'hint' => '',
                         ],
                     ],
-                ]); 
+                ]); */
+        $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL]); 
+        echo Form::widget([
+                'model'=>$model,
+                'form'=>$form,
+                'columns'=>2,
+                'attributes'=>[       // 2 column layout
+                    'descripcion'=>[
+                        'type'=>Form::INPUT_TEXTAREA, 
+                        'options'=>['placeholder'=>'Ingrese Descripción...']
+                    ],
+                    'observaciones'=>[
+                        'type'=>Form::INPUT_TEXTAREA, 
+                        'options'=>['placeholder'=>'Ingrese Observaciones...']
+                    ],
+                   ]
+            ]);
+
+        $dataPost=ArrayHelper::map(\app\models\User::find()->asArray()->all(), 'id', 'username');
+        echo $form->field($model, 'user_id')
+        ->dropDownList(
+            $dataPost,
+            ['prompt' => '-Usuario-'],
+            ['id'=>'user_id']
+        );
+    
+    ?>  
+
+    <?php
+        echo Form::widget([
+                'model'=>$model,
+                'form'=>$form,
+                'columns'=>2,
+                'attributes'=>[       // 2 column layout
+                    'fechaEntrada'=>[
+                        'type'=>Form::INPUT_WIDGET, 
+                        'widgetClass'=>'\kartik\widgets\DatePicker', 
+                        'hint'=>'Ingrese Fecha de Alta (dd/mm/yyyy)'
+                    ],
+                    'fechaBaja'=>[
+                        'type'=>Form::INPUT_WIDGET, 
+                        'widgetClass'=>'\kartik\widgets\DatePicker', 
+                        'hint'=>'Ingrese Fecha de Baja (dd/mm/yyyy)'
+                    ],
+                   ]
+            ]);
     ?>
 
-    <?= $form->field($model, 'descripcion')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'fechaEntrada')->textInput() ?>
+    </div>   
     
-    <?= $form->field($model, 'observaciones')->textInput() ?>
-
-    <?= $form->field($model, 'fechaBaja')->textInput() ?>
-
-    <?= $form->field($model, 'user_id')->textInput() ?>
-
     <div class="form-group">
-        <div class="col-lg-offset-4 col-lg-8">
+        <div class="col-sm-offset-3 col-sm-9">
              <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     </div>
