@@ -18,10 +18,11 @@
  */
 return [
     'Are you sure you want to delete this item?' => '',
-    'Create' => '',
-    'Create Tipo Acervo' => '',
-    'Delete' => '',
-    'Tipo Acervos' => '',
-    'Update' => '',
-    'Update {modelClass}: ' => '',
+    'Create' => 'Crear',
+    'Create Tipo Acervo' => 'Crear Tipo Acervo',
+    'Delete' => 'Borrar',
+    'Delete {modelClass}: ' => 'Borrar {modelClass}: ',
+    //'Tipo Acervos' => '',
+    'Update' => 'Actualizar',
+    'Update {modelClass}: ' => 'Actualizar {modelClass}: ',
 ];

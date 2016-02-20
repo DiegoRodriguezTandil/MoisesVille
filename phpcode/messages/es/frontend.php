@@ -10,7 +10,7 @@
 return [
     'About' => 'Acerca de',
     'Contact' => 'Contacto',
-    'Home' => 'Home',
+    'Home' => 'Inicio',
     'Logout' => 'Salir',
     'My Company' => 'Mi Empresa',
     'Sign In' => 'Entrar',
