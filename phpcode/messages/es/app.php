@@ -44,9 +44,11 @@ return [
     'Update {modelClass}: ' => 'Actualizar {modelClass}: ',
     'Web Path' => 'Url',
     'Create' => 'Crear',
+    'Create Ingreso' => 'Nuevo Ingreso',
     'Create Tipo Acervo' => 'Nuevo Tipo de Acervo',
     'Create Multimedia' => 'Nuevo Multimedia',
     'Create Tema' => 'Nuevo Tema',
     'Create Tipo Multimedia' => '',    
+    
     'Delete' => 'Borrar',
 ];
