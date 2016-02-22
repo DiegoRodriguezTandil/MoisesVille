@@ -9,7 +9,7 @@ $config = [
     'language'=>'es',
     'modules' => [
     'gridview' =>  [
-         'class' => '\kartik\grid\Module'
+            'class' => '\kartik\grid\Module'
             ]
         ],
     'sourceLanguage'=>'en-US',    
