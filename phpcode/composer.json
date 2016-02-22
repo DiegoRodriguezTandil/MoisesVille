@@ -24,7 +24,10 @@
         "kartik-v/yii2-detail-view": "dev-master",
         "kartik-v/yii2-dynagrid": "dev-master",
         "kartik-v/yii2-mpdf": "dev-master",
-        "kartik-v/yii2-builder": "dev-master"
+        "kartik-v/yii2-builder": "dev-master",
+        "kartik-v/yii2-tabs-x": "dev-master",
+        "kartik-v/yii2-popover-x": "dev-master",
+        "kartik-v/yii2-nav-x": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

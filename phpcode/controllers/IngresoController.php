@@ -70,7 +70,7 @@ class IngresoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Ingreso();
+        $model = new Ingreso(); //var_dump($_POST);die();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);

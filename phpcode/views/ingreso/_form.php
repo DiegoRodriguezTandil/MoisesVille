@@ -6,6 +6,7 @@ use kartik\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
+//use kartik\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ingreso */
@@ -77,9 +78,11 @@ use kartik\builder\Form;
     </div>   
     
     <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-9">
-             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        </div>
+        <?= Html::SubmitButton('crear2', ['class' => 'btn primary ', 'onClick' => "document.getElementById('w0').action = '/moisesville/index.php?r=ingreso/create22';send();"]); ?>
+
+<?= Html::SubmitButton('crear', ['class' => 'btn btn-primary', 'onClick' => "document.getElementById('w0').action = '/moisesville/index.php?r=ingreso/create';send();"]); ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Createkoqui') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'id'=>'koqui']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Creatediego') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary' ,'id'=>'diego']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
