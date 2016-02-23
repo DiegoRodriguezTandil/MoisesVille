@@ -53,7 +53,7 @@ $this->title = 'Museo Moises Ville';
                 [
                      'label' => 'Organización',
                      'icon' => 'home',
-                     'url' => '#',
+                     'url' => Url::to(['/organizacion']),
                      'type' => Html::TYPE_PRIMARY,
                      'size' => Html::SIZE_MEDIUM 
                 ]
