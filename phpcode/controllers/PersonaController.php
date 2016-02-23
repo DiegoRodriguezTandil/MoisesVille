@@ -3,15 +3,15 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\OrganizacionTipo;
-use app\models\OrganizacionTipoSearch;
+use app\models\Persona;
+use app\models\PersonaSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * OrganizacionTipoController implements the CRUD actions for OrganizacionTipo model.
+ * PersonaController implements the CRUD actions for Persona model.
  */
-class OrganizacionTipoController extends MainController
+class PersonaController extends MainController
 {
     
     public function behaviors()
@@ -29,13 +29,14 @@ class OrganizacionTipoController extends MainController
             );
     }
 
+
     /**
-     * Lists all OrganizacionTipo models.
+     * Lists all Persona models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new OrganizacionTipoSearch();
+        $searchModel = new PersonaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -45,7 +46,7 @@ class OrganizacionTipoController extends MainController
     }
 
     /**
-     * Displays a single OrganizacionTipo model.
+     * Displays a single Persona model.
      * @param integer $id
      * @return mixed
      */
@@ -57,13 +58,13 @@ class OrganizacionTipoController extends MainController
     }
 
     /**
-     * Creates a new OrganizacionTipo model.
+     * Creates a new Persona model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new OrganizacionTipo();
+        $model = new Persona();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -75,7 +76,7 @@ class OrganizacionTipoController extends MainController
     }
 
     /**
-     * Updates an existing OrganizacionTipo model.
+     * Updates an existing Persona model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,7 +95,7 @@ class OrganizacionTipoController extends MainController
     }
 
     /**
-     * Deletes an existing OrganizacionTipo model.
+     * Deletes an existing Persona model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -107,15 +108,15 @@ class OrganizacionTipoController extends MainController
     }
 
     /**
-     * Finds the OrganizacionTipo model based on its primary key value.
+     * Finds the Persona model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return OrganizacionTipo the loaded model
+     * @return Persona the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = OrganizacionTipo::findOne($id)) !== null) {
+        if (($model = Persona::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
