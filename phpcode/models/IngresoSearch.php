@@ -41,7 +41,7 @@ class IngresoSearch extends Ingreso
      */
     public function search($params)
     {
-        $query = Ingreso::find();
+        $query = Ingreso::find()->where(['autoSave'=>'N']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

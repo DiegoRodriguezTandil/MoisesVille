@@ -8,12 +8,18 @@ use app\models\IngresoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * IngresoController implements the CRUD actions for Ingreso model.
  */
 class IngresoController extends Controller
 {
+    
+    const USER_SAVE_INGRESO = "btnUserSaveIngreso";
+    const NEW_OBJECT = "btnNewObject";
+    const NEW_PERSONA = "btnNewPersona";
+    
     public function behaviors()
     {
         return [
@@ -49,18 +55,77 @@ class IngresoController extends Controller
     public function actionView($id)
     {
         $m = $this->findModel($id);
-        $acervos = $m->getAcervos();
-        if (count($m->acervos)) {
-            return $this->render('view', [
-            'model' => $this->findModel($id),
+        $acervos = $this->getObjectsProvider($m);
+        return $this->render('view', [
+            'model' => $m,
             'acervos' => $acervos,
-        ]);}
-        else {
-            return $this->render('view', [
-            'model' => $this->findModel($id),
-            'acervos' => NULL,
         ]);
+    }
+    
+    private function getObjectsProvider($model){
+        $dataProvider = new ActiveDataProvider([
+            'query' => $model->getAcervos(),
+        ]);            
+        return $dataProvider;
+    }
+    
+    private function saveNewOrUpdateIngreso($id)
+    {
+        if (
+                $id
+                && (Yii::$app->request->post('action')==self::USER_SAVE_INGRESO)
+        ) {
+            $model = $this->findModel($id);
+            if ($model->load(Yii::$app->request->post())){
+                $model->autoSave = 'N'; 
+                if($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+            }            
+            return $this->render('create', [
+                'model' => $model,
+                'btnSave' => self::USER_SAVE_INGRESO,
+                'btnNewObject' => self::NEW_OBJECT,
+                'btnNewPersona'=> self::NEW_PERSONA,
+                'dataObject'=>$this->getObjectsProvider($model),                                
+            ]);                                       
         }
+
+        if (
+                $id
+                && (Yii::$app->request->post('action')==self::NEW_OBJECT)
+        ) {
+            $model = $this->findModel($id);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['/acervo/addingreso', 'ingreso_id' => $model->id]);
+            }else{
+                return $this->render('create', [
+                    'model' => $model,
+                    'btnSave' => self::USER_SAVE_INGRESO,
+                    'btnNewObject' => self::NEW_OBJECT,
+                    'btnNewPersona'=> self::NEW_PERSONA,
+                    'dataObject'=>$this->getObjectsProvider($model),                                    
+                ]);                
+            }            
+        }
+
+        if (
+                $id
+                && (Yii::$app->request->post('action')==self::NEW_PERSONA)
+        ) {
+            $model = $this->findModel($id);
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['/persona/addingreso', 'ingreso_id' => $model->id]);
+            }else{
+                return $this->render('create', [
+                    'model' => $model,
+                    'btnSave' => self::USER_SAVE_INGRESO,
+                    'btnNewObject' => self::NEW_OBJECT,
+                    'btnNewPersona'=> self::NEW_PERSONA,
+                    'dataObject'=>$this->getObjectsProvider($model),                
+                ]);                
+            }            
+        }        
     }
 
     /**
@@ -69,17 +134,25 @@ class IngresoController extends Controller
      * @return mixed
      */
     public function actionCreate()
-    {
-        $model = new Ingreso();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            
+    {        
+        $id = Yii::$app->request->post('id');
+        
+        if (!$id) {
+            $model = new Ingreso();
+            $model->user_id = \Yii::$app->user->identity->id;
+            $model->autoSave = 'S';
+            $model->save();
             return $this->render('create', [
                 'model' => $model,
+                'btnSave' => self::USER_SAVE_INGRESO,
+                'btnNewObject' => self::NEW_OBJECT,
+                'btnNewPersona'=> self::NEW_PERSONA,
+                'dataObject'=>$this->getObjectsProvider($model),                
             ]);
-        }
+        } 
+        
+        return $this->saveNewOrUpdateIngreso($id);
+
     }
 
     /**
@@ -91,16 +164,21 @@ class IngresoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        
+        if($id && !Yii::$app->request->post('action')){
             return $this->render('update', [
                 'model' => $model,
-            ]);
+                'btnSave' => self::USER_SAVE_INGRESO,
+                'btnNewObject' => self::NEW_OBJECT,
+                'btnNewPersona'=> self::NEW_PERSONA,     
+                'dataObject'=>$this->getObjectsProvider($model),
+            ]);            
         }
+        
+        return $this->saveNewOrUpdateIngreso($id);
+       
     }
-
+    
     /**
      * Deletes an existing Ingreso model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

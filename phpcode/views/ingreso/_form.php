@@ -1,16 +1,19 @@
 <?php
 
 use yii\helpers\Html;
-//use yii\bootstrap\ActiveForm;
 use kartik\widgets\ActiveForm;
-use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
+use yii\grid\GridView;
+
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ingreso */
 /* @var $form yii\widgets\ActiveForm */
+
 ?>
+
 
 <div class="ingreso-form">
 
@@ -27,7 +30,25 @@ use kartik\builder\Form;
                         ],
                     ],
                 ]); */
-        $form = ActiveForm::begin(['type'=>ActiveForm::TYPE_VERTICAL]); 
+        $form = ActiveForm::begin([
+            'type'=>ActiveForm::TYPE_VERTICAL,
+            'id'=>$model->formName(),
+        ]); 
+        
+//        echo Form::widget([
+//                'model'=>$model,
+//                'form'=>$form,
+//                'attributes'=>[       
+//                    'autoSave'=>[
+//                        'type'=>Form::INPUT_HIDDEN, 
+//                    ],
+//                ]
+//            ]);
+        echo Html::hiddenInput('Ingreso[autoSave]',$model->autoSave);
+        echo Html::hiddenInput('id',$model->id);
+        
+
+        
         echo Form::widget([
                 'model'=>$model,
                 'form'=>$form,
@@ -51,6 +72,8 @@ use kartik\builder\Form;
             ['prompt' => '-Usuario-'],
             ['id'=>'user_id']
         );
+        
+        echo Html::hiddenInput('action',null, array('id'=>'action'));
     
     ?>  
 
@@ -62,23 +85,86 @@ use kartik\builder\Form;
                 'attributes'=>[       // 2 column layout
                     'fechaEntrada'=>[
                         'type'=>Form::INPUT_WIDGET, 
-                        'widgetClass'=>'\kartik\widgets\DatePicker', 
-                        'hint'=>'Ingrese Fecha de Alta (dd/mm/yyyy)'
+                        'widgetClass'=>kartik\datecontrol\DateControl::className(), 
+                        'hint'=>'Ingrese Fecha de Alta (dd/mm/yyyy)',
                     ],
                     'fechaBaja'=>[
                         'type'=>Form::INPUT_WIDGET, 
-                        'widgetClass'=>'\kartik\widgets\DatePicker', 
+                        'widgetClass'=>kartik\datecontrol\DateControl::className(), 
                         'hint'=>'Ingrese Fecha de Baja (dd/mm/yyyy)'
                     ],
                    ]
             ]);
     ?>
+    
+    <div>
+        <?= 
+            Html::submitButton(
+                'Agregar Objeto', 
+                [
+                    'class' => 'btn btn-primary',
+                    'name' => 'newObjectButton',
+                    'id' => 'newObjectButton',
+                    'value' => 'newObjectButton',
+                    'onClick' => "jQuery('#action').val('". \app\controllers\IngresoController::NEW_OBJECT ."')",
+                ]
+            ); 
+        ?>
+        <?= 
+            GridView::widget([
+                'dataProvider' => $dataObject,
+                //'filterModel' => $searchModel,
+                'columns' => [
+                    ['class' => 'yii\grid\SerialColumn'],
+                    'id',
+                    'nombre',
+                    'nroInventario',
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{view}{update}{delete}',
+                        'buttons' => [
+                            'view' => function ($url, $model, $key) {
+                                return Html::a(
+                                        '<span class="glyphicon glyphicon-eye-opendir"></span>', 
+                                        yii\helpers\Url::to(['acervo/viewingreso', 'id'=>$model->id, 'title'=>'Ver Objeto']) 
+                                        
+                                );
+                            },
+                            'update' => function ($url, $model, $key) {
+                                return Html::a(
+                                        '<span class="glyphicon glyphicon-pencil"></span>', 
+                                        yii\helpers\Url::to(['acervo/update-ingreso', 'id'=>$model->id, 'title'=>'Modificar Objeto']) 
+                                        
+                                );
+                            },
+                            'delete' => function ($url, $model, $key) {
+                                return Html::a(
+                                        '<span class="glyphicon glyphicon-trash"></span>', 
+                                        yii\helpers\Url::to(['acervo/updateingreso', 'id'=>$model->id, 'title'=>'Borrar Objeto']) 
+                                );
+                            },
+                        ],
+                    ],
+                ],
+            ]); 
+        ?>        
+        
+    </div>
 
     </div>   
     
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
-             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitInput(
+                    $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), 
+                    [
+                        'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+                        'name' => 'saveButton',
+                        'id' => 'saveButton',
+                        'value' => 'saveButton',
+                        'onClick' => "jQuery('#action').val('". \app\controllers\IngresoController::USER_SAVE_INGRESO ."')",
+                    ]) 
+            ?>
         </div>
     </div>
 

@@ -38,26 +38,17 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
     
-    <?php
+    <h2>Objetos del Ingreso</h2>
     
-        if (isset($acervos)){
-            GridView::widget([
+    <?= GridView::widget([
             'dataProvider' => $acervos,
             'columns' => [
-                ['class' => 'yii\grid\SerialColumn'],
-
-                'id',
-                'descripcion',
-                'fechaEntrada',
-                'observaciones',
-                'fechaBaja',
-                // 'user_id',
-
-                ['class' => 'yii\grid\ActionColumn'],
+                //['class' => 'yii\grid\SerialColumn'],
+                'nombre',
+                'nroInventario',
             ],
-            ]);
-        }
-        ?>
+        ]);
+    ?>
     
     
 

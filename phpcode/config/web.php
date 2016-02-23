@@ -1,5 +1,7 @@
 <?php
 
+use kartik\datecontrol\Module;
+
 $params = require(__DIR__ . '/params.php');
 
 $config = [
@@ -8,12 +10,49 @@ $config = [
     'bootstrap' => ['log'],  
     'language'=>'es',
     'modules' => [
-    'gridview' =>  [
+        'gridview' =>  [
             'class' => '\kartik\grid\Module'
-            ]
         ],
+        'datecontrol' =>  [
+            'class' => '\kartik\datecontrol\Module',
+            
+            // format settings for displaying each date attribute (ICU format example)
+            'displaySettings' => [
+                Module::FORMAT_DATE => 'dd/MM/yyyy',
+                Module::FORMAT_TIME => 'hh:mm:ss a',
+                Module::FORMAT_DATETIME => 'dd/MM/yyyy hh:mm:ss a', 
+            ],            
+
+            // format settings for saving each date attribute (PHP format example)
+            'saveSettings' => [
+                Module::FORMAT_DATE => 'php:Y-m-d', 
+                Module::FORMAT_TIME => 'php:H:i:s',
+                Module::FORMAT_DATETIME => 'php:Y-m-d H:i:s',
+            ],
+            
+            // set your display timezone
+            'displayTimezone' => 'America/Argentina/Buenos_Aires',
+
+            // set your timezone for date saved to db
+            'saveTimezone' => 'America/Argentina/Buenos_Aires',
+
+            // automatically use kartik\widgets for each of the above formats
+            'autoWidget' => true,           
+
+            // use ajax conversion for processing dates from display format to save format.
+            'ajaxConversion' => true,
+
+        ]        
+    ],
     'sourceLanguage'=>'en-US',    
+    
     'components' => [
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'dateFormat' => 'php:d-M-Y',
+            'datetimeFormat' => 'php:d-M-Y H:i:s',
+            'timeFormat' => 'php:H:i:s',
+        ],        
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'dfsdfhsdfhsduhfsduihf2364asd',

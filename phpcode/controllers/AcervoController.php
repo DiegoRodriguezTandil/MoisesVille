@@ -61,10 +61,8 @@ class AcervoController extends Controller
     public function actionCreate()
     {
         $model = new Acervo();
-//        var_dump(Yii::$app->request->post()); die();
         $m = $model->load(Yii::$app->request->post());
         $s = $model->save();
-        print_r($model->errors);
         if ($m && $s) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -93,6 +91,19 @@ class AcervoController extends Controller
         }
     }
 
+    public function actionUpdateIngreso($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id]);
+        } else {
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+    
     /**
      * Deletes an existing Acervo model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -120,6 +131,21 @@ class AcervoController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+    
+    public function actionAddingreso($ingreso_id){
+        $model = new Acervo();
+        if(isset($ingreso_id)){
+            $model->ingreso_id = $ingreso_id;
+        }
+        $m = $model->load(Yii::$app->request->post());
+        if ($m && $model->save()) {
+            return $this->redirect(['/ingreso/update', 'id' => $model->ingreso_id]);
+        } else {
+            return $this->render('create', [
+                'model' => $model,
+            ]);
+        }        
     }
     
     /*public function beforeSave() 
