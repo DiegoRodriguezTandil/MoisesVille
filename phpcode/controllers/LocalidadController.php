@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Persona;
-use app\models\PersonaSearch;
+use app\models\Localidad;
+use app\models\LocalidadSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PersonaController implements the CRUD actions for Persona model.
+ * LocalidadController implements the CRUD actions for Localidad model.
  */
-class PersonaController extends Controller
+class LocalidadController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class PersonaController extends Controller
     }
 
     /**
-     * Lists all Persona models.
+     * Lists all Localidad models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PersonaSearch();
+        $searchModel = new LocalidadSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class PersonaController extends Controller
     }
 
     /**
-     * Displays a single Persona model.
+     * Displays a single Localidad model.
      * @param integer $id
      * @return mixed
      */
@@ -54,13 +54,13 @@ class PersonaController extends Controller
     }
 
     /**
-     * Creates a new Persona model.
+     * Creates a new Localidad model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Persona();
+        $model = new Localidad();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -72,7 +72,7 @@ class PersonaController extends Controller
     }
 
     /**
-     * Updates an existing Persona model.
+     * Updates an existing Localidad model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -91,7 +91,7 @@ class PersonaController extends Controller
     }
 
     /**
-     * Deletes an existing Persona model.
+     * Deletes an existing Localidad model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -104,18 +104,38 @@ class PersonaController extends Controller
     }
 
     /**
-     * Finds the Persona model based on its primary key value.
+     * Finds the Localidad model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Persona the loaded model
+     * @return Localidad the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Persona::findOne($id)) !== null) {
+        if (($model = Localidad::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    
+    public function actionFind($q = null, $id = null) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'nombre' => '']];
+        if (!is_null($q)) {
+            $query = new \yii\db\Query;
+            $query->select('id, nombre')
+                ->from('localidad')
+                ->where(['like', 'nombre', $q])
+                ->limit(10);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'text' => Localidad::find($id)->nombre];
+        }
+        return $out;
+    }    
 }

@@ -57,7 +57,7 @@ class Persona extends \yii\db\ActiveRecord
             'fechaNacimiento' => Yii::t('app', 'Fecha Nacimiento'),
             'domicilio' => Yii::t('app', 'Domicilio'),
             'telefono' => Yii::t('app', 'Telefono'),
-            'ciudad_id' => Yii::t('app', 'Ciudad ID'),
+            'localidad_id' => Yii::t('app', 'Localidad'),
         ];
     }
 

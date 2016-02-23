@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Persona;
+use app\models\Localidad;
 
 /**
- * PersonaSearch represents the model behind the search form about `app\models\Persona`.
+ * LocalidadSearch represents the model behind the search form about `app\models\Localidad`.
  */
-class PersonaSearch extends Persona
+class LocalidadSearch extends Localidad
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class PersonaSearch extends Persona
     public function rules()
     {
         return [
-            [['id', 'localidad_id'], 'integer'],
-            [['nombre', 'apellido', 'mail', 'fechaNacimiento', 'domicilio', 'telefono'], 'safe'],
+            [['id', 'departamento_id'], 'integer'],
+            [['nombre'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class PersonaSearch extends Persona
      */
     public function search($params)
     {
-        $query = Persona::find();
+        $query = Localidad::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,15 +57,10 @@ class PersonaSearch extends Persona
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'fechaNacimiento' => $this->fechaNacimiento,
-            'localidad_id' => $this->localidad_id,
+            'departamento_id' => $this->departamento_id,
         ]);
 
-        $query->andFilterWhere(['like', 'nombre', $this->nombre])
-            ->andFilterWhere(['like', 'apellido', $this->apellido])
-            ->andFilterWhere(['like', 'mail', $this->mail])
-            ->andFilterWhere(['like', 'domicilio', $this->domicilio])
-            ->andFilterWhere(['like', 'telefono', $this->telefono]);
+        $query->andFilterWhere(['like', 'nombre', $this->nombre]);
 
         return $dataProvider;
     }
