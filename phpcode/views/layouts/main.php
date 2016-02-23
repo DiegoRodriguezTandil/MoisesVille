@@ -9,6 +9,8 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use kartik\helpers\Html;
+//use kartik\popover\PopoverX;
+use kartik\nav\NavX;
 
 AppAsset::register($this);
 ?>
@@ -25,8 +27,12 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap">
-    <?php
+<div class="wrap_old">
+    <?php //$content = '<p class="text-justify">' .
+    //'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.' . 
+   // '</p>';
+    ?>
+    <?php /*
     NavBar::begin([
         'brandLabel' => 'Museo Moises Ville',
         'brandUrl' => Yii::$app->homeUrl,
@@ -62,6 +68,57 @@ AppAsset::register($this);
                 ],
         ],
     ]);
+    NavBar::end();
+     * 
+     */
+    ?>
+    
+    <?php
+    $logo = Html::img('@web/moises.png', ['width'=>'300']);
+    NavBar::begin([
+        'brandLabel' => $logo, //'<img src="' . \Yii::$app->urlManager->createAbsoluteUrl('/web/moises.png') . '" width="100%">',
+        'brandUrl' => '#',
+        'brandOptions' => ['title' => 'Krajee.com - Web Development Evolved', 'style'=>'width:auto'],
+        'options' => [
+            'id' => 'top-menu',
+            'class' => 'navbar-inverse',
+        ],
+        'innerContainerOptions' => ['class'=>'kv-container'],
+        'renderInnerContainer' => true
+    ]);
+    $itemsLeft = [
+        ['label' => 'Inicio', 'url' => '/'],        
+        ['label' => Yii::t('app','Ingreso'), 'url' => ['/ingreso']],
+            ['label' => Yii::t('app','Acervo'), 'url' => ['/acervo']],
+            ['label' => Yii::t('app','Usuarios'), 'url' => ['/user']],                    
+            ['label' => Yii::t('app','Configuración'), 'url' => ['/site/contacto'],
+                'items'=>array(
+                        array('label'=>'Colecciones', 'url'=>array('/coleccion')),
+                        array('label'=>'Temas', 'url'=>array('/tema')),
+                        array('label'=>'Tipos de Acervo', 'url'=>array('/tipo-acervo')),
+                        array('label'=>'Multimedia', 'url'=>array('/multimedia')),
+                      ),
+            ],
+            ['label' => Yii::t('app','Contacto'), 'url' => ['#']],
+    ];
+    echo NavX::widget(['options' => ['class' => 'navbar-nav'], 'items' => $itemsLeft]);
+//    $userPopover = '<li class="dropdown"><div class="navbar-form">' . PopoverX::widget([
+//        'header' => 'Hello world',
+//        'placement' => PopoverX::ALIGN_BOTTOM_RIGHT,
+//        'size' => 'md',
+//        'content' => $content,
+//        'footer' => Html::button('Proceed &raquo;', ['class'=>'btn btn-sm btn-default']),
+//        'toggleButton' => [
+//            'label' => 'Logout' . Html::tag('span', '', ['class' => 'glyphicon glyphicon-lock', 'style' => 'padding-left: 10px']),
+//            'class'=>'btn btn-default'
+//        ]
+//    ]) . '</div></li>';
+//    $itemsRight = [
+//        ['label' => 'Account', 'url' => '#'],
+//        '<li class="divider-vertical"></li>',
+//        '<li>' . $userPopover . '</li>'
+//    ];
+    //echo NavX::widget(['options' => ['class' => 'navbar-nav navbar-right'], 'items' => $itemsRight]);
     NavBar::end();
     ?>
 

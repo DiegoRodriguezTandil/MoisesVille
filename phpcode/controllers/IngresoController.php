@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Url;
 
 /**
  * IngresoController implements the CRUD actions for Ingreso model.
@@ -135,6 +136,10 @@ class IngresoController extends Controller
      */
     public function actionCreate()
     {        
+        if(Yii::$app->user->isGuest){
+            return $this->redirect(Url::to(['site/login']));
+        }
+        
         $id = Yii::$app->request->post('id');
         
         if (!$id) {

@@ -27,14 +27,13 @@ use Yii;
  * @property integer $ingreso_id
  * @property integer $coleccion_id
  * @property string $publicar_id
- *
- * @property Tema $tema
- * @property TipoAcervo $tipoAcervo
- * @property Ingreso $ingreso
  * @property Coleccion $coleccion
+ * @property Publicar $publicar
  * @property UnidadMedida $unidadMedida
  * @property UnidadPeso $unidadPeso
- * @property Publicar $publicar
+ * @property Ingreso $ingreso
+ * @property Tema $tema
+ * @property TipoAcervo $tipoAcervo
  * @property Multimedia[] $multimedia
  */
 class Acervo extends \yii\db\ActiveRecord
@@ -113,22 +112,6 @@ class Acervo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIngreso()
-    {
-        return $this->hasOne(Ingreso::className(), ['id' => 'ingreso_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getColeccion()
-    {
-        return $this->hasOne(Coleccion::className(), ['id' => 'coleccion_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getUnidadMedida()
     {
         return $this->hasOne(UnidadMedida::className(), ['id' => 'unidadMedida_id']);
@@ -140,6 +123,22 @@ class Acervo extends \yii\db\ActiveRecord
     public function getUnidadPeso()
     {
         return $this->hasOne(UnidadPeso::className(), ['id' => 'unidadPeso_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getIngreso()
+    {
+        return $this->hasOne(Ingreso::className(), ['id' => 'ingreso_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getColeccion()
+    {
+        return $this->hasOne(Coleccion::className(), ['id' => 'coleccion_id']);
     }
 
     /**

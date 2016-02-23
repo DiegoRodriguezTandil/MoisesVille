@@ -7,7 +7,6 @@ use kartik\builder\Form;
 use yii\grid\GridView;
 
 
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Ingreso */
 /* @var $form yii\widgets\ActiveForm */
