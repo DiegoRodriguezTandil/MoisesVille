@@ -15,12 +15,9 @@ use kartik\builder\Form;
 <div class="acervo-form">   
     
     <?php     
-    echo '<label class="control-label">Birth Date</label>';
-
     $form = ActiveForm::begin(
             ['type'=>ActiveForm::TYPE_VERTICAL]
             );
-
 
     ?>
     
