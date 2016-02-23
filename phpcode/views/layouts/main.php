@@ -87,23 +87,27 @@ AppAsset::register($this);
         'innerContainerOptions' => ['class'=>'kv-container'],
         'renderInnerContainer' => true
     ]);
-    $itemsLeft = [
-        ['label' => 'Inicio','url' => ['/site/index']],        
-        ['label' => Yii::t('app','Ingreso'), 'url' => ['/ingreso']],
-            ['label' => Yii::t('app','Acervo'), 'url' => ['/acervo']],
-            ['label' => Yii::t('app','Usuarios'), 'url' => ['/user']],                    
-            ['label' => Yii::t('app','Configuración'), 'url' => ['/site/contacto'],
-                'items'=>array(
-                        array('label'=>'Colecciones', 'url'=>array('/coleccion')),
-                        array('label'=>'Temas', 'url'=>array('/tema')),
-                        array('label'=>'Tipos de Acervo', 'url'=>array('/tipo-acervo')),
-                        array('label'=>'Multimedia', 'url'=>array('/multimedia')),
-                      ),
-            ],
-            ['label' => Yii::t('app','Contacto'), 'url' => ['#']],
-    ];
+    if (!Yii::$app->user->isGuest )
+        {        
+            $itemsLeft = [
+                ['label' => 'Inicio','url' => ['/site/index']],        
+                ['label' => Yii::t('app','Ingreso'), 'url' => ['/ingreso']],
+                    ['label' => Yii::t('app','Acervo'), 'url' => ['/acervo']],
+                    ['label' => Yii::t('app','Usuarios'), 'url' => ['/user']],                    
+                    ['label' => Yii::t('app','Configuración'), 'url' => ['/site/contacto'],
+                        'items'=>array(
+                                array('label'=>'Colecciones', 'url'=>array('/coleccion')),
+                                array('label'=>'Temas', 'url'=>array('/tema')),
+                                array('label'=>'Tipos de Acervo', 'url'=>array('/tipo-acervo')),
+                                array('label'=>'Multimedia', 'url'=>array('/multimedia')),
+                              ),
+                    ],
+                   // ['label' => Yii::t('app','Contacto'), 'url' => ['#']],
+            ];
+            echo NavX::widget(['options' => ['class' => 'navbar-nav'], 'items' => $itemsLeft]);
+        }
     $itemsRight = [
-        ['label' => Yii::t('app','Cuenta'), 'url' => ['#']],
+       // ['label' => Yii::t('app','Cuenta'), 'url' => ['#']],
             Yii::$app->user->isGuest ?
                 ['label' => 'Login', 'url' => ['/site/login']] :
                 [
@@ -112,7 +116,7 @@ AppAsset::register($this);
                     'linkOptions' => ['data-method' => 'post']
                 ],
     ];
-    echo NavX::widget(['options' => ['class' => 'navbar-nav'], 'items' => $itemsLeft]);
+   
     
 //    $userPopover = '<li class="dropdown"><div class="navbar-form">' . PopoverX::widget([
 //        'header' => 'Hello world',

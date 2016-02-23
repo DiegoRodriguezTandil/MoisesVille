@@ -86,7 +86,7 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
-        ],
+        ],        
         'i18n' => [
             'translations' => [
                 'app*' => [

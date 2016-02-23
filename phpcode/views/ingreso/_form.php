@@ -4,7 +4,8 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
 
 
 /* @var $this yii\web\View */
@@ -64,7 +65,7 @@ use yii\grid\GridView;
                    ]
             ]);
 
-        $dataPost=ArrayHelper::map(\app\models\User::find()->asArray()->all(), 'id', 'username');
+      /*  $dataPost=ArrayHelper::map(\app\models\User::find()->asArray()->all(), 'id', 'username');
         echo $form->field($model, 'user_id')
         ->dropDownList(
             $dataPost,
@@ -72,7 +73,11 @@ use yii\grid\GridView;
             ['id'=>'user_id']
         );
         
+        echo(Yii::$app->user->id); die();
+        $id=Yii::app()->user->id;*/
+                
         echo Html::hiddenInput('action',null, array('id'=>'action'));
+        echo Html::hiddenInput('user_id',Yii::$app->user->id, array('id'=>'user_id'));
     
     ?>  
 
@@ -96,7 +101,7 @@ use yii\grid\GridView;
             ]);
     ?>
     
-    <div>
+    <div>       
         <?= 
             Html::submitButton(
                 'Agregar Objeto', 
@@ -109,6 +114,7 @@ use yii\grid\GridView;
                 ]
             ); 
         ?>
+        <br>
         <?= 
             GridView::widget([
                 'dataProvider' => $dataObject,
@@ -145,6 +151,17 @@ use yii\grid\GridView;
                         ],
                     ],
                 ],
+                    'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
+    'headerRowOptions'=>['class'=>'kartik-sheet-style'],
+    'filterRowOptions'=>['class'=>'kartik-sheet-style'],   
+                                    'toolbar'=> [
+        ['content'=>
+            Html::button('<i class="glyphicon glyphicon-plus"></i>', ['type'=>'button', 'title'=>'Yii', 'class'=>'btn btn-success', 'onclick'=>'alert("This will launch the book creation form.\n\nDisabled for this demo!");']) . ' '.
+            Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>'kjhk'])
+        ],
+        '{export}',
+        '{toggleData}',
+    ]
             ]); 
         ?>        
         
