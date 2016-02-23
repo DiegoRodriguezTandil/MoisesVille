@@ -78,7 +78,7 @@ AppAsset::register($this);
     $logo = Html::img('@web/moises.png', ['width'=>'300']);
     NavBar::begin([
         'brandLabel' => $logo, //'<img src="' . \Yii::$app->urlManager->createAbsoluteUrl('/web/moises.png') . '" width="100%">',
-        'brandUrl' => '/site/index',
+        'brandUrl' => 'index.php?r=site/index',
         'brandOptions' => ['title' => 'Krajee.com - Web Development Evolved', 'style'=>'width:auto'],
         'options' => [
             'id' => 'top-menu',
