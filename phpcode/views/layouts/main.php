@@ -3,13 +3,13 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-//use yii\helpers\Html;
+use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
-use kartik\helpers\Html;
-//use kartik\popover\PopoverX;
+//use kartik\helpers\Html;
+use yii\bootstrap\Popover;
 use kartik\nav\NavX;
 
 AppAsset::register($this);
@@ -73,6 +73,7 @@ AppAsset::register($this);
      */
     ?>
     
+    
     <?php
     $logo = Html::img('@web/moises.png', ['width'=>'300']);
     NavBar::begin([
@@ -87,7 +88,7 @@ AppAsset::register($this);
         'renderInnerContainer' => true
     ]);
     $itemsLeft = [
-        ['label' => 'Inicio', 'url' => '/'],        
+        ['label' => 'Inicio','url' => ['/site/index']],        
         ['label' => Yii::t('app','Ingreso'), 'url' => ['/ingreso']],
             ['label' => Yii::t('app','Acervo'), 'url' => ['/acervo']],
             ['label' => Yii::t('app','Usuarios'), 'url' => ['/user']],                    
@@ -101,7 +102,18 @@ AppAsset::register($this);
             ],
             ['label' => Yii::t('app','Contacto'), 'url' => ['#']],
     ];
+    $itemsRight = [
+        ['label' => Yii::t('app','Cuenta'), 'url' => ['#']],
+            Yii::$app->user->isGuest ?
+                ['label' => 'Login', 'url' => ['/site/login']] :
+                [
+                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post']
+                ],
+    ];
     echo NavX::widget(['options' => ['class' => 'navbar-nav'], 'items' => $itemsLeft]);
+    
 //    $userPopover = '<li class="dropdown"><div class="navbar-form">' . PopoverX::widget([
 //        'header' => 'Hello world',
 //        'placement' => PopoverX::ALIGN_BOTTOM_RIGHT,
@@ -118,18 +130,18 @@ AppAsset::register($this);
 //        '<li class="divider-vertical"></li>',
 //        '<li>' . $userPopover . '</li>'
 //    ];
-    //echo NavX::widget(['options' => ['class' => 'navbar-nav navbar-right'], 'items' => $itemsRight]);
+    echo NavX::widget(['options' => ['class' => 'navbar-nav navbar-right'], 'items' => $itemsRight]);
     NavBar::end();
     ?>
 
     <div class="container">
-        <div class="col-sm-9">
+        <div class="col-sm-12">
             <?= Breadcrumbs::widget([
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             ]) ?>
             <?= $content ?>
         </div>
-        <div class="col-sm-3">
+        <!--div class="col-sm-3">
             <p><?php //echo "Mensajes ".Html::badge('15');
                 //echo Html::well("Mensajes ".Html::badge('15'), Html::SIZE_TINY);
                 ?>
@@ -146,7 +158,7 @@ AppAsset::register($this);
                 <a href="index.php?r=coleccion/create" class="list-group-item">Nueva Colección</a>
                 <a href="index.php?r=tipo-acervo/create" class="list-group-item">Nuevo Tipo de Acervo</a>
             </div>
-        </div>
+        </div-->
     </div>
 </div>
 

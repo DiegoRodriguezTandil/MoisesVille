@@ -26,35 +26,35 @@ $this->title = 'Museo Moises Ville';
                     'icon' => 'book',
                     'url' => '#',
                     'type' => Html::TYPE_PRIMARY,
-                    'size' => Html::SIZE_SMALL,
+                    'size' => Html::SIZE_MEDIUM,
                     'styles' => 'padding:0;'
-                ],
-                [
-                     'label' => 'Mi perfil',
-                     'icon' => 'person',
-                     'url' => '#',
-                     'type' => Html::TYPE_DANGER,
-                     'size' => Html::SIZE_SMALL 
-                ],
+                ],               
                 [
                     'label' => 'Agregar Objeto',
                     'icon' => 'leaf',
                     'url' => '#',
                     'type' => Html::TYPE_PRIMARY,
-                    'size' => Html::SIZE_SMALL 
+                    'size' => Html::SIZE_MEDIUM 
                 ],
                 [
                      'label' => 'Autores',
-                     'icon' => 'user',
+                     'icon' => 'users',
                      'url' => '#',
-                     'type' => Html::TYPE_DANGER,
-                     'size' => Html::SIZE_SMALL 
+                     'type' => Html::TYPE_PRIMARY,
+                     'size' => Html::SIZE_MEDIUM 
+                ],
+                [
+                     'label' => 'Mi perfil',
+                     'icon' => 'person',
+                     'url' => '#',
+                     'type' => Html::TYPE_PRIMARY,
+                     'size' => Html::SIZE_MEDIUM 
                 ]
             ]
         ]);
         ?>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.museomoisesville.com.ar/">Sitio Web</a></p>
+        <!--p><a class="btn btn-lg btn-success" href="http://www.museomoisesville.com.ar/">Sitio Web</a></p-->
     </div>
 
     <div class="body-content">
