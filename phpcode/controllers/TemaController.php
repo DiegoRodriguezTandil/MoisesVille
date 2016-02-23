@@ -5,26 +5,30 @@ namespace app\controllers;
 use Yii;
 use app\models\Tema;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * TemaController implements the CRUD actions for Tema model.
  */
-class TemaController extends Controller
+class TemaController extends MainController
 {
+    
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
+        return array_merge(
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['post'],
+                        ],
+                    ],
+                ]
+            );
     }
+
 
     /**
      * Lists all Tema models.

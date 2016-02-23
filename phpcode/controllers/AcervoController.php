@@ -5,25 +5,28 @@ namespace app\controllers;
 use Yii;
 use app\models\Acervo;
 use app\models\AcervoSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * AcervoController implements the CRUD actions for Acervo model.
  */
-class AcervoController extends Controller
+class AcervoController extends MainController
 {
+    
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
+        return array_merge(
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['post'],
+                        ],
+                    ],
+                ]
+            );
     }
 
     /**

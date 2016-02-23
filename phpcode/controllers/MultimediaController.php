@@ -5,7 +5,6 @@ namespace app\controllers;
 use Yii;
 use app\models\Multimedia;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
@@ -13,19 +12,24 @@ use yii\web\UploadedFile;
 /**
  * MultimediaController implements the CRUD actions for Multimedia model.
  */
-class MultimediaController extends Controller
+class MultimediaController extends MainController
 {
+    
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
+        return array_merge(
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['post'],
+                        ],
+                    ],
+                ]
+            );
     }
+
 
     /**
      * Lists all Multimedia models.

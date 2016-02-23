@@ -5,26 +5,30 @@ namespace app\controllers;
 use Yii;
 use app\models\TipoMultimedia;
 use yii\data\ActiveDataProvider;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * TipoMultimediaController implements the CRUD actions for TipoMultimedia model.
  */
-class TipoMultimediaController extends Controller
+class TipoMultimediaController extends MainController
 {
+    
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
+        return array_merge(
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['post'],
+                        ],
+                    ],
+                ]
+            );
     }
+
 
     /**
      * Lists all TipoMultimedia models.

@@ -5,16 +5,14 @@ namespace app\controllers;
 use Yii;
 use app\models\Ingreso;
 use app\models\IngresoSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
-use yii\helpers\Url;
 
 /**
  * IngresoController implements the CRUD actions for Ingreso model.
  */
-class IngresoController extends Controller
+class IngresoController extends MainController
 {
     
     const USER_SAVE_INGRESO = "btnUserSaveIngreso";
@@ -23,14 +21,17 @@ class IngresoController extends Controller
     
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
+        return array_merge(
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['post'],
+                        ],
+                    ],
+                ]
+            );
     }
 
     /**
@@ -136,10 +137,6 @@ class IngresoController extends Controller
      */
     public function actionCreate()
     {        
-        if(Yii::$app->user->isGuest){
-            return $this->redirect(Url::to(['site/login']));
-        }
-        
         $id = Yii::$app->request->post('id');
         
         if (!$id) {
