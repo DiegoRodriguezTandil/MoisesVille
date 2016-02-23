@@ -38,14 +38,21 @@ $this->title = 'Museo Moises Ville';
                 ],
                 [
                      'label' => 'Autores',
-                     'icon' => 'users',
+                     'icon' => 'user',
                      'url' => '#',
                      'type' => Html::TYPE_PRIMARY,
                      'size' => Html::SIZE_MEDIUM 
                 ],
                 [
                      'label' => 'Mi perfil',
-                     'icon' => 'person',
+                     'icon' => 'info-sign',
+                     'url' => '#',
+                     'type' => Html::TYPE_PRIMARY,
+                     'size' => Html::SIZE_MEDIUM 
+                ],
+                [
+                     'label' => 'Organización',
+                     'icon' => 'home',
                      'url' => '#',
                      'type' => Html::TYPE_PRIMARY,
                      'size' => Html::SIZE_MEDIUM 
