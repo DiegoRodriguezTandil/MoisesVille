@@ -5,25 +5,28 @@ namespace app\controllers;
 use Yii;
 use app\models\OrganizacionTipo;
 use app\models\OrganizacionTipoSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * OrganizacionTipoController implements the CRUD actions for OrganizacionTipo model.
  */
-class OrganizacionTipoController extends Controller
+class OrganizacionTipoController extends MainController
 {
+    
     public function behaviors()
     {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
+        return array_merge(
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['post'],
+                        ],
+                    ],
+                ]
+            );
     }
 
     /**
