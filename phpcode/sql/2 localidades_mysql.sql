@@ -2,6 +2,10 @@ use moisesville;
 
 insert into pais (id, nombre) VALUES(1, 'ARGENTINA');
 
+delete from localidad where id > -1;
+delete from departamento where id > -1;
+delete from provincia where id > -1;
+
 INSERT INTO provincia (pais_id,id,nombre) VALUES(1,1,'BUENOS AIRES');
 INSERT INTO provincia (pais_id,id,nombre) VALUES(1,2,'CATAMARCA');
 INSERT INTO provincia (pais_id,id,nombre) VALUES(1,3,'CHACO');
@@ -210,7 +214,7 @@ INSERT INTO departamento (id,provincia_id,nombre) VALUES(181,3,'GENERAL DONOVAN'
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(182,3,'SAN LORENZO');
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(183,3,'LEBERTADOR GRL.SAN MARTIN');
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(184,3,'MAIPU');
-INSERT INTO departamento (id,provincia_id,nombre) VALUES(185,3,'O\'HIGGINS');
+INSERT INTO departamento (id,provincia_id,nombre) VALUES(185,3,'O HIGGINS');
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(186,3,'9 DE JULIO');
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(187,3,'LIBERTADOR SAN MARTIN');
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(188,4,'RIO SENGUERR');
@@ -970,7 +974,7 @@ INSERT INTO localidad (id,departamento_id,nombre) VALUES(366,122,'GENERAL LA MAD
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(367,120,'GENERAL LAS HERAS ,EST.LAS HERAS');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(368,123,'GENERAL LAVALLE');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(369,36,'GENERAL MANSILLA ,EST.BARTOLOME BAVIO');
-INSERT INTO localidad (id,departamento_id,nombre) VALUES(370,52,'GENERAL O\'BRIEN');
+INSERT INTO localidad (id,departamento_id,nombre) VALUES(370,52,'GENERAL O BRIEN');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(371,4,'GENERAL PACHECO');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(372,38,'GENERAL PINTO');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(373,83,'GENERAL PIRAN');
@@ -1268,7 +1272,7 @@ INSERT INTO localidad (id,departamento_id,nombre) VALUES(664,102,'OBLIGADO');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(665,87,'OBLIGADO, RAFAEL');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(666,13,'OCAMPO, MANUEL');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(667,110,'OCHANDIO');
-INSERT INTO localidad (id,departamento_id,nombre) VALUES(668,20,'O\'HIGGINS');
+INSERT INTO localidad (id,departamento_id,nombre) VALUES(668,20,'O HIGGINS');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(669,52,'OLASCOAGA');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(670,77,'OLAVARRIA');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(671,32,'OLIDEN');
@@ -4320,7 +4324,7 @@ INSERT INTO localidad (id,departamento_id,nombre) VALUES(3716,415,'TENIENTE MAZA
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(3717,420,'TRAPALCO');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(3718,417,'TRICA CO');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(3719,415,'VALCHETA');
-INSERT INTO localidad (id,departamento_id,nombre) VALUES(3720,426,'VICEALMIRANTE EDUARDO O\'CONNOR');
+INSERT INTO localidad (id,departamento_id,nombre) VALUES(3720,426,'VICEALMIRANTE EDUARDO O CONNOR');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(3721,426,'VIEDMA');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(3722,426,'VIEDMA ,EST.');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(3723,427,'VILLA MASCARDI');
