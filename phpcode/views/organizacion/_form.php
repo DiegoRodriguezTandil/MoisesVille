@@ -29,16 +29,16 @@ use kartik\widgets\FileInput;
             'columns'=>3,
             'attributes'=>[       // 2 column layout
                 'nombre'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Nombre...']],                
-                'organizacionTipo_id'=>['type'=>Form::INPUT_WIDGET, 
-                                    'widgetClass'=>'\kartik\widgets\Select2', 
-                                    'options'=>['data'=>$dataOrg ], 
-                                   // 'hint'=>'Seleccione unidad de medida'
+                    'organizacionTipo_id'=>['type'=>Form::INPUT_WIDGET, 
+                        'widgetClass'=>'\kartik\widgets\Select2', 
+                        'options'=>['data'=>$dataOrg ], 
+                        // 'hint'=>'Seleccione unidad de medida'
                     ], 
                 'telefono'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Nro Inventario...']],
             ]
         ]);
         
-                 echo Form::widget([
+        echo Form::widget([
             'model'=>$model,
             'form'=>$form,
             'columns'=> 5,

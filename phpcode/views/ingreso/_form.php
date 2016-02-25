@@ -7,6 +7,7 @@ use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 //use yii\grid\GridView;
 use kartik\grid\GridView;
+use yii\web\JsExpression;
 
 
 /* @var $this yii\web\View */
@@ -91,61 +92,47 @@ use kartik\grid\GridView;
             ]);
     ?>
     
-    <div>       
-        <?php 
-//            Html::submitButton(
-//                '<i class="glyphicon glyphicon-plus"></i>', 
-//                [
-//                    'class' => 'btn btn-success',
-//                    'name' => 'newObjectButton',
-//                    'id' => 'newObjectButton',
-//                    'value' => 'newObjectButton',
-//                    'onClick' => "jQuery('#action').val('". \app\controllers\IngresoController::NEW_OBJECT ."')",
-//                ]
-//            ); 
-        ?>
-        <br>
-        <?php /* 
-            GridView::widget([
-                'dataProvider' => $dataObject,
-                //'filterModel' => $searchModel,
-                'columns' => [
-                    ['class' => 'yii\grid\SerialColumn'],
-                    'id',
-                    'nombre',
-                    'nroInventario',
-                    [
-                        'class' => 'yii\grid\ActionColumn',
-                        'template' => '{view}{update}{delete}',
-                        'buttons' => [
-                            'view' => function ($url, $model, $key) {
-                                return Html::a(
-                                        '<span class="glyphicon glyphicon-eye-opendir"></span>', 
-                                        yii\helpers\Url::to(['acervo/viewingreso', 'id'=>$model->id, 'title'=>'Ver Objeto']) 
-                                        
-                                );
-                            },
-                            'update' => function ($url, $model, $key) {
-                                return Html::a(
-                                        '<span class="glyphicon glyphicon-pencil"></span>', 
-                                        yii\helpers\Url::to(['acervo/update-ingreso', 'id'=>$model->id, 'title'=>'Modificar Objeto']) 
-                                        
-                                );
-                            },
-                            'delete' => function ($url, $model, $key) {
-                                return Html::a(
-                                        '<span class="glyphicon glyphicon-trash"></span>', 
-                                        yii\helpers\Url::to(['acervo/updateingreso', 'id'=>$model->id, 'title'=>'Borrar Objeto']) 
-                                );
-                            },
-                        ],
-                    ],
-                ],
-            ]); 
-      */ 
+    <div>
+
+    <?php
+        $personaNombre = empty($model->persona_id) ? '' : \app\models\Persona::findOne($model->persona_id)->nombre;
     
-    $heading = '<i class="glyphicon glyphicon-book"></i> Objetos';                        
-    $gridColumns = [
+        echo Form::widget([
+            'model'=>$model,
+            'form'=>$form,
+            'columns'=>1,
+            'attributes'=>[
+                'persona_id'=>[
+                        'type'=>Form::INPUT_WIDGET, 
+                        'widgetClass'=>'\kartik\select2\Select2', 
+                        'options' => [
+                            'initValueText' => $personaNombre,
+                            'options' => ['placeholder' => 'Seleccione Depositante...'],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'minimumInputLength' => 3,
+                                'errorLoading' => 'Buscando ...',
+                                'ajax' => [
+                                    'url' => \yii\helpers\Url::to(['persona/find']),
+                                    'dataType' => 'json',
+                                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                                ],
+                                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                                'templateResult' => new JsExpression('function(persona) { return persona.nombre; }'),
+                                'templateSelection' => new JsExpression('function (persona) { return persona.nombre; }'),
+                            ],
+                        ],
+                ],
+            ]
+        ]);
+    ?>
+        
+    </div>
+    
+    <div>       
+    <?php 
+        $heading = '<i class="glyphicon glyphicon-book"></i> Objetos';                        
+        $gridColumns = [
             ['class' => 'kartik\grid\SerialColumn'],
             [
                 'attribute'=>'nombre',
@@ -168,10 +155,10 @@ use kartik\grid\GridView;
                 'dropdownOptions'=>['class'=>'pull-right'],
                 'urlCreator'=>function($action, $model, $key, $index) { 
                     if ($action == 'update' ) {
-                        return Url::toRoute(['acervo/update', 'id' => $key]);
+                        return Url::toRoute(['acervo/update-ingreso', 'id' => $key]);
                     }
                     if ($action == 'view' ) {
-                        return Url::toRoute(['acervo/view', 'id' => $key]);
+                        return Url::toRoute(['acervo/viewingreso', 'id' => $key]);
                     }
                     if ($action == 'delete' ) {
                         return Url::toRoute(['acervo/delete', 'id' => $key]);
@@ -182,59 +169,56 @@ use kartik\grid\GridView;
                 'deleteOptions'=>['url'=>'urlCreator', 'title'=>'Eliminar el objeto', 'data-toggle'=>'tooltip'],
                 'headerOptions'=>['class'=>'kartik-sheet-style'],
             ],
+        ];
 
-];
-     
-     
+        echo GridView::widget([
+            'dataProvider'=>$dataObject,
+           // 'filterModel'=>$searchModel,
+            'columns'=>$gridColumns,
+            'resizableColumns'=>true,
+            'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
+            'headerRowOptions'=>['class'=>'kartik-sheet-style'],
+            'filterRowOptions'=>['class'=>'kartik-sheet-style'],
 
-    echo GridView::widget([
-    'dataProvider'=>$dataObject,
-   // 'filterModel'=>$searchModel,
-    'columns'=>$gridColumns,
-    'resizableColumns'=>true,
-    'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
-    'headerRowOptions'=>['class'=>'kartik-sheet-style'],
-    'filterRowOptions'=>['class'=>'kartik-sheet-style'],
-        
-    'pjax'=>true, // pjax is set to always true for this demo
+            'pjax'=>true, // pjax is set to always true for this demo
    
-        // set your toolbar
-    'toolbar'=> [ 
-        ['content'=>
-             Html::submitButton(
-                '<i class="glyphicon glyphicon-plus"></i>', 
-                [
-                    'class' => 'btn btn-success',
-                    'name' => 'newObjectButton',
-                    'id' => 'newObjectButton',
-                    'value' => 'newObjectButton',
-                    'onClick' => "jQuery('#action').val('". \app\controllers\IngresoController::NEW_OBJECT ."')",
-                ]
-            )
-//            Html::button('<i class="glyphicon glyphicon-plus"></i>', 
-//                    ['type'=>'button', 'title'=>'Add Book', 'class'=>'btn btn-success', 'href' => Url::toRoute(['/objeto/create']),])
-//            Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('kvgrid', 'Reset Grid')])
-        ],
-        //'{export}',
-    ],
+            // set your toolbar
+            'toolbar'=> [ 
+                ['content'=>
+                     Html::submitButton(
+                        '<i class="glyphicon glyphicon-plus"></i>', 
+                        [
+                            'class' => 'btn btn-success',
+                            'name' => 'newObjectButton',
+                            'id' => 'newObjectButton',
+                            'value' => 'newObjectButton',
+                            'onClick' => "jQuery('#action').val('". \app\controllers\IngresoController::NEW_OBJECT ."')",
+                        ]
+                    )
+        //            Html::button('<i class="glyphicon glyphicon-plus"></i>', 
+        //                    ['type'=>'button', 'title'=>'Add Book', 'class'=>'btn btn-success', 'href' => Url::toRoute(['/objeto/create']),])
+        //            Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('kvgrid', 'Reset Grid')])
+                ],
+                //'{export}',
+            ],
 
-    // parameters from the demo form
-    'bordered'=>true,
-    'striped'=>true,
-    'condensed'=>true,
-    'responsive'=>true,
-    'hover'=>true,
-    'showPageSummary'=>false,
-    'panel'=>[
-        'type'=>GridView::TYPE_PRIMARY,
-        'heading'=>$heading,
-    ],
-    'persistResize'=>false,
-   
-]);                       
+            // parameters from the demo form
+            'bordered'=>true,
+            'striped'=>true,
+            'condensed'=>true,
+            'responsive'=>true,
+            'hover'=>true,
+            'showPageSummary'=>false,
+            'panel'=>[
+                'type'=>GridView::TYPE_PRIMARY,
+                'heading'=>$heading,
+            ],
+            'persistResize'=>false,
+
+        ]);                       
                             
                             
-        ?>        
+    ?>        
         
     </div>
 

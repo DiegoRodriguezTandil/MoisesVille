@@ -121,4 +121,24 @@ class PersonaController extends  MainController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+    
+    public function actionFind($q = null, $id = null) {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'nombre' => '']];
+        if (!is_null($q)) {
+            $query = new \yii\db\Query;
+            $query->select('id, nombre')
+                ->from('persona')
+                ->where(['like', 'nombre', $q])
+                ->limit(10);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $out['results'] = ['id' => $id, 'nombre' => Persona::find($id)->nombre];
+        }
+        return $out;
+    }    
+    
 }
