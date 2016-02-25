@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "acervo".
@@ -13,7 +14,6 @@ use Yii;
  * @property string $nroInventario
  * @property string $forma
  * @property string $material
- * @property integer $tema_id
  * @property integer $tipoAcervo_id
  * @property string $ancho
  * @property string $largo
@@ -25,19 +25,46 @@ use Yii;
  * @property string $diametroExterno
  * @property string $fechaIngreso
  * @property integer $ingreso_id
- * @property integer $coleccion_id
- * @property string $publicar_id
- * @property Coleccion $coleccion
+ * @property integer $estado_id
+ * @property integer $ubicacion_id
+ * @property string $caracteristicas
+ * @property string $lugarprocac
+ * @property string $color
+ * @property string $notas
+ * @property string $fechaBaja
+ * @property string $descEpoca
+ * @property string $descUbicacion
+ * @property string $nroA
+ * @property string $nroB
+ * @property string $nroC
+ * @property string $nroD
+ * @property integer $motivoBaja_id
+ * @property integer $copia_id
+ * @property integer $codformaing
+ * @property integer $codtipoac
+ * @property integer $clasifac
+ * @property integer $publicar_id
+ * @property integer $idold
+ *
+ * @property Copia $copia
+ * @property Estado $estado
+ * @property MotivoBaja $motivoBaja
  * @property Publicar $publicar
+ * @property Ubicacion $ubicacion
  * @property UnidadMedida $unidadMedida
  * @property UnidadPeso $unidadPeso
  * @property Ingreso $ingreso
- * @property Tema $tema
  * @property TipoAcervo $tipoAcervo
+ * @property ColeccionAcervo[] $coleccionAcervos
+ * @property Coleccion[] $coleccions
  * @property Multimedia[] $multimedia
+ * @property TemaAcervo[] $temaAcervos
+ * @property Tema[] $temas
  */
 class Acervo extends \yii\db\ActiveRecord
 {
+    public $temaIds = [];
+    public $coleccionIds = [];
     /**
      * @inheritdoc
      */
@@ -52,15 +79,13 @@ class Acervo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['descripcion'], 'string'],
-            [['tema_id', 'coleccion_id'], 'required'],
-            [['tema_id', 'tipoAcervo_id', 'unidadMedida_id', 'unidadPeso_id', 'ingreso_id', 'coleccion_id'], 'integer'],
+            [['descripcion', 'caracteristicas', 'notas'], 'string'],
+            [['tipoAcervo_id', 'unidadMedida_id', 'unidadPeso_id', 'ingreso_id', 'estado_id', 'ubicacion_id', 'motivoBaja_id', 'copia_id', 'codformaing', 'codtipoac', 'clasifac', 'publicar_id', 'idold'], 'integer'],
             [['ancho', 'largo', 'alto', 'peso', 'diametroInterno', 'diametroExterno'], 'number'],
-            [['fechaIngreso'], 'safe'],
-            [['nombre'], 'string', 'max' => 255],
-            [['nroInventario'], 'string', 'max' => 45],
-            [['forma', 'material'], 'string', 'max' => 100],
-            [['publicar_id'], 'string', 'max' => 2]
+            [['fechaIngreso', 'fechaBaja'], 'safe'],
+            [['nombre', 'descEpoca', 'descUbicacion'], 'string', 'max' => 255],
+            [['nroInventario', 'color', 'nroA', 'nroB', 'nroC', 'nroD'], 'string', 'max' => 45],
+            [['forma', 'material', 'lugarprocac'], 'string', 'max' => 100]
         ];
     }
 
@@ -72,11 +97,10 @@ class Acervo extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'nombre' => Yii::t('app', 'Nombre'),
-            'descripcion' => Yii::t('app', 'Descripción'),
+            'descripcion' => Yii::t('app', 'Descripcion'),
             'nroInventario' => Yii::t('app', 'Nro Inventario'),
             'forma' => Yii::t('app', 'Forma'),
             'material' => Yii::t('app', 'Material'),
-            'tema_id' => Yii::t('app', 'Tema ID'),
             'tipoAcervo_id' => Yii::t('app', 'Tipo Acervo ID'),
             'ancho' => Yii::t('app', 'Ancho'),
             'largo' => Yii::t('app', 'Largo'),
@@ -88,25 +112,67 @@ class Acervo extends \yii\db\ActiveRecord
             'diametroExterno' => Yii::t('app', 'Diametro Externo'),
             'fechaIngreso' => Yii::t('app', 'Fecha Ingreso'),
             'ingreso_id' => Yii::t('app', 'Ingreso ID'),
-            'coleccion_id' => Yii::t('app', 'Coleccion ID'),
+            'estado_id' => Yii::t('app', 'Estado ID'),
+            'ubicacion_id' => Yii::t('app', 'Ubicacion ID'),
+            'caracteristicas' => Yii::t('app', 'Caracteristicas'),
+            'lugarprocac' => Yii::t('app', 'Lugarprocac'),
+            'color' => Yii::t('app', 'Color'),
+            'notas' => Yii::t('app', 'Notas'),
+            'fechaBaja' => Yii::t('app', 'Fecha Baja'),
+            'descEpoca' => Yii::t('app', 'Desc Epoca'),
+            'descUbicacion' => Yii::t('app', 'Desc Ubicacion'),
+            'nroA' => Yii::t('app', 'Nro A'),
+            'nroB' => Yii::t('app', 'Nro B'),
+            'nroC' => Yii::t('app', 'Nro C'),
+            'nroD' => Yii::t('app', 'Nro D'),
+            'motivoBaja_id' => Yii::t('app', 'Motivo Baja ID'),
+            'copia_id' => Yii::t('app', 'Copia ID'),
+            'codformaing' => Yii::t('app', 'Codformaing'),
+            'codtipoac' => Yii::t('app', 'Codtipoac'),
+            'clasifac' => Yii::t('app', 'Clasifac'),
             'publicar_id' => Yii::t('app', 'Publicar ID'),
+            'idold' => Yii::t('app', 'Idold'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTema()
+    public function getCopia()
     {
-        return $this->hasOne(Tema::className(), ['id' => 'tema_id']);
+        return $this->hasOne(Copia::className(), ['id' => 'copia_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTipoAcervo()
+    public function getEstado()
     {
-        return $this->hasOne(TipoAcervo::className(), ['id' => 'tipoAcervo_id']);
+        return $this->hasOne(Estado::className(), ['id' => 'estado_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMotivoBaja()
+    {
+        return $this->hasOne(MotivoBaja::className(), ['id' => 'motivoBaja_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPublicar()
+    {
+        return $this->hasOne(Publicar::className(), ['id' => 'publicar_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUbicacion()
+    {
+        return $this->hasOne(Ubicacion::className(), ['id' => 'ubicacion_id']);
     }
 
     /**
@@ -136,17 +202,25 @@ class Acervo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getColeccion()
+    public function getTipoAcervo()
     {
-        return $this->hasOne(Coleccion::className(), ['id' => 'coleccion_id']);
+        return $this->hasOne(TipoAcervo::className(), ['id' => 'tipoAcervo_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPublicar()
+    public function getColeccionAcervos()
     {
-        return $this->hasOne(Publicar::className(), ['id' => 'publicar_id']);
+        return $this->hasMany(ColeccionAcervo::className(), ['acervo_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getColeccions()
+    {
+        return $this->hasMany(Coleccion::className(), ['id' => 'coleccion_id'])->viaTable('coleccion_acervo', ['acervo_id' => 'id']);
     }
 
     /**
@@ -156,4 +230,143 @@ class Acervo extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Multimedia::className(), ['objetos_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTemaAcervos()
+    {
+        return $this->hasMany(TemaAcervo::className(), ['acervo_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTemas()
+    {
+        return $this->hasMany(Tema::className(), ['id' => 'tema_id'])->viaTable('tema_acervo', ['acervo_id' => 'id']);
+    }
+    
+    //Llenado de taggin de Temas
+     //para llenar Select2
+    public function getAcervoHasTema()
+    {
+       return $this->hasOne(Tema_Acervo::className(), ['acervo_id' => 'id']);
+    }
+    
+    // you need a getter for select2 dropdown
+    public function getdropTema()
+    {
+        $data = Tema::find()->asArray()->all();
+        return ArrayHelper::map($data, 'id', 'nombre');
+    }
+    
+    // You will need a getter for the current set o Acervo in this Tema
+    public function getTemaIds()
+        {
+          $this->temaIds = \yii\helpers\ArrayHelper::getColumn(
+            $this->getAcervoHasTema()->asArray()->all(), 'tema_id');
+          return $this->temaIds;
+    }
+     
+    //Llenado de taggin de Colecciones
+     //para llenar Select2
+    public function getAcervoHasColeccion()
+    {
+       return $this->hasOne(Coleccion_Acervo::className(), ['coleccion_id' => 'id']);
+    }
+    
+    // you need a getter for select2 dropdown
+    public function getdropColeccion()
+    {
+        $data = Coleccion::find()->asArray()->all();
+        return ArrayHelper::map($data, 'id', 'nombre');
+    }
+    
+    // You will need a getter for the current set o Acervo in this Tema
+    public function getColeccionIds()
+        {
+          $this->coleccionIds = \yii\helpers\ArrayHelper::getColumn(
+            $this->getAcervoHasColeccion()->asArray()->all(),
+            'coleccion_id'
+          );
+          return $this->coleccionIds;
+    }
+    
+    // You need to save the relations in BookHasAuthor table (adicional code for updates)
+    public function afterSave($insert, $changedAttributes)
+     {
+       $actualTemas = [];
+       $actualColecciones = [];
+       $temaExists = 0; //for updates
+       $coleccionExists = 0; //for updates
+
+      
+       if (isset(Yii::$app->request->post('Acervo')['TemaIds']))
+            $nuevosTemas  = Yii::$app->request->post('Acervo')['TemaIds'];
+       else $nuevosTemas = [];
+       if (isset(Yii::$app->request->post('Acervo')['ColeccionIds']))
+            $nuevasColecciones  = Yii::$app->request->post('Acervo')['ColeccionIds'];
+       else $nuevasColecciones = [];
+
+       if (($actualTemas = Tema_Acervo::find()
+        ->andWhere("acervo_id = $this->id")
+        ->asArray()
+        ->all()) !== null) {
+          $actualTemas = ArrayHelper::getColumn($actualTemas, 'tema_id');
+          $temaExists = 1; // if there is authors relations, we will work it latter
+       } 
+       
+        if (($actualColecciones = Coleccion_Acervo::find()
+        ->andWhere("acervo_id = $this->id")
+        ->asArray()
+        ->all()) !== null) {
+          $actualColecciones = ArrayHelper::getColumn($actualColecciones, 'coleccion_id');
+          $coleccionExists = 1; // if there is authors relations, we will work it latter
+       } else $coleccionExists = 0;
+
+            $idsTemasToInsert = array_diff($nuevosTemas, $actualTemas);
+            $idsColeccionesToInsert = array_diff($nuevasColecciones, $actualColecciones);
+
+            $idsTemasToDelete = array_diff($actualTemas, $nuevosTemas);
+            $idsColeccionesToDelete = array_diff($actualColecciones, $nuevasColecciones);
+       
+       if (!empty($idsTemasToInsert)) { //save the relations
+          foreach ($idsTemasToInsert as $id) {
+            //$actualTemas = array_diff($nuevosTemas, [$id]); //remove remaining authors from array
+            $r = new Tema_Acervo();
+            $r->acervo_id = $this->id;
+            $r->tema_id = $id;
+            $r->save();
+        }
+       }
+       
+       if (!empty($idsColeccionesToInsert)) { //save the relations
+          foreach ($idsColeccionesToInsert as $id) {
+            //$actualTemas = array_diff($nuevosTemas, [$id]); //remove remaining authors from array
+            $r = new Coleccion_Acervo();
+            $r->acervo_id = $this->id;
+            $r->coleccion_id = $id;
+            $r->save();
+        }
+       }
+       
+       if ($coleccionExists == 1) { //delete colecciones y acervo 
+            foreach ($idsColeccionesToDelete as $remove) {
+              $r = Coleccion_Acervo::findOne(['coleccion_id' => $remove, 'acervo_id' => $this->id]);
+              $r->delete();
+            }
+        }
+        
+        if ($temaExists == 1) { //delete colecciones y acervo 
+            foreach ($idsTemasToDelete as $remove) {
+              $r = Tema_Acervo::findOne(['tema_id' => $remove, 'acervo_id' => $this->id]);
+              $r->delete();
+            }
+        }
+       
+
+       parent::afterSave($insert, $changedAttributes); //don't forget this
+    }
+  
 }

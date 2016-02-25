@@ -50,13 +50,13 @@ $this->title = 'Museo Moises Ville';
                      'type' => Html::TYPE_PRIMARY,
                      'size' => Html::SIZE_MEDIUM 
                 ],
-                [
-                     'label' => 'Organización',
-                     'icon' => 'home',
-                     'url' => Url::to(['/organizacion']),
-                     'type' => Html::TYPE_PRIMARY,
-                     'size' => Html::SIZE_MEDIUM 
-                ]
+//                [
+//                     'label' => 'Organización',
+//                     'icon' => 'home',
+//                     'url' => Url::to(['/organizacion']),
+//                     'type' => Html::TYPE_PRIMARY,
+//                     'size' => Html::SIZE_MEDIUM 
+//                ]
             ]
         ]);
         ?>

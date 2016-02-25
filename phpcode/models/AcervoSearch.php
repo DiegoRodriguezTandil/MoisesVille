@@ -18,8 +18,9 @@ class AcervoSearch extends Acervo
     public function rules()
     {
         return [
-            [['id', 'tema_id', 'tipoAcervo_id', 'ancho', 'largo', 'alto', 'peso', 'diametroInterno', 'diametroExterno', 'ingreso_id', 'coleccion_id'], 'integer'],
-            [['nombre', 'descripcion', 'nroInventario', 'forma', 'material', 'fechaIngreso'], 'safe'],
+            [['id', 'tipoAcervo_id', 'unidadMedida_id', 'unidadPeso_id', 'ingreso_id', 'estado_id', 'ubicacion_id', 'motivoBaja_id', 'copia_id', 'codformaing', 'codtipoac', 'clasifac', 'publicar_id', 'idold'], 'integer'],
+            [['nombre', 'descripcion', 'nroInventario', 'forma', 'material', 'fechaIngreso', 'caracteristicas', 'lugarprocac', 'color', 'notas', 'fechaBaja', 'descEpoca', 'descUbicacion', 'nroA', 'nroB', 'nroC', 'nroD'], 'safe'],
+            [['ancho', 'largo', 'alto', 'peso', 'diametroInterno', 'diametroExterno'], 'number'],
         ];
     }
 
@@ -57,16 +58,27 @@ class AcervoSearch extends Acervo
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'tema_id' => $this->tema_id,
             'tipoAcervo_id' => $this->tipoAcervo_id,
             'ancho' => $this->ancho,
             'largo' => $this->largo,
             'alto' => $this->alto,
+            'unidadMedida_id' => $this->unidadMedida_id,
             'peso' => $this->peso,
+            'unidadPeso_id' => $this->unidadPeso_id,
             'diametroInterno' => $this->diametroInterno,
             'diametroExterno' => $this->diametroExterno,
+            'fechaIngreso' => $this->fechaIngreso,
             'ingreso_id' => $this->ingreso_id,
-            'coleccion_id' => $this->coleccion_id,
+            'estado_id' => $this->estado_id,
+            'ubicacion_id' => $this->ubicacion_id,
+            'fechaBaja' => $this->fechaBaja,
+            'motivoBaja_id' => $this->motivoBaja_id,
+            'copia_id' => $this->copia_id,
+            'codformaing' => $this->codformaing,
+            'codtipoac' => $this->codtipoac,
+            'clasifac' => $this->clasifac,
+            'publicar_id' => $this->publicar_id,
+            'idold' => $this->idold,
         ]);
 
         $query->andFilterWhere(['like', 'nombre', $this->nombre])
@@ -74,7 +86,16 @@ class AcervoSearch extends Acervo
             ->andFilterWhere(['like', 'nroInventario', $this->nroInventario])
             ->andFilterWhere(['like', 'forma', $this->forma])
             ->andFilterWhere(['like', 'material', $this->material])
-            ->andFilterWhere(['like', 'fechaIngreso', $this->fechaIngreso]);
+            ->andFilterWhere(['like', 'caracteristicas', $this->caracteristicas])
+            ->andFilterWhere(['like', 'lugarprocac', $this->lugarprocac])
+            ->andFilterWhere(['like', 'color', $this->color])
+            ->andFilterWhere(['like', 'notas', $this->notas])
+            ->andFilterWhere(['like', 'descEpoca', $this->descEpoca])
+            ->andFilterWhere(['like', 'descUbicacion', $this->descUbicacion])
+            ->andFilterWhere(['like', 'nroA', $this->nroA])
+            ->andFilterWhere(['like', 'nroB', $this->nroB])
+            ->andFilterWhere(['like', 'nroC', $this->nroC])
+            ->andFilterWhere(['like', 'nroD', $this->nroD]);
 
         return $dataProvider;
     }

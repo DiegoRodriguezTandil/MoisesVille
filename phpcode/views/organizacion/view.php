@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
@@ -25,29 +26,35 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
+    <?php
+    //echo Url::to('@web/uploads/'.$model->imagen);
+    echo Html::img('@web/uploads/' . $model['imagen'], ['width' => '100px']);
+        
+    ?>
+        
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
+//            'id',
             'nombre',
             'organizacionTipo_id',
             'telefono',
             'email:email',
-            'info:ntext',
-            'imagen',
-            'sitioWeb',
-            'nuestrasColecciones:ntext',
-            'facebook',
-            'twitter',
-            'instagram',
-            'googleMas',
-            'linkedin',
-            'mapaLink',
-            'pais',
-            'ciudad',
-            'provincia',
-            'direccion',
-            'cp',
+//            'info:ntext',
+//            'imagen',
+//            'sitioWeb',
+//            'nuestrasColecciones:ntext',
+//            'facebook',
+//            'twitter',
+//            'instagram',
+//            'googleMas',
+//            'linkedin',
+//            'mapaLink',
+//            'pais',
+//            'ciudad',
+//            'provincia',
+//            'direccion',
+//            'cp',
         ],
     ]) ?>
 

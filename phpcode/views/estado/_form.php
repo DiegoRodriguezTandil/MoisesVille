@@ -1,24 +1,18 @@
 <?php
 
 use yii\helpers\Html;
-//use yii\widgets\ActiveForm;
-use kartik\widgets\ActiveForm;
-use kartik\widgets\Select2;
-use yii\helpers\ArrayHelper;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Tema */
+/* @var $model app\models\Estado */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="tema-form">
+<div class="estado-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    
-       <?= $form->field($model, 'AcervoIds')->widget(Select2::classname(), [
-   'data'=>$model->dropAcervo,
-   'options' => ['multiple' => true]
-  ]);?>
+
+    <?= $form->field($model, 'id')->textInput() ?>
 
     <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
 

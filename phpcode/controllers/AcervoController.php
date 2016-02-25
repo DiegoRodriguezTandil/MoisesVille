@@ -4,29 +4,28 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Acervo;
+use app\models\Multimedia;
 use app\models\AcervoSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Controller; 
 
 /**
  * AcervoController implements the CRUD actions for Acervo model.
  */
-class AcervoController extends MainController
+class AcervoController extends Controller
 {
     
     public function behaviors()
     {
-        return array_merge(
-                parent::behaviors(),
-                [
-                    'verbs' => [
-                        'class' => VerbFilter::className(),
-                        'actions' => [
-                            'delete' => ['post'],
-                        ],
-                    ],
-                ]
-            );
+        return [
+                   'verbs' => [
+                       'class' => VerbFilter::className(),
+                       'actions' => [
+                           'delete' => ['post'],
+                       ],
+                   ],
+               ];
     }
 
     /**
@@ -39,7 +38,7 @@ class AcervoController extends MainController
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
+       //     'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
@@ -50,10 +49,35 @@ class AcervoController extends MainController
      * @return mixed
      */
     public function actionView($id)
-    {
+    {   
+        $model = $this->findModel($id);
+        $multimedia = new Multimedia();
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model, 'multimedia' => $multimedia
         ]);
+    }
+    
+    /**
+     * Displays a single Acervo model with images
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionIngreso($id)
+    {   
+        $model = $this->findModel($id);
+        $multimedia = new Multimedia();
+        $m = $model->load(Yii::$app->request->post());
+        if ($m){
+            if  ($model->save()) {
+                    $fotos = $multimedia->load(Yii::$app->request->post('Multimedia'));
+                    if  ($fotos->save())
+                        return $this->redirect(['ingreso', 'id' => $model->id]);
+           }
+        }
+        else {
+            return $this->render('ingreso', [
+            'model' => $model, 'multimedia' => $multimedia]);
+        }
     }
 
     /**
@@ -84,12 +108,15 @@ class AcervoController extends MainController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+       // $model->temaIds = $model->getTemaIds();
+      //  $model->coleccionIds = $model->getColeccionIds();
+        if ($model->load(Yii::$app->request->post())) {            
+            if  ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+        } else {            
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model
             ]);
         }
     }

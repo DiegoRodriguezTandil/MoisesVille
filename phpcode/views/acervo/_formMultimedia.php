@@ -4,7 +4,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;*/
 
-use yii\helpers\Html
+use yii\helpers\Html;
 use kartik\widgets\ActiveForm; // or yii\widgets\ActiveForm
 use kartik\widgets\FileInput;
 use yii\helpers\ArrayHelper;
@@ -17,8 +17,8 @@ use yii\helpers\ArrayHelper;
 <div class="multimedia-form">
 
     <?php 
-    $form = ActiveForm::begin([
-        'options'=>['enctype'=>'multipart/form-data'] // important
+    $form = ActiveForm::begin([ 'options'=>['enctype'=>'multipart/form-data'], // important
+                                'type' => ActiveForm::TYPE_VERTICAL       
     ]);
     // your fileinput widget for single file upload
         echo $form->field($model, 'path')->widget(FileInput::classname(), [
@@ -28,9 +28,7 @@ use yii\helpers\ArrayHelper;
     ?>
     
     <?= $form->field($model, 'webPath')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'tipoMultimedia_id')->textInput() ?>
-    
+  
     <?php 
         $dataPost=ArrayHelper::map(\app\models\TipoMultimedia::find()->asArray()->all(), 'id', 'nombre');
         echo $form->field($model, 'tipoMultimedia_id')
@@ -43,7 +41,7 @@ use yii\helpers\ArrayHelper;
     
     ?>
 
-    <?= $form->field($model, 'objetos_id')->textInput() ?>
+    <?php  echo Html::hiddenInput('Multimedia[objeto_id]',$acervo_id);  ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

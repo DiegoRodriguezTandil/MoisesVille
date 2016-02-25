@@ -3,18 +3,17 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
-use yii\helpers\Url;
-
 /* @var $this yii\web\View */
-/* @var $model app\models\Acervo */
+/* @var $model app\models\Ubicacion */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Acervos'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Ubicacions'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="acervo-view">
+<div class="ubicacion-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
@@ -31,8 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'nombre',
-            'descripcion:ntext',
-
         ],
     ]) ?>
 

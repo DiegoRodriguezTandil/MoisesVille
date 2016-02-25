@@ -26,7 +26,7 @@ use kartik\widgets\FileInput;
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,
-            'columns'=>1,
+            'columns'=>1
             'attributes'=>[       // 2 column layout
                 'id'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Nombre...']], 
                 'nombre'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Nombre...']],                
@@ -94,6 +94,7 @@ use kartik\widgets\FileInput;
     ?>
 
     <?= $form->field($model, 'mapaLink')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'imagen')->textInput(['imagen' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

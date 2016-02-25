@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "tema".
@@ -10,10 +11,13 @@ use Yii;
  * @property integer $id
  * @property string $nombre
  *
- * @property Objetos[] $objetos
+ * @property TemaAcervo[] $temaAcervos
+ * @property Acervo[] $acervos
  */
 class Tema extends \yii\db\ActiveRecord
 {
+    public $acervoIds = [];
+ 
     /**
      * @inheritdoc
      */
@@ -46,8 +50,41 @@ class Tema extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getObjetos()
+    public function getTemaAcervos()
     {
-        return $this->hasMany(Objetos::className(), ['tema_id' => 'id']);
+        return $this->hasMany(TemaAcervo::className(), ['tema_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAcervos()
+    {
+        return $this->hasMany(Acervo::className(), ['id' => 'acervo_id'])->viaTable('tema_acervo', ['tema_id' => 'id']);
+    }
+    
+    
+    //para llenar Select2
+    public function getTemaHasAcervo()
+    {
+       return $this->hasOne(Tema_Acervo::className(), ['tema_id' => 'id']);
+    }
+    
+    // you need a getter for select2 dropdown
+    public function getdropAcervo()
+    {
+        $data = Acervo::find()->asArray()->all();
+        return ArrayHelper::map($data, 'id', 'nombre');
+    }
+    
+    // You will need a getter for the current set o Acervo in this Tema
+    public function getAcervoIds()
+        {
+          $this->acervoIds = \yii\helpers\ArrayHelper::getColumn(
+            $this->getTemaHasAcervo()->asArray()->all(),
+            'acervo_id'
+          );
+          return $this->acervoIds;
+     }
 }
+

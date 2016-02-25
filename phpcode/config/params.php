@@ -2,5 +2,5 @@
 
 return [
     'adminEmail' => 'admin@example.com',
-    'uploadPath' => dirname(__DIR__). '/uploads/',
+    'uploadPath' => dirname(__DIR__). '/web/uploads/',
 ];
