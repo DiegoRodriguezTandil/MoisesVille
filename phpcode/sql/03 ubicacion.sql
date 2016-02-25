@@ -1,0 +1,24 @@
+use moisesville;
+
+insert into ubicacion(id,nombre) values(	0	,'Sin Ubicación');
+insert into ubicacion(id,nombre) values(	1	,'Sala 1-Inmigrantes-Travesia');
+insert into ubicacion(id,nombre) values(	2	,'Sala 2-Moises Ville y colonia');
+insert into ubicacion(id,nombre) values(	3	,'Sala 3 - Instituciones');
+insert into ubicacion(id,nombre) values(	4	,'Sala 4 - Artesanos');
+insert into ubicacion(id,nombre) values(	5	,'Sala 5 - Tecnologia');
+insert into ubicacion(id,nombre) values(	6	,'Sala 6-Exposicion temporaria	');
+insert into ubicacion(id,nombre) values(	10	,'Caja azul Nº 1');
+insert into ubicacion(id,nombre) values(	11	,'Caja azul Nº 2');
+insert into ubicacion(id,nombre) values(	12	,'Caja azul Nº 3');
+insert into ubicacion(id,nombre) values(	13	,'Sala de apoyo-Carpeta 1 Origin');
+insert into ubicacion(id,nombre) values(	14	,'Sala de apoyo-Carpeta 2 Origin');
+insert into ubicacion(id,nombre) values(	15	,'Sala de apoyo-Carpeta 3 Origin');
+insert into ubicacion(id,nombre) values(	20	,'Biblioteca');
+insert into ubicacion(id,nombre) values(	21	,'Carpeta coleccion Vainer');
+insert into ubicacion(id,nombre) values(	22	,'Sala de apoyo');
+insert into ubicacion(id,nombre) values(	23	,'Deposito provisoriococina)');
+insert into ubicacion(id,nombre) values(	24	,'Sala de apoyo-Carpeta J.C.A.');
+insert into ubicacion(id,nombre) values(	25	,'Caja azul Nº 4');
+insert into ubicacion(id,nombre) values(	26	,'Caja Azul Nº 5');
+insert into ubicacion(id,nombre) values(	27	,'Caja negra Nº 2');
+insert into ubicacion(id,nombre) values(	28	,'Caja azul Nº 6');

@@ -10,12 +10,17 @@ use Yii;
  * @property integer $id
  * @property string $descripcion
  * @property string $fechaEntrada
- * @property resource $observaciones
+ * @property string $observaciones
  * @property string $fechaBaja
  * @property integer $user_id
+ * @property string $autoSave
+ * @property integer $persona_id
+ * @property integer $formaIngreso_id
  *
  * @property Acervo[] $acervos
  * @property User $user
+ * @property Persona $persona
+ * @property FormaIngreso $formaIngreso
  */
 class Ingreso extends \yii\db\ActiveRecord
 {
@@ -36,8 +41,9 @@ class Ingreso extends \yii\db\ActiveRecord
             [['fechaEntrada', 'fechaBaja'], 'safe'],
             [['observaciones'], 'string'],
             [['user_id'], 'required'],
-            [['user_id'], 'integer'],
-            [['descripcion'], 'string', 'max' => 45]
+            [['user_id', 'persona_id', 'formaIngreso_id'], 'integer'],
+            [['descripcion'], 'string', 'max' => 45],
+            [['autoSave'], 'string', 'max' => 1]
         ];
     }
 
@@ -48,11 +54,14 @@ class Ingreso extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'descripcion' => Yii::t('app', 'Descripción'),
+            'descripcion' => Yii::t('app', 'Descripcion'),
             'fechaEntrada' => Yii::t('app', 'Fecha Entrada'),
             'observaciones' => Yii::t('app', 'Observaciones'),
             'fechaBaja' => Yii::t('app', 'Fecha Baja'),
-            'user_id' => Yii::t('app', 'Usuario'),
+            'user_id' => Yii::t('app', 'User ID'),
+            'autoSave' => Yii::t('app', 'Auto Save'),
+            'persona_id' => Yii::t('app', 'Persona'),
+            'formaIngreso_id' => Yii::t('app', 'Forma Ingreso ID'),
         ];
     }
 
@@ -71,5 +80,20 @@ class Ingreso extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
-    
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPersona()
+    {
+        return $this->hasOne(Persona::className(), ['id' => 'persona_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getFormaIngreso()
+    {
+        return $this->hasOne(FormaIngreso::className(), ['id' => 'formaIngreso_id']);
+    }
 }

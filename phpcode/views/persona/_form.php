@@ -6,7 +6,7 @@ use yii\helpers\Html;
 use kartik\builder\Form;
 use kartik\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use yii\web\JsExpression;
+//use yii\web\JsExpression;
 
 
 /* @var $this yii\web\View */
@@ -67,9 +67,17 @@ use yii\web\JsExpression;
     ?>
 
     <?php
-        //$dataLocalidad=ArrayHelper::map(\app\models\Localidad::find()->topTen()->asArray()->all(), 'id', 'nombre');
+/*    
+//        $dataLocalidad=ArrayHelper::map(\app\models\Localidad::find()->asArray()->all(), 'id', 'nombre');
         $localidadNombre = empty($model->localidad_id) ? '' : \app\models\Localidad::findOne($model->localidad_id)->nombre;
-    
+//        $dataLocalidad = ArrayHelper::map(\app\models\Localidad::findOne($model->localidad_id), 'id', 'nombre');
+//        var_dump($dataLocalidad);
+//        var_dump(\app\models\Localidad::findOne($model->localidad_id));
+//        $l = \app\models\Localidad::findOne($model->localidad_id);
+//        $dataLocalidad = [
+//            $l->id => $l->nombre,
+//        ];
+            
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,
@@ -82,10 +90,9 @@ use yii\web\JsExpression;
                 'localidad_id'=>[
                         'type'=>Form::INPUT_WIDGET, 
                         'widgetClass'=>'\kartik\select2\Select2', 
+                    
                         'options' => [
                             'initValueText' => $localidadNombre,
-                            //'data'=>$dataLocalidad,
-                            // 'hint'=>'Seleccione unidad de peso',
                             'options' => ['placeholder' => 'Seleccione Ciudad...'],
                             'pluginOptions' => [
                                 'allowClear' => true,
@@ -104,6 +111,32 @@ use yii\web\JsExpression;
                 ],
             ]
         ]);
+ 
+ */    
+        $dataLocalidad = ArrayHelper::map(\app\models\Localidad::find()->asArray()->all(), 'id', 'nombre');
+        
+        echo Form::widget([
+            'model'=>$model,
+            'form'=>$form,
+            'columns'=>2,
+            'attributes'=>[
+                'domicilio'=>[
+                        'type'=>Form::INPUT_TEXT, 
+                        'options'=>['placeholder'=>'Ingrese Domicilio...']
+                ],
+                'localidad_id'=>[
+                        'type'=>Form::INPUT_WIDGET, 
+                        'widgetClass'=>'\kartik\select2\Select2', 
+                        'options' => [
+                            'options' => ['placeholder' => 'Seleccione Ciudad...'],
+                            'data' => $dataLocalidad,
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],                            
+                        ],
+                ],
+            ]
+        ]);    
     ?>
 
     <div class="form-group">
