@@ -1,15 +1,16 @@
 use moisesville;
 
 delete from tipoAcervo;
+alter table tipoAcervo auto_increment = 0;
 
-alter table tipoAcervo add cod int;
-alter table tipoAcervo add clasifac int;
+-- alter table tipoAcervo add cod int;
+-- alter table tipoAcervo add clasifac int;
 
---select * from tipoAcervo;
+-- select * from tipoAcervo;
 
 -- correr migracion acervo y luego borrar los campos basura
 
---insert into tipoAcervo(id,tipoacervo_id,cod,clasifac,descripcion) values(0,null,0,0,'Sin clasificación');
+-- insert into tipoAcervo(id,tipoacervo_id,cod,clasifac,descripcion) values(0,null,0,0,'Sin clasificación');
 insert into tipoAcervo(id,tipoacervo_id,cod,clasifac,descripcion) values(1,null,1,0,'Documento');
 insert into tipoAcervo(id,tipoacervo_id,cod,clasifac,descripcion) values(2,null,2,0,'Objeto');
 insert into tipoAcervo(id,tipoacervo_id,cod,clasifac,descripcion) values(3,null,3,0,'Publicacion');
@@ -75,3 +76,4 @@ insert into tipoAcervo(id,tipoacervo_id,cod,clasifac,descripcion) values(62,1,1,
 insert into tipoAcervo(id,tipoacervo_id,cod,clasifac,descripcion) values(63,1,1,48,'Certificado');
 insert into tipoAcervo(id,tipoacervo_id,cod,clasifac,descripcion) values(64,1,1,49,'Programa');
 insert into tipoAcervo(id,tipoacervo_id,cod,clasifac,descripcion) values(65,1,1,50,'Ficha');
+

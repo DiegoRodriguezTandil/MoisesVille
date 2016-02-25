@@ -119,7 +119,7 @@ class LocalidadController extends Controller
         }
     }
     
-    
+/*    
     public function actionFind($q = null, $id = null) {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'nombre' => '']];
@@ -136,6 +136,8 @@ class LocalidadController extends Controller
         elseif ($id > 0) {
             $out['results'] = ['id' => $id, 'nombre' => Localidad::find($id)->nombre];
         }
+            
         return $out;
     }    
+ */
 }

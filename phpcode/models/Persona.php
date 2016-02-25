@@ -14,10 +14,11 @@ use Yii;
  * @property string $fechaNacimiento
  * @property string $domicilio
  * @property string $telefono
- * @property integer $ciudad_id
+ * @property integer $localidad_id
+ * @property integer $flia
  *
  * @property Ingreso[] $ingresos
- * @property Ciudad $ciudad
+ * @property Localidad $localidad
  */
 class Persona extends \yii\db\ActiveRecord
 {
@@ -35,9 +36,8 @@ class Persona extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'ciudad_id'], 'required'],
-            [['id', 'ciudad_id'], 'integer'],
             [['fechaNacimiento'], 'safe'],
+            [['localidad_id', 'flia'], 'integer'],
             [['nombre', 'apellido', 'domicilio'], 'string', 'max' => 100],
             [['mail'], 'string', 'max' => 255],
             [['telefono'], 'string', 'max' => 45]
@@ -58,6 +58,7 @@ class Persona extends \yii\db\ActiveRecord
             'domicilio' => Yii::t('app', 'Domicilio'),
             'telefono' => Yii::t('app', 'Telefono'),
             'localidad_id' => Yii::t('app', 'Localidad'),
+            'flia' => Yii::t('app', 'Flia'),
         ];
     }
 
@@ -72,8 +73,17 @@ class Persona extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCiudad()
+    public function getLocalidad()
     {
-        return $this->hasOne(Ciudad::className(), ['id' => 'ciudad_id']);
+        return $this->hasOne(Localidad::className(), ['id' => 'localidad_id']);
+    }
+
+    /**
+     * @inheritdoc
+     * @return PersonaQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new PersonaQuery(get_called_class());
     }
 }

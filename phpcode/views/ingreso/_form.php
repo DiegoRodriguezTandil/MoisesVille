@@ -95,8 +95,8 @@ use yii\web\JsExpression;
     <div>
 
     <?php
-        $personaNombre = empty($model->persona_id) ? '' : \app\models\Persona::findOne($model->persona_id)->nombre;
-    
+        $dataPersona = \yii\helpers\ArrayHelper::map(\app\models\Persona::find()->asArray()->all(), 'id', 'nombre');
+        
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,
@@ -106,25 +106,15 @@ use yii\web\JsExpression;
                         'type'=>Form::INPUT_WIDGET, 
                         'widgetClass'=>'\kartik\select2\Select2', 
                         'options' => [
-                            'initValueText' => $personaNombre,
-                            'options' => ['placeholder' => 'Seleccione Depositante...'],
+                            'options' => ['placeholder' => 'Seleccione Persona...'],
+                            'data' => $dataPersona,
                             'pluginOptions' => [
-                                'allowClear' => true,
-                                'minimumInputLength' => 3,
-                                'errorLoading' => 'Buscando ...',
-                                'ajax' => [
-                                    'url' => \yii\helpers\Url::to(['persona/find']),
-                                    'dataType' => 'json',
-                                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                                ],
-                                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                'templateResult' => new JsExpression('function(persona) { return persona.nombre; }'),
-                                'templateSelection' => new JsExpression('function (persona) { return persona.nombre; }'),
-                            ],
+                                'allowClear' => true
+                            ],                            
                         ],
                 ],
             ]
-        ]);
+        ]);    
     ?>
         
     </div>

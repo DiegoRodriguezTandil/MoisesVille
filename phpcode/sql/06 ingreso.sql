@@ -3,7 +3,7 @@ use moisesville;
 -- select * from ingreso;
 -- delete from ingreso
 
---insert into ingreso (id, descripcion, fechaEntrada, observaciones,user_id) values(1,'----------',STR_TO_DATE('11/02/2001','%d/%m/%Y'),null,1);
+-- insert into ingreso (id, descripcion, fechaEntrada, observaciones,user_id) values(1,'----------',STR_TO_DATE('11/02/2001','%d/%m/%Y'),null,1);
 insert into ingreso (id, descripcion, fechaEntrada, observaciones,user_id) values(1,'000.002',STR_TO_DATE('14/05/2000','%d/%m/%Y'),null,4);
 insert into ingreso (id, descripcion, fechaEntrada, observaciones,user_id) values(2,'000.003',STR_TO_DATE('29/05/2000','%d/%m/%Y'),null,6);
 insert into ingreso (id, descripcion, fechaEntrada, observaciones,user_id) values(3,'000.004',STR_TO_DATE('10/06/2000','%d/%m/%Y'),'Faltan llenar datos especificos del objeto',8);
