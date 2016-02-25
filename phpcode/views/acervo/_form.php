@@ -152,7 +152,7 @@ use kartik\form\ActiveField;
                             'id' => 'descripcion', 
                             'placeholder' => 'Ingrese descripción...', 
                             'rows' => 4
-                        ])->hint('Ingrese descripcíón. Recuerde que esa información en la que aparece en la web.');
+                        ])->hint('Ingrese descripión. Recuerde que esa información en la que aparece en la web.');
 
             ?>
         </div>

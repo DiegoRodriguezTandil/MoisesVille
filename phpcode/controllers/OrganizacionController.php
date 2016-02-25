@@ -7,6 +7,7 @@ use app\models\Organizacion;
 use app\models\OrganizacionSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * OrganizacionController implements the CRUD actions for Organizacion model.
@@ -51,8 +52,10 @@ class OrganizacionController extends MainController
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $url_img = $model->getImageUrl();        
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,'avatar'=>$url_img
         ]);
     }
 
@@ -62,12 +65,22 @@ class OrganizacionController extends MainController
      * @return mixed
      */
     public function actionCreate()
-    {
+    {   
         $model = new Organizacion();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        if ($model->load(Yii::$app->request->post())){
+            // process uploaded image file instance
+            $image = $model->uploadImage();
+            if ($model->save()) {
+                // upload only if valid uploaded file instance found
+                if ($image !== false) {
+                    $path = $model->getImageFile();
+                    $image->saveAs($path);
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            
+        }else {
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -84,8 +97,18 @@ class OrganizacionController extends MainController
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+         if ($model->load(Yii::$app->request->post())){
+            // process uploaded image file instance
+            $image = $model->uploadImage();
+            if ($model->save()) {
+                // upload only if valid uploaded file instance found
+                if ($image !== false) {
+                    $path = $model->getImageFile();
+                    $image->saveAs($path);
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
+            
         } else {
             return $this->render('update', [
                 'model' => $model,

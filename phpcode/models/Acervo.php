@@ -273,7 +273,7 @@ class Acervo extends \yii\db\ActiveRecord
      //para llenar Select2
     public function getAcervoHasColeccion()
     {
-       return $this->hasOne(Coleccion_Acervo::className(), ['coleccion_id' => 'id']);
+       return $this->hasOne(Coleccion_Acervo::className(), ['acervo_id' => 'id']);
     }
     
     // you need a getter for select2 dropdown
@@ -295,7 +295,7 @@ class Acervo extends \yii\db\ActiveRecord
     
     // You need to save the relations in BookHasAuthor table (adicional code for updates)
     public function afterSave($insert, $changedAttributes)
-     {
+    {
        $actualTemas = [];
        $actualColecciones = [];
        $temaExists = 0; //for updates
@@ -308,7 +308,7 @@ class Acervo extends \yii\db\ActiveRecord
        if (isset(Yii::$app->request->post('Acervo')['ColeccionIds']))
             $nuevasColecciones  = Yii::$app->request->post('Acervo')['ColeccionIds'];
        else $nuevasColecciones = [];
-
+       
        if (($actualTemas = Tema_Acervo::find()
         ->andWhere("acervo_id = $this->id")
         ->asArray()
@@ -317,54 +317,46 @@ class Acervo extends \yii\db\ActiveRecord
           $temaExists = 1; // if there is authors relations, we will work it latter
        } 
        
-        if (($actualColecciones = Coleccion_Acervo::find()
-        ->andWhere("acervo_id = $this->id")
-        ->asArray()
-        ->all()) !== null) {
-          $actualColecciones = ArrayHelper::getColumn($actualColecciones, 'coleccion_id');
-          $coleccionExists = 1; // if there is authors relations, we will work it latter
-       } else $coleccionExists = 0;
-
-            $idsTemasToInsert = array_diff($nuevosTemas, $actualTemas);
-            $idsColeccionesToInsert = array_diff($nuevasColecciones, $actualColecciones);
-
-            $idsTemasToDelete = array_diff($actualTemas, $nuevosTemas);
-            $idsColeccionesToDelete = array_diff($actualColecciones, $nuevasColecciones);
-       
-       if (!empty($idsTemasToInsert)) { //save the relations
-          foreach ($idsTemasToInsert as $id) {
+       if ($temaExists == 1) { //delete colecciones y acervo 
+            foreach ($actualTemas as $remove) {
+              $r = Tema_Acervo::findOne(['tema_id' => $remove, 'acervo_id' => $this->id]);
+              $r->delete();
+            }
+       }
+            
+        if (!empty($nuevosTemas)) { //save the relations
+          foreach ($nuevosTemas as $id) {
             //$actualTemas = array_diff($nuevosTemas, [$id]); //remove remaining authors from array
             $r = new Tema_Acervo();
             $r->acervo_id = $this->id;
             $r->tema_id = $id;
             $r->save();
         }
-       }
-       
-       if (!empty($idsColeccionesToInsert)) { //save the relations
-          foreach ($idsColeccionesToInsert as $id) {
+        }
+        
+        if (($actualColecciones = Coleccion_Acervo::find()
+        ->andWhere("acervo_id = $this->id")
+        ->asArray()
+        ->all()) !== null) {
+          $actualColecciones = ArrayHelper::getColumn($actualColecciones, 'coleccion_id');
+          $coleccionExists = 1; // if there is authors relations, we will work it latter
+       } 
+        if ($coleccionExists == 1) { //delete colecciones y acervo 
+            foreach ($actualColecciones as $remove) {
+              $r = Coleccion_Acervo::findOne(['coleccion_id' => $remove, 'acervo_id' => $this->id]);
+              $r->delete();
+            }
+        }
+       if (!empty($nuevasColecciones)) { //save the relations
+          foreach ($nuevasColecciones as $id) {
             //$actualTemas = array_diff($nuevosTemas, [$id]); //remove remaining authors from array
             $r = new Coleccion_Acervo();
             $r->acervo_id = $this->id;
             $r->coleccion_id = $id;
             $r->save();
         }
-       }
-       
-       if ($coleccionExists == 1) { //delete colecciones y acervo 
-            foreach ($idsColeccionesToDelete as $remove) {
-              $r = Coleccion_Acervo::findOne(['coleccion_id' => $remove, 'acervo_id' => $this->id]);
-              $r->delete();
-            }
-        }
-        
-        if ($temaExists == 1) { //delete colecciones y acervo 
-            foreach ($idsTemasToDelete as $remove) {
-              $r = Tema_Acervo::findOne(['tema_id' => $remove, 'acervo_id' => $this->id]);
-              $r->delete();
-            }
-        }
-       
+       }     
+
 
        parent::afterSave($insert, $changedAttributes); //don't forget this
     }

@@ -108,8 +108,7 @@ class AcervoController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-       // $model->temaIds = $model->getTemaIds();
-      //  $model->coleccionIds = $model->getColeccionIds();
+
         if ($model->load(Yii::$app->request->post())) {            
             if  ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
