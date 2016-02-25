@@ -64,7 +64,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 	    'updated_at' => 'Updated At',
 	    'firstName' => 'Nombre',
 	    'lastName' => 'Apellido',
-		       ];
+        ];
     }
     
 }
