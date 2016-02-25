@@ -134,7 +134,7 @@ class LocalidadController extends Controller
             $out['results'] = array_values($data);
         }
         elseif ($id > 0) {
-            $out['results'] = ['id' => $id, 'text' => Localidad::find($id)->nombre];
+            $out['results'] = ['id' => $id, 'nombre' => Localidad::find($id)->nombre];
         }
         return $out;
     }    
