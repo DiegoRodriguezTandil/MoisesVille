@@ -96,4 +96,20 @@ class Ingreso extends \yii\db\ActiveRecord
     {
         return $this->hasOne(FormaIngreso::className(), ['id' => 'formaIngreso_id']);
     }
+    
+    public function getUserName(){
+        $user = $this->user;
+        if($user){
+            return $user->lastName.' '. $user->firstName.' ('.$user->username.')';
+        }
+        return '';
+    }
+    
+    public function getPersonaName(){
+        $persona = $this->persona;
+        if($persona){
+            return $persona->apellido.' '. $persona->nombre;
+        }
+        return '';
+    }
 }
