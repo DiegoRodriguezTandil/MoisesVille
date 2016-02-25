@@ -18,3 +18,6 @@ insert into user(id,username,password,firstName) values(13,'carralde','carralde'
 insert into user(id,username,password,firstName) values(14,'luciana','luciana','Luciana Boarotto');
 insert into user(id,username,password,firstName) values(15,'beatriz','beatriz','Beatriz Mendieta');
 insert into user(id,username,password,firstName) values(16,'hilda','hilda','Hilda Zamory');
+
+insert into organizacion(id, nombre, organizacionTipo_id) values (1,'Museo Hisórico Comunal de la Colonización Judía', 5);
+update user set organizacion_id = 1;
