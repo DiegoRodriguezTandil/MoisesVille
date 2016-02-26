@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -27,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'id',
             'nombre',
-            'descripcion:ntext',
+//            'descripcion:ntext',
             'nroInventario',
-            'forma',
+//            'forma',
             // 'material',
             // 'tema_id',
             // 'tipoAcervo_id',
@@ -43,7 +44,21 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'ingreso_id',
             // 'coleccion_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+           ['class' => 'yii\grid\ActionColumn', 
+            'template' => '{view} {update} {delete} {imagen}',
+            'buttons' => [
+                'imagen' => function ($url, $model) {
+                //    $url =Url::to('@web/'.'index.php?r=multimedia/subir&objeto_id='.$model->id);
+                    $url = Url::toRoute(['multimedia/subir', 'objeto_id' =>$model->id]);
+                    return Html::a('<span class="glyphicon glyphicon-picture"></span>', $url, [
+                                    'title' => \Yii::t('yii', 'Agregar Imágenes'),
+                                    'data-pjax' => '0',
+                        ]);
+                },   
+            ],  
+               
+               
+               ],
         ],
     ]); ?>
 

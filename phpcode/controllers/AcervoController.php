@@ -67,6 +67,9 @@ class AcervoController extends Controller
         $model = $this->findModel($id);
         $multimedia = new Multimedia();
         $m = $model->load(Yii::$app->request->post());
+        $fotos = $multimedia->load(Yii::$app->request->post('Multimedia'));
+        if  ($fotos)
+             $multimedia->save();          
         if ($m){
             if  ($model->save()) {
                     $fotos = $multimedia->load(Yii::$app->request->post('Multimedia'));

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -17,17 +18,27 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Nuevo Multimedia'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+    
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'path',
-            'webPath',
-            'tipoMultimedia_id',
-            'objetos_id',
-
+            ['attribute' => 'imagen',
+            'format' => 'html',
+            'label' => 'Logo',
+            'value' => function ($data) {
+                return Html::img('@web/uploads/' . $data['path'],
+                    ['width' => '100px']);
+            },
+            ],
+            ['attribute' => 'objetoName',
+            'format' => 'html',            
+            'value' => function ($data) {
+                $url = Url::toRoute(['acervo/view', 'id' =>$data['objetos_id']]);
+                return Html::a(Html::encode($data->objetoName),$url);
+            },
+            ],        
+             'objetoName',      
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
