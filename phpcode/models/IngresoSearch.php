@@ -12,6 +12,9 @@ use app\models\Ingreso;
  */
 class IngresoSearch extends Ingreso
 {
+    
+    public $personaName;
+    
     /**
      * @inheritdoc
      */
@@ -19,7 +22,7 @@ class IngresoSearch extends Ingreso
     {
         return [
             [['id', 'user_id'], 'integer'],
-            [['descripcion', 'fechaEntrada', 'observaciones', 'fechaBaja'], 'safe'],
+            [['descripcion', 'fechaEntrada', 'observaciones', 'fechaBaja', 'personaName'], 'safe'],
         ];
     }
 
@@ -41,19 +44,33 @@ class IngresoSearch extends Ingreso
      */
     public function search($params)
     {
-        $query = Ingreso::find()->where(['autoSave'=>'N']);
+        $query = Ingreso::find();//->where();//(['autoSave'=>'N']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
-
+        
+        $dataProvider->setSort([
+            'attributes'=>[
+                'descripcion',
+                'fechaEntrada',
+                'fechaBaja',
+                'observaciones',
+                'personaName' => [
+                    'asc' => ['concat(coalesce(persona.apellido,""),coalesce(persona.nombre,""))' => SORT_ASC],
+                    'desc' => ['concat(coalesce(persona.apellido,""),coalesce(persona.nombre,""))' => SORT_DESC],
+                    'label' => 'Persona'
+                ]                
+            ]
+        ]);
+        
         $this->load($params);
-
-        if (!$this->validate()) {
+        if ( ! $this->validate() ) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
+            $query->joinWith(['persona']);
             return $dataProvider;
-        }
+        }        
 
         $query->andFilterWhere([
             'id' => $this->id,
@@ -64,6 +81,15 @@ class IngresoSearch extends Ingreso
 
         $query->andFilterWhere(['like', 'descripcion', $this->descripcion])
             ->andFilterWhere(['like', 'observaciones', $this->observaciones]);
+        
+        if(trim($this->personaName)!=''){
+            $query->joinWith(['persona' => function ($q) {
+                $q->where('concat(coalesce(persona.apellido,""),coalesce(persona.nombre,"")) LIKE "%' . $this->personaName . '%"');
+            }]);            
+        }
+        else{
+            $query->joinWith('persona');
+        }
 
         return $dataProvider;
     }
