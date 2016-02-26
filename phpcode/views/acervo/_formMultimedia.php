@@ -21,30 +21,34 @@ use yii\helpers\ArrayHelper;
                                 'type' => ActiveForm::TYPE_VERTICAL       
     ]);
     // your fileinput widget for single file upload
-        echo $form->field($model, 'path')->widget(FileInput::classname(), [
-            'options'=>['accept'=>'image/*'],
+        echo $form->field($model, 'files[]')->widget(FileInput::classname(), [
+            'options'=>['multiple' => true, 'accept'=>'image/*'],
             'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']
         ]]);
-    ?>
     
-    <?= $form->field($model, 'webPath')->textInput(['maxlength' => true]) ?>
+//        $form->field($model, 'webPath')->textInput(['maxlength' => true]) 
+               
+    ?>
   
     <?php 
-        $dataPost=ArrayHelper::map(\app\models\TipoMultimedia::find()->asArray()->all(), 'id', 'nombre');
-        echo $form->field($model, 'tipoMultimedia_id')
-        ->dropDownList(
-            $dataPost,
-            ['prompt' => '---'],
-            ['id'=>'tipoMultimedia_id'],
-            ['style'=>'width:50%']    
-        );
-    
+//        $dataPost=ArrayHelper::map(\app\models\TipoMultimedia::find()->asArray()->all(), 'id', 'nombre');
+//        echo $form->field($model, 'tipoMultimedia_id')
+//        ->dropDownList(
+//            $dataPost,
+//            ['prompt' => '---'],
+//            ['id'=>'tipoMultimedia_id'],
+//            ['style'=>'width:50%']    
+//        );
+//    
     ?>
 
-    <?php  echo Html::hiddenInput('Multimedia[objeto_id]',$acervo_id);  ?>
+    <?php  echo Html::hiddenInput('Multimedia[objeto_id]',$acervo_id);  
+           echo Html::hiddenInput('multimedia','si');  
+           echo Html::hiddenInput('objeto_id',$acervo_id);  
+    ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton('Subir fotos', array('name' => 'button1'), ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

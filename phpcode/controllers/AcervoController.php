@@ -9,13 +9,14 @@ use app\models\AcervoSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Controller; 
+use yii\web\UploadedFile;
 
 /**
  * AcervoController implements the CRUD actions for Acervo model.
  */
 class AcervoController extends Controller
 {
-    
+    public $files = [];
     public function behaviors()
     {
         return [
@@ -64,23 +65,42 @@ class AcervoController extends Controller
      */
     public function actionIngreso($id)
     {   
-        $model = $this->findModel($id);
-        $multimedia = new Multimedia();
+        $model = new Acervo();
         $m = $model->load(Yii::$app->request->post());
-        $fotos = $multimedia->load(Yii::$app->request->post('Multimedia'));
-        if  ($fotos)
-             $multimedia->save();          
-        if ($m){
-            if  ($model->save()) {
-                    $fotos = $multimedia->load(Yii::$app->request->post('Multimedia'));
-                    if  ($fotos->save())
-                        return $this->redirect(['ingreso', 'id' => $model->id]);
-           }
+        $s = $model->save();
+        if ($m && $s) {
+//            return $this->redirect(['view', 'id' => $model->id]);
+        } else {
+//            return $this->render('create', [
+//                'model' => $model,
+//            ]);
         }
+        
+        if(isset($_POST['multimedia'])) //si viene por fotos
+            {
+            $model->files = UploadedFile::getInstances($model,'files');
+      
+            foreach ($model->files as $file) {                
+                $mult = new Multimedia(); 
+                $mult->objetos_id = $_POST['objeto_id'];
+               
+                $image = $file;
+                if (empty($image)) {
+                            return false;
+                        }
+                $ext = end((explode(".", $image->name)));
+                $mult->path = "mmv_".Yii::$app->security->generateRandomString().".{$ext}";
+                $path = $mult->getImageFile();
+                $image->saveAs($path);
+                $mult->save();
+                }
+            }
         else {
-            return $this->render('ingreso', [
-            'model' => $model, 'multimedia' => $multimedia]);
+            
         }
+         return $this->render('ingreso', [
+            'model' => $model]);
+        die();
     }
 
     /**
