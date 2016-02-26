@@ -62,6 +62,9 @@ class Ingreso extends \yii\db\ActiveRecord
             'autoSave' => Yii::t('app', 'Auto Save'),
             'persona_id' => Yii::t('app', 'Persona'),
             'formaIngreso_id' => Yii::t('app', 'Forma Ingreso ID'),
+            'userName' => Yii::t('app', 'Usuario'),
+            'personaName' => Yii::t('app', 'Persona Donante'),
+            
         ];
     }
 
