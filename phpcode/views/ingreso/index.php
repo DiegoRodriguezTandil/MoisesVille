@@ -3,12 +3,11 @@
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
-
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\IngresoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Ingresos');
+$this->title = Yii::t('app', 'Listado de Ingresos');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="ingreso-index">
