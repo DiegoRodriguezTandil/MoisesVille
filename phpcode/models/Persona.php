@@ -59,6 +59,7 @@ class Persona extends \yii\db\ActiveRecord
             'telefono' => Yii::t('app', 'Telefono'),
             'localidad_id' => Yii::t('app', 'Localidad'),
             'flia' => Yii::t('app', 'Flia'),
+            'localidadName' => Yii::t('app', 'Localidad'),
         ];
     }
 
@@ -85,5 +86,15 @@ class Persona extends \yii\db\ActiveRecord
     public static function find()
     {
         return new PersonaQuery(get_called_class());
+    }
+    
+    
+    public function getLocalidadName(){
+        $localidad = $this->localidad;
+        if($localidad){
+            return $localidad->nombre;
+        }
+        return '';
+            
     }
 }

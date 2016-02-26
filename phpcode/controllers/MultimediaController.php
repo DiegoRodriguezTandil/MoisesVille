@@ -171,11 +171,25 @@ class MultimediaController extends MainController
      * @param integer $tipoMultimedia_id
      * @return mixed
      */
-    public function actionDelete($id, $tipoMultimedia_id)
+    public function actionDelete($id)
     {
-        $this->findModel($id, $tipoMultimedia_id)->delete();
-
-        return $this->redirect(['index']);
+        try {
+            if($this->findModel($id)->delete()){
+                return $this->redirect(['index']);
+            }
+        } catch (\yii\db\IntegrityException $exc) {
+            Yii::$app->session->setFlash('error',
+                [
+                    //'type' => 'error',
+                    'icon' => 'fa fa-users',
+                    'message' => 'El elemento multimedia posee elementos dependientes',
+                    'title' => 'Error de Borrado',
+                    'positonY' => 'top',
+                    'positonX' => 'left'
+                ]                    
+            );
+            return $this->redirect(['view','id'=>$id]);
+        }
     }
 
     /**

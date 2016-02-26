@@ -4,12 +4,12 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
+//use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 //use kartik\helpers\Html;
-use yii\bootstrap\Popover;
+//use yii\bootstrap\Popover;
 use kartik\nav\NavX;
 
 AppAsset::register($this);
@@ -138,6 +138,26 @@ AppAsset::register($this);
     echo NavX::widget(['options' => ['class' => 'navbar-nav navbar-right'], 'items' => $itemsRight]);
     NavBar::end();
     ?>
+    
+    <?php foreach (Yii::$app->session->getAllFlashes() as $message): ?>
+        <?php
+        echo \kartik\widgets\Growl::widget([
+            'type' => (!empty($message['type'])) ? $message['type'] : 'danger',
+            'title' => (!empty($message['title'])) ? Html::encode($message['title']) : 'Moisés Ville Museo',
+            'icon' => (!empty($message['icon'])) ? $message['icon'] : 'fa fa-info',
+            'body' => (!empty($message['message'])) ? Html::encode($message['message']) : ' ',
+            'showSeparator' => true,
+            'delay' => 1, //This delay is how long before the message shows
+            'pluginOptions' => [
+                'delay' => (!empty($message['duration'])) ? $message['duration'] : 5000, //This delay is how long the message shows for
+                'placement' => [
+                    'from' => (!empty($message['positonY'])) ? $message['positonY'] : 'top',
+                    'align' => (!empty($message['positonX'])) ? $message['positonX'] : 'right',
+                ]
+            ]
+        ]);
+        ?>
+    <?php endforeach; ?>    
 
     <div class="container">
         <div class="col-sm-12">
@@ -171,7 +191,7 @@ AppAsset::register($this);
     <div class="container">
         <p class="pull-left">&copy; Moises Ville Museo <?= date('Y') ?></p>
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right">Qwavee</p>
     </div>
 </footer>
 

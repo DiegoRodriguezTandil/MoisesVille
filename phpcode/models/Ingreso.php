@@ -62,6 +62,9 @@ class Ingreso extends \yii\db\ActiveRecord
             'autoSave' => Yii::t('app', 'Auto Save'),
             'persona_id' => Yii::t('app', 'Persona'),
             'formaIngreso_id' => Yii::t('app', 'Forma Ingreso ID'),
+            'userName' => Yii::t('app', 'Usuario'),
+            'personaName' => Yii::t('app', 'Persona Donante'),
+            
         ];
     }
 
@@ -95,5 +98,21 @@ class Ingreso extends \yii\db\ActiveRecord
     public function getFormaIngreso()
     {
         return $this->hasOne(FormaIngreso::className(), ['id' => 'formaIngreso_id']);
+    }
+    
+    public function getUserName(){
+        $user = $this->user;
+        if($user){
+            return $user->lastName.' '. $user->firstName.' ('.$user->username.')';
+        }
+        return '';
+    }
+    
+    public function getPersonaName(){
+        $persona = $this->persona;
+        if($persona){
+            return $persona->apellido.' '. $persona->nombre;
+        }
+        return '';
     }
 }

@@ -68,12 +68,14 @@ use kartik\widgets\FileInput;
                 'nroB'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número B..']],
                 'nroC'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número C..']],
                 'nroD'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número D..']],
-                'descEpoca'=>['type'=>Form::INPUT_TEXT, 'label'=>'Época data','options'=>['placeholder'=>'Epoca...']],
-                'codformaing'=>['type'=>Form::INPUT_WIDGET, 'label'=>'Tipo de Ingreso',
-                                    'widgetClass'=>'\kartik\widgets\Select2', 
-                                    'options'=>['data'=>$dataForma ], 
-                                   // 'hint'=>'Seleccione unidad de medida'
-                    ],
+                'descEpoca'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Epoca...']],
+                'codformaing'=>[
+                    'type'=>Form::INPUT_WIDGET, 
+                    'label'=>'Tipo de Ingreso',
+                    'widgetClass'=>'\kartik\widgets\Select2', 
+                    'options'=>['data'=>$dataForma ], 
+                    // 'hint'=>'Seleccione unidad de medida'
+                ],
             ]
         ]);
 
@@ -89,20 +91,19 @@ use kartik\widgets\FileInput;
                                     'widgetClass'=>'\kartik\widgets\Select2', 
                                     'options'=>['data'=>$dataTipo ],                                    
                     ],
-                'copia_id'=>['type'=>Form::INPUT_WIDGET, 'label'=>'Tipo de Documento',
+                'copia_id'=>['type'=>Form::INPUT_WIDGET,
                                     'widgetClass'=>'\kartik\widgets\Select2', 
                                     'options'=>['data'=>$dataCopia ], 
                                    // 'hint'=>'Seleccione unidad de medida'
                     ],
                 'estado_id'=>['type'=>Form::INPUT_WIDGET, 'label'=>'Estado',
-                                    'widgetClass'=>'\kartik\widgets\Select2', 
-                                    'options'=>['data'=>$dataEstado ], 
-                                   // 'hint'=>'Seleccione unidad de medida'
-                    ],
+                                'widgetClass'=>'\kartik\widgets\Select2', 
+                                'options'=>['data'=>$dataEstado ], 
+                                // 'hint'=>'Seleccione unidad de medida'
+                ],
                 'material'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Material...']],
                 'forma'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Forma...']],
                 'color'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Color...']],
-                
             ]
         ]);
    
@@ -113,9 +114,9 @@ use kartik\widgets\FileInput;
             'columns'=>3,
             'attributes'=>[       // 2 column layout               
                 'ubicacion_id'=>['type'=>Form::INPUT_WIDGET, 'label'=>'Ubicación',
-                                    'widgetClass'=>'\kartik\widgets\Select2', 
-                                    'options'=>['data'=>$dataUbicacion ], 
-                                   // 'hint'=>'Seleccione unidad de medida'
+                                'widgetClass'=>'\kartik\widgets\Select2', 
+                                'options'=>['data'=>$dataUbicacion ], 
+                                // 'hint'=>'Seleccione unidad de medida'
                     ],
                 'descUbicacion'=>['type'=>Form::INPUT_TEXT, 'label'=>'Más detalles ubicación','options'=>['placeholder'=>'Más detalles...']],
                 'lugarprocac'=>['type'=>Form::INPUT_TEXT, 

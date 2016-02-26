@@ -98,9 +98,23 @@ class LocalidadController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        try {
+            if($this->findModel($id)->delete()){
+                return $this->redirect(['index']);
+            }
+        } catch (\yii\db\IntegrityException $exc) {
+            Yii::$app->session->setFlash('error',
+                [
+                    //'type' => 'error',
+                    'icon' => 'fa fa-users',
+                    'message' => 'Localidad posee elementos relacionados',
+                    'title' => 'Error de Borrado',
+                    'positonY' => 'top',
+                    'positonX' => 'left'
+                ]                    
+            );
+            return $this->redirect(['view','id'=>$id]);
+        }
     }
 
     /**
