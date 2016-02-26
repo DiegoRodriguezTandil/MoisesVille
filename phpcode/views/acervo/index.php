@@ -22,13 +22,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-    //    'filterModel' => $searchModel,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+//            'id',
             'nombre',
-//            'descripcion:ntext',
+//            'descripcion',
             'nroInventario',
 //            'forma',
             // 'material',
@@ -43,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'fechaIngreso',
             // 'ingreso_id',
             // 'coleccion_id',
-
+            
            ['class' => 'yii\grid\ActionColumn', 
             'template' => '{view} {update} {delete} {imagen}',
             'buttons' => [
