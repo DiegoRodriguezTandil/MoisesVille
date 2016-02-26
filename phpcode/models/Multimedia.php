@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 use yii\web\UploadedFile;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "multimedia".
@@ -24,6 +26,7 @@ class Multimedia extends \yii\db\ActiveRecord
     * widget for upload on the form
     */
     public $image;
+    public $file;
     
     /**
      * @inheritdoc
@@ -39,6 +42,7 @@ class Multimedia extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['file'], 'file','maxFiles' => 6],
             [['tipoMultimedia_id', 'objetos_id'], 'required'],
             [['tipoMultimedia_id', 'objetos_id'], 'integer'],
             [['path', 'webPath'], 'string', 'max' => 255]
@@ -51,7 +55,7 @@ class Multimedia extends \yii\db\ActiveRecord
     * @return mixed the uploaded image instance
     */
     public function uploadImage() {
-        // get the uploaded file instance. for multiple file uploads
+               // get the uploaded file instance. for multiple file uploads
         // the following data will return an array (you may need to use
         // getInstances method)
         $image = UploadedFile::getInstance($this, 'path');
@@ -68,6 +72,7 @@ class Multimedia extends \yii\db\ActiveRecord
 
         // generate a unique file name
        // $this->avatar = Yii::$app->security->generateRandomString().".{$ext}";
+        $this->path = Yii::$app->security->generateRandomString().".{$ext}";
 
         // the uploaded image instance
         return $image;
@@ -85,6 +90,7 @@ class Multimedia extends \yii\db\ActiveRecord
             'webPath' => Yii::t('app', 'Web Path'),
             'tipoMultimedia_id' => Yii::t('app', 'Tipo Multimedia ID'),
             'objetos_id' => Yii::t('app', 'Objetos ID'),
+            'objetoName' => Yii::t('app', 'Acervo'),
         ];
     }
 
@@ -135,5 +141,14 @@ class Multimedia extends \yii\db\ActiveRecord
        // $this->filename = null;
 
         return true;
+    }
+    
+    public function getObjetoName(){
+        $acervo = $this->objetos;
+        if($acervo){           
+            return $acervo->nombre;
+         //   return $acervo->nombre;
+        }
+        return '';
     }
 }

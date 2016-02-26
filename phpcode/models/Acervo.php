@@ -65,6 +65,7 @@ class Acervo extends \yii\db\ActiveRecord
 {
     public $temaIds = [];
     public $coleccionIds = [];
+    public $file;
     /**
      * @inheritdoc
      */
