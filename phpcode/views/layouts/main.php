@@ -191,7 +191,7 @@ AppAsset::register($this);
     <div class="container">
         <p class="pull-left">&copy; Moises Ville Museo <?= date('Y') ?></p>
 
-        <p class="pull-right">Qwavee</p>
+        <p class="pull-right"><a href="http://www.qwavee.com">Qwavee</a></p>
     </div>
 </footer>
 

@@ -100,13 +100,13 @@ use yii\web\JsExpression;
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,
-            'columns'=>1,
+            'columns'=>1,            
             'attributes'=>[
                 'persona_id'=>[
                         'type'=>Form::INPUT_WIDGET, 
-                        'widgetClass'=>'\kartik\select2\Select2', 
+                        'widgetClass'=>'\kartik\select2\Select2', 'label'=>'Persona Donante',
                         'options' => [
-                            'options' => ['placeholder' => 'Seleccione Persona...'],
+                            'options' => ['placeholder' => 'Seleccione Persona...'],                           
                             'data' => $dataPersona,
                             'pluginOptions' => [
                                 'allowClear' => true

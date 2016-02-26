@@ -26,15 +26,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'descripcion',
+            'personaName',
             [
                 'attribute'=>'fechaEntrada',   
                 'format' => ['date', 'php:d/m/Y'], 
             ],
             'observaciones',
-            [
-                'attribute'=>'fechaBaja',   
-                'format' => ['date', 'php:d/m/Y'], 
-            ],
+//            [
+//                'attribute'=>'fechaBaja',   
+//                'format' => ['date', 'php:d/m/Y'], 
+//            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);?>

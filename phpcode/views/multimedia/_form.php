@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
         'options'=>['enctype'=>'multipart/form-data'] // important
     ]);
     // your fileinput widget for single file upload
-        echo $form->field($model, 'file[]')->widget(FileInput::classname(), [
+        echo $form->field($model, 'path')->widget(FileInput::classname(), [
             'options'=>['accept'=>'image/*', 'multiple'=>true],
             'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']
         ]]);
@@ -29,7 +29,7 @@ use yii\helpers\ArrayHelper;
     
     
      <?php //echo Html::hiddenInput('Multimedia[objetos_id]',$objeto_id); 
-       echo $form->field($model, 'objetos_id')->textInput(['maxlength' => true])
+       echo $form->field($model, 'objetos_id')->textInput(['maxlength' => true, 'readonly'=>($model->scenario !== 'update')? true : false])
      ?>
     
 

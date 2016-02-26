@@ -67,8 +67,7 @@ class MultimediaController extends MainController
     public function actionCreate()
     {
         $files = Yii::$app->request->post();
-        var_dump(Yii::$app->request->post('Multimedia'));
-        die();
+
         $model = new Multimedia();
         
         if ($model->load(Yii::$app->request->post())){
@@ -124,7 +123,7 @@ class MultimediaController extends MainController
                     $path = $model->getImageFile();
                     $image->saveAs($path);
                 }
-                return $this->redirect(['view', 'id' => $model->id, 'tipoMultimedia_id' => $model->tipoMultimedia_id]);
+                return $this->redirect(['index', 'id' => $model->id, 'tipoMultimedia_id' => $model->tipoMultimedia_id]);
             }
             
         }else {
@@ -154,14 +153,35 @@ class MultimediaController extends MainController
     public function actionUpdate($id, $tipoMultimedia_id)
     {
         $model = $this->findModel($id, $tipoMultimedia_id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id, 'tipoMultimedia_id' => $model->tipoMultimedia_id]);
-        } else {
+        
+        $m = $model->load(Yii::$app->request->post());
+        if ($m){
+            // process uploaded image file instance
+            $image = $model->uploadImage();
+            if ($model->save()) {
+                // upload only if valid uploaded file instance found
+                if ($image !== false) {
+                    $path = $model->getImageFile();
+                    $image->saveAs($path);
+                }
+                return $this->redirect(['index', 'id' => $model->id, 'tipoMultimedia_id' => $model->tipoMultimedia_id]);
+            }
+            
+        }else {
             return $this->render('update', [
-                'model' => $model,
+                'model' => $model
             ]);
+            
         }
+
+
+//        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+//            return $this->redirect(['view', 'id' => $model->id, 'tipoMultimedia_id' => $model->tipoMultimedia_id]);
+//        } else {
+//            return $this->render('update', [
+//                'model' => $model,
+//            ]);
+//        }
     }
 
     /**
