@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="acervo-view">
 
-    <h1><?php echo Html::encode($this->title) ?>
+    <h1><?php //echo Html::encode($this->title) ?>
         <?php echo " Objeto: ".$model->nombre; ?></h1>
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
