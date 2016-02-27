@@ -38,5 +38,27 @@ $this->params['breadcrumbs'][] = $this->title;
             'localidadName',
         ],
     ]) ?>
+    
+    <h2>Objetos del Ingreso</h2>
+    
+    <?= \yii\grid\GridView::widget([
+            'dataProvider' => $acervos,
+            'columns' => [
+                //['class' => 'yii\grid\SerialColumn'],
+                'nombre',
+                'nroInventario',
+                [
+                    'value'=>'ingreso.descripcion',
+                    'header'=>'Ingreso - Descripción'
+                ],
+                [
+                    'value'=>'ingreso.fechaEntrada',
+                    'header'=>'Ingreso - Fecha Entrada'
+                ]
+                
+            ],
+        ]);
+    ?>
+    
 
 </div>

@@ -1,9 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 use kartik\tabs\TabsX;
-use yii\helpers\Url;
 use kartik\widgets\ActiveForm;
 
 
@@ -29,6 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
         if(!empty($model->id)){
             echo $form->field($model, 'id')->hiddenInput()->label(false);            
         }
+        
+        if(!empty($model->ingreso_id)){
+            echo $form->field($model, 'ingreso_id')->hiddenInput()->label(false);            
+        }
+        
     ?>
     
 
@@ -80,6 +83,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => 'saveButton',
                         'onClick' => "jQuery('#saveClose').val(1);",
                     ]) 
+        ?>
+        <?php
+            if($enableReturn){
+                echo Html::submitInput(
+                    Yii::t('app', 'Volver al Ingreso'), 
+                    [
+                        'class' => 'btn btn-primary',
+                        'name' => 'returnButton',
+                        'id' => 'returnButton',
+                        'value' => 'returnButton',
+                        'onClick' => "jQuery('#saveClose').val(2);",
+                    ]);                 
+            }
         ?>
     </div>
 

@@ -7,7 +7,6 @@ use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 //use yii\grid\GridView;
 use kartik\grid\GridView;
-use yii\web\JsExpression;
 
 
 /* @var $this yii\web\View */
@@ -141,23 +140,32 @@ use yii\web\JsExpression;
               ],
             [
                 'class'=>'kartik\grid\ActionColumn',
-                //'dropdown'=>$this->dropdown,
                 'dropdownOptions'=>['class'=>'pull-right'],
                 'urlCreator'=>function($action, $model, $key, $index) { 
                     if ($action == 'update' ) {
                         return Url::toRoute(['acervo/update-ingreso', 'id' => $key]);
                     }
                     if ($action == 'view' ) {
-                        return Url::toRoute(['acervo/viewingreso', 'id' => $key]);
+                        return Url::toRoute(['acervo/view', 'id' => $key]);
                     }
                     if ($action == 'delete' ) {
                         return Url::toRoute(['acervo/delete', 'id' => $key]);
-                    }      
+                    }
                 },
                 'viewOptions'=>['title'=>'Ver detalles del objeto', 'data-toggle'=>'tooltip'],
                 'updateOptions'=>['url'=>'urlCreator', 'title'=>'Para actualizar el objeto', 'data-toggle'=>'tooltip'],
-                'deleteOptions'=>['url'=>'urlCreator', 'title'=>'Eliminar el objeto', 'data-toggle'=>'tooltip'],
+                'deleteOptions'=>['url'=>'urlCreator', 'title'=>'Eliminar el objeto', 'data-toggle'=>'tooltip',],
                 'headerOptions'=>['class'=>'kartik-sheet-style'],
+                'buttons'=> [
+                    'delete'=> function ($url, $model, $key){
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>',$url,
+                            [
+                               'data-confirm' => Yii::t('yii', '¿Confirma borrar el Acervo asociado?'),
+                               'data-method' => 'post',
+                            ]
+                        );
+                    },
+                ]                        
             ],
         ];
 
@@ -170,7 +178,7 @@ use yii\web\JsExpression;
             'headerRowOptions'=>['class'=>'kartik-sheet-style'],
             'filterRowOptions'=>['class'=>'kartik-sheet-style'],
 
-            'pjax'=>true, // pjax is set to always true for this demo
+            'pjax'=>true, 
    
             // set your toolbar
             'toolbar'=> [ 
@@ -185,9 +193,6 @@ use yii\web\JsExpression;
                             'onClick' => "jQuery('#action').val('". \app\controllers\IngresoController::NEW_OBJECT ."')",
                         ]
                     )
-        //            Html::button('<i class="glyphicon glyphicon-plus"></i>', 
-        //                    ['type'=>'button', 'title'=>'Add Book', 'class'=>'btn btn-success', 'href' => Url::toRoute(['/objeto/create']),])
-        //            Html::a('<i class="glyphicon glyphicon-repeat"></i>', ['grid-demo'], ['data-pjax'=>0, 'class'=>'btn btn-default', 'title'=>Yii::t('kvgrid', 'Reset Grid')])
                 ],
                 //'{export}',
             ],
@@ -215,18 +220,16 @@ use yii\web\JsExpression;
     </div>   
     
     <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-9">
-            <?= Html::submitInput(
-                    $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), 
-                    [
-                        'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
-                        'name' => 'saveButton',
-                        'id' => 'saveButton',
-                        'value' => 'saveButton',
-                        'onClick' => "jQuery('#action').val('". \app\controllers\IngresoController::USER_SAVE_INGRESO ."')",
-                    ]) 
-            ?>
-        </div>
+        <?= Html::submitInput(
+                $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), 
+                [
+                    'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+                    'name' => 'saveButton',
+                    'id' => 'saveButton',
+                    'value' => 'saveButton',
+                    'onClick' => "jQuery('#action').val('". \app\controllers\IngresoController::USER_SAVE_INGRESO ."')",
+                ]) 
+        ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -7,6 +7,7 @@ use app\models\Persona;
 use app\models\PersonaSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 
 /**
  * PersonaController implements the CRUD actions for Persona model.
@@ -49,10 +50,21 @@ class PersonaController extends  MainController
      * @param integer $id
      * @return mixed
      */
+    
+    /**
+     * Displays a single Ingreso model.
+     * @param integer $id
+     * @return mixed
+     */   
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $acervosProvider = new \yii\data\ActiveDataProvider([
+            'query' => \app\models\Acervo::find()->joinWith('ingreso')->where(['ingreso.persona_id'=>$id]),
+        ]);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'acervos' => $acervosProvider,
         ]);
     }
 

@@ -129,7 +129,7 @@ class Acervo extends \yii\db\ActiveRecord
             'nroD' => Yii::t('app', 'Nro D'),
             'motivoBaja_id' => Yii::t('app', 'Motivo Baja'),
             'copia_id' => Yii::t('app', 'Tipo de Copia'),
-            'codformaing' => Yii::t('app', 'Codformaing'),
+            'codformaing' => Yii::t('app', 'Forma Ingreso'),
             'codtipoac' => Yii::t('app', 'Codtipoac'),
             'clasifac' => Yii::t('app', 'Clasifac'),
             'publicar_id' => Yii::t('app', 'Publicar en Web'),

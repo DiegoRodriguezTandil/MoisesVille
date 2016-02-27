@@ -1,15 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-//use yii\widgets\ActiveForm;
-use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 use kartik\switchinput\SwitchInput;
 use kartik\widgets\Select2;
-use kartik\form\ActiveField;
-use yii\bootstrap\Modal;
-use kartik\widgets\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -55,7 +50,6 @@ use kartik\widgets\FileInput;
         echo Html::hiddenInput('fechaIngreso',$model->fechaIngreso);
         echo Html::hiddenInput('ingreso_id',$model->ingreso_id);
         
-        $dataForma = ArrayHelper::map(\app\models\FormaIngreso::find()->asArray()->all(), 'id', 'nombre');
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,           
@@ -65,14 +59,6 @@ use kartik\widgets\FileInput;
                 'nroB'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número B..']],
                 'nroC'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número C..']],
                 'nroD'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número D..']],
-//                'descEpoca'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Epoca...']],
-//                'codformaing'=>[
-//                    'type'=>Form::INPUT_WIDGET, 
-//                    'label'=>'Tipo de Ingreso',
-//                    'widgetClass'=>'\kartik\widgets\Select2', 
-//                    'options'=>['data'=>$dataForma ], 
-//                    // 'hint'=>'Seleccione unidad de medida'
-//                ],
             ]
         ]);       
     ?>
