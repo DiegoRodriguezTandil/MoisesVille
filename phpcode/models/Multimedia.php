@@ -4,8 +4,6 @@ namespace app\models;
 
 use Yii;
 use yii\web\UploadedFile;
-use yii\helpers\Url;
-use yii\helpers\Html;
 
 /**
  * This is the model class for table "multimedia".
@@ -27,6 +25,7 @@ class Multimedia extends \yii\db\ActiveRecord
     */
     public $image;
     public $file;
+    public $files;
     
     /**
      * @inheritdoc
@@ -142,7 +141,6 @@ class Multimedia extends \yii\db\ActiveRecord
         $acervo = $this->objetos;
         if($acervo){           
             return $acervo->nombre;
-         //   return $acervo->nombre;
         }
         return '';
     }

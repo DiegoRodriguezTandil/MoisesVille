@@ -64,43 +64,71 @@ class MultimediaController extends MainController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($objetos_id)
     {
-        $files = Yii::$app->request->post();
-
+//        $files_post = Yii::$app->request->post();
+        
         $model = new Multimedia();
         
         if ($model->load(Yii::$app->request->post())){
-            // process uploaded image file instance
-            //$image = $model->uploadImage();
-            $model->file = UploadedFile::getInstances($model, 'file');
-            foreach ($model->file as $key => $file) {
-                
-            }
-            if ($model->save()) {
-                // upload only if valid uploaded file instance found
-                if ($image !== false) {
-                    $path = $model->getImageFile();
-                    $image->saveAs($path);
+            $acervo_id = $model->objetos_id;
+            // Load images
+            $files = UploadedFile::getInstances($model,'files');
+            $upload_ok = TRUE;
+            $filesUploads = 0;
+            foreach ($files as $file) {                
+                $filesUploads ++;
+                $multimedia = new Multimedia(); 
+                $multimedia->objetos_id = $acervo_id;
+
+                $ext = end((explode(".", $file->name)));
+                $filename = $acervo_id."_".Yii::$app->security->generateRandomString().".{$ext}";
+                $multimedia->path = $multimedia->getImageFilePath() . $filename;
+                if ($file->saveAs($multimedia->path, true)){
+                    $multimedia->webPath = Yii::getAlias('@web')."/upload/" . $filename;
+                    $multimedia->save();
                 }
-                return $this->redirect(['view', 'id' => $model->id, 'tipoMultimedia_id' => $model->tipoMultimedia_id]);
+                else{
+                    $upload_ok = FALSE;
+                }
+                $upload_ok = $upload_ok && TRUE;
+            }       
+            if($filesUploads){
+                if($upload_ok){
+                    Yii::$app->session->setFlash('success',
+                        [
+                            //'type' => 'error',
+                            'icon' => 'fa fa-users',
+                            'message' => 'Imágenes cargadas exitosamente',
+                            'title' => 'Carga de imágenes',
+                            'positonY' => 'top',
+                            'positonX' => 'left'
+                        ]                    
+                    );            
+                }else{
+                    Yii::$app->session->setFlash('error',
+                        [
+                            //'type' => 'error',
+                            'icon' => 'fa fa-users',
+                            'message' => 'Una o mas imagenes han sigo cargadas con error',
+                            'title' => 'Carga de imágenes',
+                            'positonY' => 'top',
+                            'positonX' => 'left'
+                        ]                    
+                    );            
+                }
             }
             
-        }else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+            return $this->redirect(['acervo/view', 
+                'id' => $model->objetos_id,
+            ]);            
         }
-
-
-        /*if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id, 'tipoMultimedia_id' => $model->tipoMultimedia_id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }*/
         
+        $model->objetos_id = $objetos_id;
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+          
     }
     
     
@@ -109,7 +137,7 @@ class MultimediaController extends MainController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionSubir($objeto_id)
+    public function actionSubir2($objeto_id)
     {
         $model = new Multimedia();
         $model->objetos_id = $objeto_id;

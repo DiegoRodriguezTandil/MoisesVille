@@ -20,29 +20,23 @@ use yii\helpers\ArrayHelper;
     $form = ActiveForm::begin([
         'options'=>['enctype'=>'multipart/form-data'] // important
     ]);
-    // your fileinput widget for single file upload
-        echo $form->field($model, 'path')->widget(FileInput::classname(), [
+        echo $form->field($model, 'objetos_id')->hiddenInput()->label(false);      
+    
+        echo $form->field($model, 'files[]')->widget(FileInput::classname(), [
             'options'=>['accept'=>'image/*', 'multiple'=>true],
             'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']
         ]]);
     ?>
-    
-    
-     <?php //echo Html::hiddenInput('Multimedia[objetos_id]',$objeto_id); 
-       echo $form->field($model, 'objetos_id')->textInput(['maxlength' => true, 'readonly'=>($model->scenario !== 'update')? true : false])
-     ?>
-    
 
     <?php 
-        $dataPost=ArrayHelper::map(\app\models\TipoMultimedia::find()->asArray()->all(), 'id', 'nombre');
-        echo $form->field($model, 'tipoMultimedia_id')
-        ->dropDownList(
-            $dataPost,
-            ['prompt' => '-Seleccionar Tipo-'],
-            ['id'=>'tipoMultimedia_id'],
-            ['style'=>'width:50%']    
-        );
-    
+//        $dataPost=ArrayHelper::map(\app\models\TipoMultimedia::find()->asArray()->all(), 'id', 'nombre');
+//        echo $form->field($model, 'tipoMultimedia_id')
+//        ->dropDownList(
+//            $dataPost,
+//            ['prompt' => '-Seleccionar Tipo-'],
+//            ['id'=>'tipoMultimedia_id'],
+//            ['style'=>'width:50%']    
+//        );
     ?>
 
     <?php //= $form->field($model, 'objetos_id')->textInput() ?>

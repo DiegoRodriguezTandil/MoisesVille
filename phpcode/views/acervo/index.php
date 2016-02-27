@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'buttons' => [
                 'imagen' => function ($url, $model) {
                 //    $url =Url::to('@web/'.'index.php?r=multimedia/subir&objeto_id='.$model->id);
-                    $url = Url::toRoute(['multimedia/subir', 'objeto_id' =>$model->id]);
+                    $url = Url::toRoute(['multimedia/create', 'objetos_id' =>$model->id]);
                     return Html::a('<span class="glyphicon glyphicon-picture"></span>', $url, [
                                     'title' => \Yii::t('yii', 'Agregar Imágenes'),
                                     'data-pjax' => '0',

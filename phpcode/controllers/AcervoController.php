@@ -128,7 +128,7 @@ class AcervoController extends MainController
             }
             $upload_ok = $upload_ok && TRUE;
         }       
-        if($filesUploads){
+        if($filesUploads>0){
             if($upload_ok){
                 Yii::$app->session->setFlash('success',
                     [
