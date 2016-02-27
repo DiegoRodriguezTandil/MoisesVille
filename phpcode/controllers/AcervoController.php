@@ -5,10 +5,11 @@ namespace app\controllers;
 use Yii;
 use app\models\Acervo;
 use app\models\Multimedia;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use app\models\AcervoSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\data\ArrayDataProvider;
 use yii\web\UploadedFile;
 
 /**
@@ -62,7 +63,7 @@ class AcervoController extends MainController
         ]);
         return $this->render('view', [
             'model' => $model, 
-            'multimedia' => $multimediaProvider,            
+            'dataProvider' => $multimediaProvider,            
         ]);
     }
     

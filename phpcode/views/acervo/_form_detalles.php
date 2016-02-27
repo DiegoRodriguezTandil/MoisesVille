@@ -73,11 +73,11 @@ use kartik\form\ActiveField;
         <div class="col-sm-6">
             <?php 
 
-                echo $form->field($model, 'descripcion', [
+                echo $form->field($model, 'caracteristicas', [
                             'hintType' => ActiveField::HINT_SPECIAL,
                             'hintSettings' => ['placement' => 'right', 'onLabelClick' => true, 'onLabelHover' => false]
                         ])->textArea([
-                            'id' => 'descripcion', 
+                            'id' => 'caracteristicas', 
                             'placeholder' => 'Ingrese descripción...', 
                             'rows' => 4
                         ])->hint('Ingrese descripión. Recuerde que esa información en la que aparece en la web.');
