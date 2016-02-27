@@ -8,27 +8,32 @@ use app\models\Multimedia;
 use app\models\AcervoSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Controller; 
+use yii\data\ArrayDataProvider;
 use yii\web\UploadedFile;
 
 /**
  * AcervoController implements the CRUD actions for Acervo model.
  */
-class AcervoController extends Controller
+class AcervoController extends MainController
 {
-    public $files = [];
+    
     public function behaviors()
     {
-        return [
-                   'verbs' => [
-                       'class' => VerbFilter::className(),
-                       'actions' => [
-                           'delete' => ['post'],
-                       ],
-                   ],
-               ];
+        return array_merge(
+                parent::behaviors(),
+                [
+                    'verbs' => [
+                        'class' => VerbFilter::className(),
+                        'actions' => [
+                            'delete' => ['post'],
+                        ],
+                    ],
+                ]
+            );
     }
-
+    
+    public $files = [];
+    
     /**
      * Lists all Acervo models.
      * @return mixed
@@ -52,9 +57,12 @@ class AcervoController extends Controller
     public function actionView($id)
     {   
         $model = $this->findModel($id);
-        $multimedia = new Multimedia();
+        $multimediaProvider = new ArrayDataProvider([
+            'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
+        ]);
         return $this->render('view', [
-            'model' => $model, 'multimedia' => $multimedia
+            'model' => $model, 
+            'multimedia' => $multimediaProvider,            
         ]);
     }
     
@@ -63,15 +71,20 @@ class AcervoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionIngreso($id = NULL)
+    private function createOrUpdate($id = NULL, $ingreso_id = NULL, $ingreso_return = FALSE)
     {   
         $model = NULL;
         
+        // Load Acervo ID From Model or Update ID
         $acervo = Yii::$app->request->post('Acervo');
         if(!empty($acervo)&&(array_key_exists('id',$acervo))){
             $acervo_id = $acervo['id'];
         }
+        elseif (!empty($id)) {
+            $acervo_id = $id;
+        }
         
+        // Load Acervo model or Create new one
         if(!empty($acervo_id))
         {
             $model = $this->findModel($acervo_id);            
@@ -81,16 +94,25 @@ class AcervoController extends Controller
             $model = new Acervo();
         }
         
+        // Load Ingreso ID. Request comes from Ingreso form
+        if(!empty($ingreso_id)){
+            $model->ingreso_id = $ingreso_id;
+        }
+        
+        // Load Form data into model & Save it
         if ($model->load(Yii::$app->request->post())) {    
             if (!$model->save()) {
                 // exception error de guardado
             }                
-            $acervo_id = $model->id;
+            $acervo_id = $model->id;            
         }        
 
-        // Imagenes cargadas
+        // Load images
         $files = UploadedFile::getInstances($model,'files');
+        $upload_ok = TRUE;
+        $filesUploads = 0;
         foreach ($files as $file) {                
+            $filesUploads ++;
             $multimedia = new Multimedia(); 
             $multimedia->objetos_id = $acervo_id;
 
@@ -101,17 +123,47 @@ class AcervoController extends Controller
                 $multimedia->webPath = Yii::getAlias('@web')."/upload/" . $filename;
                 $multimedia->save();
             }
-            // else error
-        }            
+            else{
+                $upload_ok = FALSE;
+            }
+            $upload_ok = $upload_ok && TRUE;
+        }       
+        if($filesUploads){
+            if($upload_ok){
+                Yii::$app->session->setFlash('success',
+                    [
+                        //'type' => 'error',
+                        'icon' => 'fa fa-users',
+                        'message' => 'Imágenes cargadas exitosamente',
+                        'title' => 'Carga de imágenes',
+                        'positonY' => 'top',
+                        'positonX' => 'left'
+                    ]                    
+                );            
+            }else{
+                Yii::$app->session->setFlash('error',
+                    [
+                        //'type' => 'error',
+                        'icon' => 'fa fa-users',
+                        'message' => 'Una o mas imagenes han sigo cargadas con error',
+                        'title' => 'Carga de imágenes',
+                        'positonY' => 'top',
+                        'positonX' => 'left'
+                    ]                    
+                );            
+            }
+        }
 
+        // View to Render
         if(Yii::$app->request->post('saveClose')==1){
-            return $this->render('view', [
-                'model' => $model,
-                'multimedia' => Multimedia::findAll(['objetos_id'=>$model->id]),
-            ]);            
+            if($ingreso_return){
+                return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id]);                
+            }
+            return $this->redirect(['view', 'id' => $model->id]);
         }
         return $this->render('ingreso', [
-            'model' => $model
+            'model' => $model,
+            'enableReturn' => $ingreso_return,
         ]);
     }
 
@@ -122,16 +174,7 @@ class AcervoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Acervo();
-        $m = $model->load(Yii::$app->request->post());
-        $s = $model->save();
-        if ($m && $s) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+        return $this->createOrUpdate();
     }
 
     /**
@@ -142,31 +185,9 @@ class AcervoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post())) {            
-            if  ($model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
-        } else {            
-            return $this->render('update', [
-                'model' => $model
-            ]);
-        }
+        return $this->createOrUpdate($id);
     }
 
-    public function actionUpdateIngreso($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
     
     /**
      * Deletes an existing Acervo model.
@@ -211,25 +232,33 @@ class AcervoController extends Controller
         }
     }
     
-    public function actionAddingreso($ingreso_id){
-        $model = new Acervo();
-        if(isset($ingreso_id)){
-            $model->ingreso_id = $ingreso_id;
+    public function actionAddingreso($ingreso_id)
+    {
+        // Return        
+        if(Yii::$app->request->post('saveClose')==2){
+            return $this->redirect(['ingreso/update', 'id' => $ingreso_id]);                
         }
-        $m = $model->load(Yii::$app->request->post());
-        if ($m && $model->save()) {
-            return $this->redirect(['/ingreso/update', 'id' => $model->ingreso_id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }        
+        
+        return $this->createOrUpdate(
+            NULL,
+            $ingreso_id,
+            TRUE
+        );        
+    }
+    public function actionUpdateIngreso($id)
+    {
+        // Return
+        if(Yii::$app->request->post('saveClose')==2){
+            $model = $this->findModel($id);
+            return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id]);                
+        }    
+        
+        return $this->createOrUpdate(
+            $id,
+            NULL,
+            TRUE
+        );
     }
     
-    /*public function beforeSave() 
-    {
-        if ($this->isNewRecord)
-               Yii::app()->dateFormatter->format("yyyy-mm-dd",$this->fechaIngreso);
-        return parent::beforeSave();
-    }*/
+    
 }

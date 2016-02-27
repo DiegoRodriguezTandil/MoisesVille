@@ -1,15 +1,7 @@
 <?php
 
-use yii\helpers\Html;
-//use yii\widgets\ActiveForm;
-use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
-use kartik\switchinput\SwitchInput;
-use kartik\widgets\Select2;
-use kartik\form\ActiveField;
-use yii\bootstrap\Modal;
-use kartik\widgets\FileInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */

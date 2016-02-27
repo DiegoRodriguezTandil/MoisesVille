@@ -44,7 +44,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
             'dataProvider' => $acervos,
             'columns' => [
-                //['class' => 'yii\grid\SerialColumn'],
                 'nombre',
                 'nroInventario',
             ],
