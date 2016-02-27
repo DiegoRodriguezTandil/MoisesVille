@@ -41,7 +41,6 @@ $config = [
 
             // use ajax conversion for processing dates from display format to save format.
             'ajaxConversion' => true,
-
         ]        
     ],
     'sourceLanguage'=>'en-US',    
@@ -54,7 +53,6 @@ $config = [
             'timeFormat' => 'php:H:i:s',
         ],        
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'dfsdfhsdfhsduhfsduihf2364asd',
         ],
         'cache' => [

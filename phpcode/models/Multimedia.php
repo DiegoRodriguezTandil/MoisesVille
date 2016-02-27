@@ -110,18 +110,13 @@ class Multimedia extends \yii\db\ActiveRecord
         return $this->hasOne(TipoMultimedia::className(), ['id' => 'tipoMultimedia_id']);
     }
     
-    public function getImageFile() 
+    public function getImageFilePath() 
     {
-        return isset($this->path) ? Yii::$app->params['uploadPath'] . $this->path : null;
-    }
-    
-     public function getImageUrl() 
-    {
-        // return a default image placeholder if your source avatar is not found
-        $avatar = isset($this->path) ? $this->path : 'default_user.jpg';
-        return Yii::$app->params['uploadUrl'] . $avatar;
-    }
-    
+        if( substr(Yii::$app->params['uploadPath'],-1) == DIRECTORY_SEPARATOR ){
+            return Yii::$app->params['uploadPath'];
+        }
+        return Yii::$app->params['uploadPath'] . DIRECTORY_SEPARATOR;
+    }  
 
     public function deleteImage() {
         $file = $this->getImageFile();

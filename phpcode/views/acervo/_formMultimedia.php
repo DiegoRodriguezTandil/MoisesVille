@@ -10,12 +10,10 @@ use yii\helpers\ArrayHelper;
 <div class="multimedia-form">
 
     <?php 
-
         echo $form->field($model, 'files[]')->widget(FileInput::classname(), [
             'options'=>['multiple' => true, 'accept'=>'image/*'],
             'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png']
         ]]);
-    
     ?>
   
     <?php  
@@ -23,9 +21,5 @@ use yii\helpers\ArrayHelper;
         echo Html::hiddenInput('multimedia','si');  
         echo Html::hiddenInput('objeto_id',$acervo_id);  
     ?>
-
-    <!-- div class="form-group">
-        <?= Html::submitButton('Subir fotos', array('name' => 'button1'), ['class' => 'btn btn-primary']) ?>
-    </div -->
 
 </div>
