@@ -36,6 +36,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     'content' => $this->render('_form', ['model' => $model, 'form' => $form]),
                     'active' => true,
                 ],
+                
+                [
+                    'label' => 'Caraterísticas <i class="glyphicon glyphicon-th-list"></i>',
+                    'content' => $this->render('_form_detalles', ['model' => $model, 'form' => $form]),
+                ],
+                
+                [
+                    'label' => 'Ubicación <i class="glyphicon glyphicon-map-marker"></i>',
+                    'content' => $this->render('_form_ubicacion', ['model' => $model, 'form' => $form]),
+                ],
+                
+                [
+                    'label' => 'Dimensiones <i class="glyphicon glyphicon-resize-full"></i>',
+                    'content' => $this->render('_form_medidas', ['model' => $model, 'form' => $form]),
+                ],
 
                 [
                     'label' => 'Imágenes <i class="glyphicon glyphicon-picture"></i>',
@@ -44,10 +59,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
         ]);
+    
+        echo Html::hiddenInput('saveClose',0, array('id'=>'saveClose'));
     ?>
-
+    
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitInput(
+                    $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), 
+                    [
+                        'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+                        'name' => 'saveButton',
+                        'id' => 'saveButton',
+                        'value' => 'saveButton',
+                        'onClick' => "jQuery('#saveClose').val(1);",
+                    ]) 
+        ?>
     </div>
 
     <?php ActiveForm::end(); ?>
