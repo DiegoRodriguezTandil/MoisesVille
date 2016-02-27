@@ -192,9 +192,19 @@ class MultimediaController extends MainController
      * @return mixed
      */
     public function actionDelete($id)
-    {
+    {              
         try {
-            if($this->findModel($id)->delete()){
+            if(($this->findModel($id)->delete() && ($this->findModel($id)->deleteImage()))){
+                Yii::$app->session->setFlash('success',
+                [
+                    'type' => 'success',
+                    'icon' => 'fa fa-users',
+                    'message' => 'El elemento multimedia se eliminó exitosamente',
+                    'title' => 'Elemento eliminado',
+                    'positonY' => 'top',
+                    'positonX' => 'left'
+                ]                    
+                );
                 return $this->redirect(['index']);
             }
         } catch (\yii\db\IntegrityException $exc) {
@@ -220,9 +230,9 @@ class MultimediaController extends MainController
      * @return Multimedia the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id, $tipoMultimedia_id)
+    protected function findModel($id)
     {
-        if (($model = Multimedia::findOne(['id' => $id, 'tipoMultimedia_id' => $tipoMultimedia_id])) !== null) {
+        if (($model = Multimedia::findOne(['id' => $id])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
