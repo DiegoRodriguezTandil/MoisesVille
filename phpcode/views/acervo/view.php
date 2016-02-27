@@ -234,10 +234,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'condensed'=>true,
             ]) ;
 
-         echo ListView::widget([
+    echo ListView::widget([
         'dataProvider' => $dataProvider,
         'itemView' => '_viewGaleria',
     ]); 
-    ?>
+    
+?>
 
 </div>

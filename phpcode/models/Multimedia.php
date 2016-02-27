@@ -117,6 +117,11 @@ class Multimedia extends \yii\db\ActiveRecord
         return Yii::$app->params['uploadPath'] . DIRECTORY_SEPARATOR;
     }  
 
+    public function getUrlImageFolder() 
+    {
+        return Yii::$app->params['urlImageFolder'];
+    }  
+    
     public function deleteImage() {
         $file = $this->getImageFile();
 

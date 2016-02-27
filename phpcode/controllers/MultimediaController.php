@@ -80,12 +80,13 @@ class MultimediaController extends MainController
                 $filesUploads ++;
                 $multimedia = new Multimedia(); 
                 $multimedia->objetos_id = $acervo_id;
+                $multimedia->tipoMultimedia_id = 1; // Tipo Imagen
 
                 $ext = end((explode(".", $file->name)));
                 $filename = $acervo_id."_".Yii::$app->security->generateRandomString().".{$ext}";
                 $multimedia->path = $multimedia->getImageFilePath() . $filename;
                 if ($file->saveAs($multimedia->path, true)){
-                    $multimedia->webPath = Yii::getAlias('@web')."/upload/" . $filename;
+                    $multimedia->webPath = $multimedia->getUrlImageFolder() . $filename;
                     $multimedia->save();
                 }
                 else{
@@ -97,7 +98,7 @@ class MultimediaController extends MainController
                 if($upload_ok){
                     Yii::$app->session->setFlash('success',
                         [
-                            //'type' => 'error',
+                            'type' => 'success',
                             'icon' => 'fa fa-users',
                             'message' => 'Imágenes cargadas exitosamente',
                             'title' => 'Carga de imágenes',
