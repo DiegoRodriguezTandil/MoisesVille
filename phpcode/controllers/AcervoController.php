@@ -59,7 +59,7 @@ class AcervoController extends Controller
             'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
         ]);
         return $this->render('view', [
-            'model' => $model, 'dataProvider' => $multimediaProvider
+            'model' => $model, 'dataProvider' => $multimediaProvider,  'onlyItems' => true,
         ]);
     }
     

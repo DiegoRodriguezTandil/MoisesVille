@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -132,8 +133,7 @@ class Acervo extends \yii\db\ActiveRecord
             'codtipoac' => Yii::t('app', 'Codtipoac'),
             'clasifac' => Yii::t('app', 'Clasifac'),
             'publicar_id' => Yii::t('app', 'Publicar en Web'),
-            'idold' => Yii::t('app', 'Idold'),
-            
+            'idold' => Yii::t('app', 'Idold'),            
             'TemaIds'=> Yii::t('app', 'Tema'),
             'ColeccionIds'=> Yii::t('app', 'Colección'),
         ];
@@ -186,6 +186,18 @@ class Acervo extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UnidadMedida::className(), ['id' => 'unidadMedida_id']);
     }
+    
+     /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUnidadMedidaDescripcion()
+    {        
+        $unidadmedida = $this->unidadMedida;
+        if($unidadmedida){
+            return $unidadmedida->descripcion;
+        }
+        return '(no definido)';
+    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -194,7 +206,15 @@ class Acervo extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UnidadPeso::className(), ['id' => 'unidadPeso_id']);
     }
-
+    
+    public function getUnidadPesoDescripcion()
+    {        
+        $unidadPeso = $this->unidadPeso;
+        if($unidadPeso){
+            return $unidadPeso->descripcion;
+        }
+        return '(no definido)';
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -233,6 +253,17 @@ class Acervo extends \yii\db\ActiveRecord
     public function getMultimedia()
     {
         return $this->hasMany(Multimedia::className(), ['objetos_id' => 'id']);
+    }
+    
+    public function getMultimediaDataProvider()
+    {
+        $dataProvider = new ActiveDataProvider([
+      //  'query' => Multimedia::find()->where(['objetos_id'=>'id']),
+            $this->multimedia
+        ]);
+        if ($dataProvider)
+            return $dataProvider;
+        else return null;
     }
 
     /**
