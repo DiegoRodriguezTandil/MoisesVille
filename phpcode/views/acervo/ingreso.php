@@ -20,8 +20,15 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?php 
         $form = ActiveForm::begin(
-            ['type'=>ActiveForm::TYPE_VERTICAL]
+            [
+                'type'=>ActiveForm::TYPE_VERTICAL,
+                'options'=>['enctype'=>'multipart/form-data'],
+            ]
         );
+        
+        if(!empty($model->id)){
+            echo $form->field($model, 'id')->hiddenInput()->label(false);            
+        }
     ?>
     
 

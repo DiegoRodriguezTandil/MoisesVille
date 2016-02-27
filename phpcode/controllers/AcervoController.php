@@ -63,44 +63,56 @@ class AcervoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionIngreso($id)
+    public function actionIngreso($id = NULL)
     {   
-        $model = new Acervo();
-        $m = $model->load(Yii::$app->request->post());
-        $s = $model->save();
-        if ($m && $s) {
-//            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-//            return $this->render('create', [
-//                'model' => $model,
-//            ]);
+        $model = NULL;
+        
+        $acervo = Yii::$app->request->post('Acervo');
+        if(!empty($acervo)&&(array_key_exists('id',$acervo))){
+            $acervo_id = $acervo['id'];
         }
         
-        if(isset($_POST['multimedia'])) //si viene por fotos
-            {
-            $model->files = UploadedFile::getInstances($model,'files');
-      
-            foreach ($model->files as $file) {                
-                $mult = new Multimedia(); 
-                $mult->objetos_id = $_POST['objeto_id'];
-               
-                $image = $file;
-                if (empty($image)) {
-                            return false;
-                        }
-                $ext = end((explode(".", $image->name)));
-                $mult->path = "mmv_".Yii::$app->security->generateRandomString().".{$ext}";
-                $path = $mult->getImageFile();
-                $image->saveAs($path);
-                $mult->save();
-                }
-            }
-        else {
-            
+        if(!empty($acervo_id))
+        {
+            $model = $this->findModel($acervo_id);            
         }
-         return $this->render('ingreso', [
-            'model' => $model]);
-        die();
+        else 
+        {
+            $model = new Acervo();
+        }
+        
+        if ($model->load(Yii::$app->request->post())) {    
+            if (!$model->save()) {
+                // exception error de guardado
+            }                
+            $acervo_id = $model->id;
+        }        
+
+        // Imagenes cargadas
+        $files = UploadedFile::getInstances($model,'files');
+        foreach ($files as $file) {                
+            $multimedia = new Multimedia(); 
+            $multimedia->objetos_id = $acervo_id;
+
+            $ext = end((explode(".", $file->name)));
+            $filename = $acervo_id."_".Yii::$app->security->generateRandomString().".{$ext}";
+            $multimedia->path = $multimedia->getImageFilePath() . $filename;
+            if ($file->saveAs($multimedia->path, true)){
+                $multimedia->webPath = Yii::getAlias('@web')."/upload/" . $filename;
+                $multimedia->save();
+            }
+            // else error
+        }            
+
+        if(Yii::$app->request->post('saveClose')==1){
+            return $this->render('view', [
+                'model' => $model,
+                'multimedia' => Multimedia::findAll(['objetos_id'=>$model->id]),
+            ]);            
+        }
+        return $this->render('ingreso', [
+            'model' => $model
+        ]);
     }
 
     /**
