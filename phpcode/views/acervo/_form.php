@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 //use yii\widgets\ActiveForm;
-use kartik\widgets\ActiveForm;
 use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
@@ -19,13 +18,6 @@ use kartik\widgets\FileInput;
 
 <div class="acervo-form">   
     
-    <?php //    die("--".$publicar); 
-    $form = ActiveForm::begin(
-            ['type'=>ActiveForm::TYPE_VERTICAL]
-            );
-
-    ?>
-
     <?php
         $dataPublicar=ArrayHelper::map(\app\models\Publicar::find()->asArray()->all(), 'id', 'id');
     ?>
@@ -208,11 +200,5 @@ use kartik\widgets\FileInput;
         ]);
     
     ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
-
-    <?php ActiveForm::end(); ?>
 
 </div>
