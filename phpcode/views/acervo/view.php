@@ -1,9 +1,12 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
-
+//use yii\widgets\DetailView;
+use yii\widgets\ListView;
 use yii\helpers\Url;
+use kartik\detail\DetailView;
+use bupy7\gridifyview\GridifyView;
+use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -14,7 +17,8 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="acervo-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?php echo Html::encode($this->title) ?>
+        <?php echo " Objeto: ".$model->nombre; ?></h1>
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
@@ -26,14 +30,214 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'nombre',
-            'descripcion:ntext',
+    <?php 
+//    echo DetailView::widget([
+//        'model' => $model,
+//        'attributes' => [
+//            'id',
+//            'nombre',
+//            'descripcion:ntext',
+//
+//        ],
+//    ]) 
+            ?>
+    
+    <?php 
+        $attributes = [
+            [
+                'group'=>true,
+                'label'=>'Información General',
+                'rowOptions'=>['class'=>'info']
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute'=>'id', 
+                        'label'=>'Nro. Acervo',
+                        'displayOnly'=>true,
+                        'valueColOptions'=>['style'=>'width:30%']
+                    ],
+                    [
+                        'attribute'=>'nombre', 
+                        'format'=>'raw', 
+                    //    'value'=>'<kbd>'.$model->nombre.'</kbd>',
+                        'value'=>$model->nombre,
+                        'valueColOptions'=>['style'=>'width:30%'], 
+                        'displayOnly'=>true
+                    ],
+                ],
+            ],
+            [
+                'group'=>true,
+                'label'=>'Características',
+                'rowOptions'=>['class'=>'info']
+            ],
+            [
+                'columns' => [
+                    [
+                        'attribute'=>'tipoAcervo_id', 
+                        'label'=>'Tipo Acervo',
+                        'displayOnly'=>true,
+                        'value'=> $model->tipoAcervo->descripcion,
+                        'valueColOptions'=>['style'=>'width:15%']
+                    ],
+                    [
+                        'attribute'=>'copia_id', 
+                        'label'=>'Tipo de Copia',
+                        'displayOnly'=>true,
+                        'value'=> $model->copia->nombre,                    
+                       // 'valueColOptions'=>['style'=>'width:20%'], 
+                        'displayOnly'=>true
+                    ],
+                    [
+                        'attribute'=>'lugarprocac', 
+                        'label'=>'Lugar de Procedencia',
+                        'format'=>'raw',                       
+                        'valueColOptions'=>['style'=>'width:15%'], 
+                        'displayOnly'=>true
+                    ],                    
+                ],
+            ],
+            [//columnas materiales    
+                'columns' => [
+                    [
+                        'attribute'=>'material', 
+                        'label'=>'Material',
+                        'displayOnly'=>true,
+//                        'value'=> $model->tipoAcervo->descripcion,
+                        'valueColOptions'=>['style'=>'width:15%']
+                    ],
+                    [
+                        'attribute'=>'forma', 
+                        'label'=>'Forma',
+                        'displayOnly'=>true,
+//                        'value'=> $model->copia->nombre,                    
+                       // 'valueColOptions'=>['style'=>'width:20%'], 
+                        'displayOnly'=>true
+                    ],
+                    [
+                        'attribute'=>'color', 
+                        'label'=>'Color',
+                        'format'=>'raw',                       
+                        'valueColOptions'=>['style'=>'width:15%'], 
+                        'displayOnly'=>true
+                    ],                    
+                ],
+            ],           
+            [
+                'group'=>true,
+                'label'=>'Ubicación',
+                'rowOptions'=>['class'=>'info']
+            ],
+            [//columnas Ubicación    
+                'columns' => [
+                    [
+                        'attribute'=>'ubicacion_id', 
+                        'label'=>'Ubicación',
+                        'displayOnly'=>true,
+                        'value'=> $model->ubicacion->nombre,
+                        'valueColOptions'=>['style'=>'width:15%']
+                    ],
+                    [
+                        'attribute'=>'descUbicacion', 
+                        'label'=>'Detalles Ubicación',
+                        'displayOnly'=>true,
+//                        'value'=> $model->copia->nombre,                    
+                       // 'valueColOptions'=>['style'=>'width:20%'], 
+                        'displayOnly'=>true
+                    ],                                       
+                ],
+            ],
+            [
+                'group'=>true,
+                'label'=>'Dimensiones',
+                'rowOptions'=>['class'=>'info']
+            ],
+            [//columnas dimensiones    
+                'columns' => [
+                    [
+                        'attribute'=>'ancho', 
+                        'displayOnly'=>true,
+                    ],                    
+                   [
+                        'attribute'=>'alto',       
+                        'displayOnly'=>true,
+                    ],  
+                    [
+                        'attribute'=>'largo', 
+                        'label'=>'Largo',
+                        'displayOnly'=>true,
+//                       
+                    ], 
+                    [
+                        'attribute'=>'unidadMedida_id', 
+                        'label'=>'Unidad Medida',
+                        'value' => $model->unidadMedidaDescripcion,                       
+                        'displayOnly'=>true,                      
+                    ], 
+                ],
+            ],
+            [//columnas dimensiones    
+                'columns' => [
+                    [
+                        'attribute'=>'diametroInterno',                         
+                        'displayOnly'=>true,
+                        
+                    ],                    
+                    [
+                        'attribute'=>'diametroExterno',                         
+                        'displayOnly'=>true,
+                        
+                    ],  
+                    [
+                        'attribute'=>'peso', 
+                        'displayOnly'=>true,
+                        
+                    ], 
+                    [
+                        'attribute'=>'unidadPeso_id',                         
+                        'value' => $model->unidadMedidaDescripcion,                       
+                        'displayOnly'=>true,
+                        
+                    ], 
+                ],
+            ],
+                        [
+                'group'=>true,
+                'label'=>'Características',
+                'rowOptions'=>['class'=>'info']
+            ],
+            [//columnas materiales    
+                'columns' => [
+                    [
+                        'attribute'=>'caracteristicas', 
+                        'label'=>'Características',
+                        'displayOnly'=>true,
+//                        'value'=> $model->tipoAcervo->descripcion,
+                        'valueColOptions'=>['style'=>'width:30%']
+                    ],                    
+                   [
+                        'attribute'=>'notas', 
+                        'label'=>'Notas',
+                        'displayOnly'=>true,
+//                        'value'=> $model->tipoAcervo->descripcion,
+                        'valueColOptions'=>['style'=>'width:30%']
+                    ],                    
+                ],
+            ],
+        ];
 
-        ],
-    ]) ?>
+        
+        echo DetailView::widget([
+            'model' => $model,
+            'attributes' => $attributes,
+            'condensed'=>true,
+            ]) ;
+
+         echo ListView::widget([
+        'dataProvider' => $dataProvider,
+        'itemView' => '_viewGaleria',
+    ]); 
+    ?>
 
 </div>
