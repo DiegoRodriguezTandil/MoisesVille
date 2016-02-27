@@ -5,7 +5,6 @@ namespace app\controllers;
 use Yii;
 use app\models\Acervo;
 use app\models\Multimedia;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use app\models\AcervoSearch;
 use yii\web\NotFoundHttpException;
@@ -116,12 +115,13 @@ class AcervoController extends MainController
             $filesUploads ++;
             $multimedia = new Multimedia(); 
             $multimedia->objetos_id = $acervo_id;
+            $multimedia->tipoMultimedia_id = 1; // Tipo Imagen
 
             $ext = end((explode(".", $file->name)));
             $filename = $acervo_id."_".Yii::$app->security->generateRandomString().".{$ext}";
             $multimedia->path = $multimedia->getImageFilePath() . $filename;
             if ($file->saveAs($multimedia->path, true)){
-                $multimedia->webPath = Yii::getAlias('@web')."/upload/" . $filename;
+                $multimedia->webPath = $multimedia->getUrlImageFolder() . $filename;
                 $multimedia->save();
             }
             else{
@@ -133,7 +133,7 @@ class AcervoController extends MainController
             if($upload_ok){
                 Yii::$app->session->setFlash('success',
                     [
-                        //'type' => 'error',
+                        'type' => 'success',
                         'icon' => 'fa fa-users',
                         'message' => 'Imágenes cargadas exitosamente',
                         'title' => 'Carga de imágenes',
