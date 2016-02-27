@@ -5,6 +5,8 @@ namespace app\controllers;
 use Yii;
 use app\models\Acervo;
 use app\models\Multimedia;
+use yii\data\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use app\models\AcervoSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -52,9 +54,12 @@ class AcervoController extends Controller
     public function actionView($id)
     {   
         $model = $this->findModel($id);
-        $multimedia = new Multimedia();
+        
+        $multimediaProvider = new ArrayDataProvider([
+            'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
+        ]);
         return $this->render('view', [
-            'model' => $model, 'multimedia' => $multimedia
+            'model' => $model, 'dataProvider' => $multimediaProvider
         ]);
     }
     
