@@ -52,5 +52,6 @@ return array(
     'kartik\\alert\\' => array($vendorDir . '/kartik-v/yii2-widget-alert'),
     'kartik\\affix\\' => array($vendorDir . '/kartik-v/yii2-widget-affix'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
+    'bupy7\\gridifyview\\' => array($vendorDir . '/bupy7/yii2-gridify-view'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
 );

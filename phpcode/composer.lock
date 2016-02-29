@@ -4,8 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6c1738f5969bbf2c1390ef3e8b941f0a",
-    "content-hash": "2fec3768e9688d8a0c6560f0b69e16cd",
+    "hash": "0f7fc4e1efe87c094f212e72bc037bb5",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -193,6 +192,54 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "bupy7/yii2-gridify-view",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bupy7/yii2-gridify-view.git",
+                "reference": "a86cb69a1cc2de5b6f26dc3a891748de9fddcd43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bupy7/yii2-gridify-view/zipball/a86cb69a1cc2de5b6f26dc3a891748de9fddcd43",
+                "reference": "a86cb69a1cc2de5b6f26dc3a891748de9fddcd43",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2-bootstrap": "@dev"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "bupy7\\gridifyview\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD 3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Vasilij Belosludcev",
+                    "email": "bupy765@gmail.com",
+                    "homepage": "http://mihaly4.ru"
+                }
+            ],
+            "description": "This is widget extended of ListView with plugin of https://github.com/hongkhanh/gridify. This widget allows load content automatically via Ajax when you reach the end of the page. Content is displayed in table form.",
+            "homepage": "https://github.com/bupy7/yii2-gridify-view",
+            "keywords": [
+                "ListView",
+                "box",
+                "extension",
+                "grid",
+                "image",
+                "view",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-08-28 12:29:00"
         },
         {
             "name": "cebe/markdown",
@@ -2825,7 +2872,8 @@
         "kartik-v/yii2-datecontrol": 20,
         "kartik-v/yii2-nav-x": 20,
         "kartik-v/bootstrap-popover-x": 20,
-        "kartik-v/yii2-tabs-x": 20
+        "kartik-v/yii2-tabs-x": 20,
+        "bupy7/yii2-gridify-view": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'format' => 'html',
             'label' => 'Logo',
             'value' => function ($data) {
-                return Html::img('@web/uploads/' . $data['path'],
+                return Html::img('@web/' . $data['webPath'],
                     ['width' => '100px']);
             },
             ],
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
             },
             ],        
              'objetoName',      
-            ['class' => 'yii\grid\ActionColumn'],
+          //  ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

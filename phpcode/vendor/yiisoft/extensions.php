@@ -345,4 +345,13 @@ return array (
       '@yii/gii' => $vendorDir . '/yiisoft/yii2-gii',
     ),
   ),
+  'bupy7/yii2-gridify-view' => 
+  array (
+    'name' => 'bupy7/yii2-gridify-view',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@bupy7/gridifyview' => $vendorDir . '/bupy7/yii2-gridify-view',
+    ),
+  ),
 );
