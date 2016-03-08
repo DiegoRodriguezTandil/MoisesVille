@@ -100,12 +100,12 @@ class Acervo extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'nombre' => Yii::t('app', 'Nombre'),
             'descripcion' => Yii::t('app', 'Descripción'),
-            'nroInventario' => Yii::t('app', 'Nro Inventario'),
+            'nroInventario' => Yii::t('app', 'Nro Registro'),
             'forma' => Yii::t('app', 'Forma'),
             'material' => Yii::t('app', 'Material'),
             'tipoAcervo_id' => Yii::t('app', 'Tipo Acervo'),
             'ancho' => Yii::t('app', 'Ancho'),
-            'largo' => Yii::t('app', 'Largo'),
+            'largo' => Yii::t('app', 'Profundidad'),
             'alto' => Yii::t('app', 'Alto'),
             'unidadMedida_id' => Yii::t('app', 'Unidad Medida'),
             'peso' => Yii::t('app', 'Peso'),
@@ -119,7 +119,7 @@ class Acervo extends \yii\db\ActiveRecord
             'caracteristicas' => Yii::t('app', 'Características'),
             'lugarprocac' => Yii::t('app', 'Lugar de Procedencia'),
             'color' => Yii::t('app', 'Color'),
-            'notas' => Yii::t('app', 'Notas'),
+            'notas' => Yii::t('app', 'Observaciones'),
             'fechaBaja' => Yii::t('app', 'Fecha Baja'),
             'descEpoca' => Yii::t('app', 'Descripción Epoca'),
             'descUbicacion' => Yii::t('app', 'Descripción Ubicación'),
@@ -177,6 +177,14 @@ class Acervo extends \yii\db\ActiveRecord
     public function getUbicacion()
     {
         return $this->hasOne(Ubicacion::className(), ['id' => 'ubicacion_id']);
+    }
+    
+    public function getUbicacionTexto()
+    {
+        $ubicacion = Ubicacion::findOne($this->ubicacion_id); 
+        if (!isset($ubicacion))            
+            return "";
+        return $ubicacion->nombre;
     }
 
     /**
@@ -395,5 +403,56 @@ class Acervo extends \yii\db\ActiveRecord
 
        parent::afterSave($insert, $changedAttributes); //don't forget this
     }
+    
+    public function getColeccionTextos()
+    {
+        $colecciones = "";
+        if (($actualColecciones = Coleccion_Acervo::find()
+        ->andWhere("acervo_id = $this->id")
+        ->asArray()->all()) !== null) {
+            $actualColecciones = ArrayHelper::getColumn($actualColecciones, 'coleccion_id');
+            foreach ($actualColecciones as $col){
+                $r = Coleccion::findOne(['id' => $col]);              
+                if ( strlen ( $colecciones ) > 40 ) {
+                    $colecciones .= "...";
+                    return $colecciones;
+                  }
+                else {
+                    $colecciones .= $r->nombre;
+                    $colecciones .= ", "; 
+                }                            
+          }
+        }         
+        if ( strlen ( $colecciones ) === 0 ) 
+            return $colecciones;
+        else if ( strlen ( $colecciones ) < 40 )
+            return substr($colecciones, 0, -2);               
+    }
+    
+    public function getTemaTextos()
+    {
+        $temas = "";
+        if (($temasActuales = Tema_Acervo::find()
+        ->andWhere("acervo_id = $this->id")
+        ->asArray()->all()) !== null) {
+            $temasActuales = ArrayHelper::getColumn($temasActuales, 'tema_id');
+            foreach ($temasActuales as $tema){
+                $r = Tema::findOne(['id' => $tema]);              
+                if ( strlen ( $temas ) > 40 ) {
+                    $temas .= "...";
+                    return $temas;
+                  }
+                else {
+                    $temas .= $r->nombre;
+                    $temas .= ", "; 
+                }                            
+          }
+        }         
+        if ( strlen ( $temas ) === 0 ) 
+            return $temas;
+        else if ( strlen ( $temas ) < 40 )
+            return substr($temas, 0, -2);               
+    }
+    
   
 }
