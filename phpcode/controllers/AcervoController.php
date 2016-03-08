@@ -156,15 +156,22 @@ class AcervoController extends MainController
         }
 
         // View to Render
-        if(Yii::$app->request->post('saveClose')==1){
+        //Obtener fotos
+        $dataprovider = new ArrayDataProvider([
+            'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
+            ]);
+         
+        if(Yii::$app->request->post('saveClose')==1){           
             if($ingreso_return){
-                return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id]);                
+                return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id, 'dataProvider'=> $dataprovider]);                
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['view', 'id' => $model->id, 'dataProvider'=> $dataprovider]);
         }
+
         return $this->render('ingreso', [
             'model' => $model,
             'enableReturn' => $ingreso_return,
+            'dataProvider'=> $dataprovider
         ]);
     }
 
@@ -251,7 +258,10 @@ class AcervoController extends MainController
         // Return
         if(Yii::$app->request->post('saveClose')==2){
             $model = $this->findModel($id);
-            return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id]);                
+            $dataprovider = new ArrayDataProvider([
+            'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
+            ]);
+            return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id, 'dataprovider' => $dataprovider]);                
         }    
         
         return $this->createOrUpdate(

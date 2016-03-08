@@ -1,5 +1,5 @@
 <?php
-
+use kotchuprik\fotorama;
 use yii\helpers\Html;
 //use yii\widgets\DetailView;
 use yii\widgets\ListView;
@@ -233,12 +233,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'attributes' => $attributes,
             'condensed'=>true,
             ]) ;
+        ?>
+      
+</div>
+<div class="acervo-view">
+    <div class="fotorama"
+        data-fit="scaledown"
+        data-width="100%"
+        data-ratio="800/600"
+        data-minwidth="400"
+        data-maxwidth="1000"
+        data-minheight="600"
+        data-maxheight="100%"
+        >
 
-    echo ListView::widget([
-        'dataProvider' => $dataProvider,
-        'itemView' => '_viewGaleria',
-    ]); 
-    
-?>
+        <?php
 
+        $widget = \kotchuprik\fotorama\Widget::begin([
+        'version' => '4.5.2',
+        'options' => [
+            'nav' => 'thumbs',
+        ],
+        ]);
+
+        foreach($dataProvider->getModels() as $img)   
+             echo Html::img( '@web' .$img->webPath);
+
+        $widget->end();
+        ?>
+    </div>
 </div>

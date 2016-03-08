@@ -42,7 +42,7 @@ use kartik\form\ActiveField;
     <?php   
         $dataCopia = ArrayHelper::map(\app\models\Copia::find()->asArray()->all(), 'id', 'nombre');
         $dataEstado = ArrayHelper::map(\app\models\Estado::find()->asArray()->all(), 'id', 'nombre');
-        $dataTipo = ArrayHelper::map(\app\models\TipoAcervo::find()->asArray()->all(), 'id', 'descripcion');
+        $dataTipo = ArrayHelper::map(\app\models\TipoAcervo::find()->where(['tipoAcervo_id' => NULL])->asArray()->all(), 'id', 'descripcion');
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,

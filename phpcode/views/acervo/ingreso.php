@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 [
                     'label' => 'Imágenes <i class="glyphicon glyphicon-picture"></i>',
-                    'content' => $this->render('_formMultimedia', ['model' => $model, 'acervo_id' =>$model->id, 'form' => $form ]),
+                    'content' => $this->render('_formMultimedia', ['model' => $model, 'acervo_id' =>$model->id, 'form' => $form, 'dataProvider' => $dataProvider ]),
                     'options' => ['id' => 'myveryownID'],
                 ],
             ],
