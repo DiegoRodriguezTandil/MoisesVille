@@ -24,13 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-//           ['class' => 'yii\grid\SerialColumn'],
             [
-                'label' => 'Nro Orden',
-       //         'format' => 'raw',
+                'label' => 'N.Orden',
                 'value' => 'id',
-                'attribute' => 'id',
-                'contentOptions'=>['style'=>'max-width: 5%;']
+                'attribute' => 'id'
                 ],
             [
                 'label' => 'Nro Registro',
@@ -44,23 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Colecciones',
                 'attribute' => 'colecciontextos',
-                ],
+            ],
             [
                 'label' => 'Temas',
                 'attribute' => 'tematextos',
                 ],
- //           'nroInventario',
-//            'forma',
-            // 'material',
-            // 'tema_id',
-            // 'tipoAcervo_id',
-
-            // 'peso',
-            // 'diametroInterno',
-            // 'diametroExterno',
-            // 'fechaIngreso',
-            // 'ingreso_id',
-            // 'coleccion_id',
             [
                 'label' => 'Ubicación',
                 'attribute' => 'ubicaciontexto',
@@ -71,16 +56,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'buttons' => [
                 'imagen' => function ($url, $model) {
                 //    $url =Url::to('@web/'.'index.php?r=multimedia/subir&objeto_id='.$model->id);
-                    $url = Url::toRoute(['multimedia/create', 'objetos_id' =>$model->id]);
-                    return Html::a('<span class="glyphicon glyphicon-picture"></span>', $url, [
+                        $url = Url::toRoute(['multimedia/create', 'objetos_id' =>$model->id]);
+                        return Html::a('<span class="glyphicon glyphicon-picture"></span>', $url, [
                                     'title' => \Yii::t('yii', 'Agregar Imágenes'),
                                     'data-pjax' => '0',
                         ]);
-                },   
-            ],  
-               
-               
-               ],
+                    },   
+                ],  
+            ],
         ],
     ]); ?>
 

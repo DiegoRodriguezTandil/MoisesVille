@@ -5,6 +5,9 @@
         "This file is @generated automatically"
     ],
     "hash": "b0494e2a960359d0518533a5576f4f75",
+
+    "content-hash": "135b4ecc3b0682ba4d40fa59d61b8129",
+
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1503,7 +1506,11 @@
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/bc22b97c342f9cbea25e5eee6ce7312ed0561cbd",
+<<<<<<< HEAD
                 "reference": "bc22b97c342f9cbea25e5eee6ce7312ed0561cbd",
+=======
+                "reference": "6038daa7d4e61175fdda85a71cb2a6a94d4868c1",
+>>>>>>> 0531abef0d19c1aa65666a4c92856fe5ca616e41
                 "shasum": ""
             },
             "require": {

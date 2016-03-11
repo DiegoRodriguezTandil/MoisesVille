@@ -111,4 +111,5 @@ return [
     'Usuario' => '',
     'Usuarios' => '',
     'Web Path' => '',
+    'username' => 'Usuario',
 ];
