@@ -91,7 +91,7 @@ use kartik\form\ActiveField;
     <div class="row">
         <div class="col-sm-6"> 
             <?php 
-                $dataClasifG = ArrayHelper::map(\app\models\Copia::find()->asArray()->all(), 'id', 'nombre');
+                $dataClasifG = ArrayHelper::map(\app\models\ClasificacionGenerica::find()->asArray()->all(), 'id', 'nombre');
                 echo  $form->field($model, 'clasificacionGenerica_id')->widget(Select2::classname(), [
                 'data'=>$dataClasifG               
                ]);?>

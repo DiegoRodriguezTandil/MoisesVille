@@ -2,6 +2,7 @@
 
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
+use kartik\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -9,19 +10,19 @@ use kartik\builder\Form;
 ?>
 
 <div class="acervo-form">     
-    <?php  
-        $dataUbicacion = ArrayHelper::map(\app\models\Ubicacion::find()->asArray()->all(), 'id', 'nombre');
+    <?php 
+      
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,
             'columns'=> 2,
             'attributes'=>[       // 2 column layout               
-                'ubicacion_id'=>['type'=>Form::INPUT_WIDGET, 'label'=>'Ubicación',
-                                'widgetClass'=>'\kartik\widgets\Select2', 
-                                'options'=>['data'=>$dataUbicacion ], 
-                                // 'hint'=>'Seleccione unidad de medida'
+                'restauracion'=>['type'=>Form::INPUT_TEXT, 'label'=>'Restauración','options'=>['placeholder'=>'Detalles...']],   
+                'fechaRestauracion'=>[
+                        'type'=>Form::INPUT_WIDGET, 
+                        'widgetClass'=>kartik\datecontrol\DateControl::className(), 
+                        'hint'=>'Ingrese Fecha de Restauracióna (dd/mm/aaaa)',
                     ],
-                'descUbicacion'=>['type'=>Form::INPUT_TEXT, 'label'=>'Más detalles ubicación','options'=>['placeholder'=>'Más detalles...']],        
             ]
         ]);
        

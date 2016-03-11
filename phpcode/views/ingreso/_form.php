@@ -80,12 +80,12 @@ use kartik\grid\GridView;
                     'fechaEntrada'=>[
                         'type'=>Form::INPUT_WIDGET, 
                         'widgetClass'=>kartik\datecontrol\DateControl::className(), 
-                        'hint'=>'Ingrese Fecha de Alta (dd/mm/yyyy)',
+                        'hint'=>'Ingrese Fecha de Alta (dd/mm/aaaa)',
                     ],
                     'fechaBaja'=>[
                         'type'=>Form::INPUT_WIDGET, 
                         'widgetClass'=>kartik\datecontrol\DateControl::className(), 
-                        'hint'=>'Ingrese Fecha de Baja (dd/mm/yyyy)'
+                        'hint'=>'Ingrese Fecha de Baja (dd/mm/aaaa)'
                     ],
                    ]
             ]);

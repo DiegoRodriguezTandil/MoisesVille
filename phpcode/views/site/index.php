@@ -4,6 +4,7 @@ use kartik\helpers\Html;
 use kartik\helpers\Enum;
 use kartik\tabs\TabsX;
 use yii\helpers\Url;
+use kotchuprik\fotorama\Widget;
 
 /* @var $this yii\web\View */
 
@@ -13,7 +14,8 @@ $this->title = 'Museo Moises Ville';
      <div class="row">
         <div class="col-sm-6"> 
             <div class="jumbotron">
-                <h2>Museo Histórico Comunal y de la Colonización Judía <br> Rabino A. H. Goldman</h2>
+                <?= Html::img(Yii::getAlias('@web').'/images/museomoisesville.png');?>
+                <h2><strong>Museo Histórico Comunal y de la Colonización Judía </strong><br>"Rabino Aarón H. Goldman"</h2>
                 <?php
                 echo Html::jumbotron([
                  //   'heading' => 'Museo Moises Ville', 
@@ -48,7 +50,7 @@ $this->title = 'Museo Moises Ville';
                 >
                 <?php
 
-                $widget = \kotchuprik\fotorama\Widget::begin([
+                $widget = Widget::begin([
                 'version' => '4.5.2',
                 'options' => [
                     'nav' => 'thumbs',
@@ -58,16 +60,12 @@ $this->title = 'Museo Moises Ville';
                 echo Html::img(Yii::getAlias('@web').'/images/museo03.jpg');
                 echo Html::img(Yii::getAlias('@web').'/images/museo04.jpg');
                 echo Html::img(Yii::getAlias('@web').'/images/museo05.jpg');                
-                ?>
-                   
-               // foreach($dataProvider->getModels() as $img)   
-              //       echo Html::img( '@web' .$img->webPath);
-                <?php
+
                 $widget->end();
                 ?>
             </div>
 
-            <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+            <!--<p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>-->
         </div>
     </div>
 

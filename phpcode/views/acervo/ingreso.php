@@ -61,6 +61,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label' => 'Dimensiones <i class="glyphicon glyphicon-resize-full"></i>',
                     'content' => $this->render('_form_medidas', ['model' => $model, 'form' => $form]),
                 ],
+                
+                [
+                    'label' => 'Restauración <i class="glyphicon glyphicon-tint"></i>',
+                    'content' => $this->render('_form_restauracion', ['model' => $model, 'form' => $form]),
+                ],
 
                 [
                     'label' => 'Imágenes <i class="glyphicon glyphicon-picture"></i>',
