@@ -21,15 +21,6 @@ return array (
       '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base',
     ),
   ),
-  'kartik-v/yii2-widget-datepicker' => 
-  array (
-    'name' => 'kartik-v/yii2-widget-datepicker',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/date' => $vendorDir . '/kartik-v/yii2-widget-datepicker',
-    ),
-  ),
   'kartik-v/yii2-label-inplace' => 
   array (
     'name' => 'kartik-v/yii2-label-inplace',
@@ -352,6 +343,24 @@ return array (
     'alias' => 
     array (
       '@bupy7/gridifyview' => $vendorDir . '/bupy7/yii2-gridify-view',
+    ),
+  ),
+  'kartik-v/yii2-widget-datepicker' => 
+  array (
+    'name' => 'kartik-v/yii2-widget-datepicker',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/date' => $vendorDir . '/kartik-v/yii2-widget-datepicker',
+    ),
+  ),
+  'kotchuprik/yii2-fotorama-widget' => 
+  array (
+    'name' => 'kotchuprik/yii2-fotorama-widget',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kotchuprik/fotorama' => $vendorDir . '/kotchuprik/yii2-fotorama-widget',
     ),
   ),
 );
