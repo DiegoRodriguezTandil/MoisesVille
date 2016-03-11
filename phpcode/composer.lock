@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0f7fc4e1efe87c094f212e72bc037bb5",
+    "hash": "b0494e2a960359d0518533a5576f4f75",
+    "content-hash": "135b4ecc3b0682ba4d40fa59d61b8129",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -1502,7 +1503,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/6038daa7d4e61175fdda85a71cb2a6a94d4868c1",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/bc22b97c342f9cbea25e5eee6ce7312ed0561cbd",
                 "reference": "6038daa7d4e61175fdda85a71cb2a6a94d4868c1",
                 "shasum": ""
             },
@@ -2258,6 +2259,47 @@
             "time": "2015-12-05 10:37:16"
         },
         {
+            "name": "kotchuprik/yii2-fotorama-widget",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kotchuprik/yii2-fotorama-widget.git",
+                "reference": "4a98b07f15ad76a8cd9f483fc408949fd61684c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kotchuprik/yii2-fotorama-widget/zipball/4a98b07f15ad76a8cd9f483fc408949fd61684c6",
+                "reference": "4a98b07f15ad76a8cd9f483fc408949fd61684c6",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kotchuprik\\fotorama\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Constantin Chuprik",
+                    "email": "constantinchuprik@gmail.com"
+                }
+            ],
+            "description": "Fotorama widget for Yii2",
+            "homepage": "http://github.com/kotchuprik/yii2-fotorama-widget",
+            "keywords": [
+                "fotorama",
+                "yii2"
+            ],
+            "time": "2014-08-15 19:08:27"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v5.4.1",
             "source": {
@@ -2873,7 +2915,8 @@
         "kartik-v/yii2-nav-x": 20,
         "kartik-v/bootstrap-popover-x": 20,
         "kartik-v/yii2-tabs-x": 20,
-        "bupy7/yii2-gridify-view": 20
+        "bupy7/yii2-gridify-view": 20,
+        "kotchuprik/yii2-fotorama-widget": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

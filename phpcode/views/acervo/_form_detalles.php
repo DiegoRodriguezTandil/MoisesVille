@@ -12,19 +12,19 @@ use kartik\form\ActiveField;
 
 <div class="acervo-form">  
     <?php 
-                $dataForma = ArrayHelper::map(\app\models\FormaIngreso::find()->asArray()->all(), 'id', 'nombre');
-                echo Form::widget([
-                    'model'=>$model,
-                    'form'=>$form,           
-                    'columns'=>2,
-                    'attributes'=>[                 
-                        'descEpoca'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Epoca...']],
-                        'lugarprocac'=>['type'=>Form::INPUT_TEXT, 
-                            'label'=>'Lugar de Procedencia',
-                            'options'=>['placeholder'=>'Lugar de procedencia...']],
-                    ]
-                ]);     
-        ?>   
+        $dataForma = ArrayHelper::map(\app\models\FormaIngreso::find()->asArray()->all(), 'id', 'nombre');
+        echo Form::widget([
+            'model'=>$model,
+            'form'=>$form,           
+            'columns'=>2,
+            'attributes'=>[                 
+                'descEpoca'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Epoca...']],
+                'lugarprocac'=>['type'=>Form::INPUT_TEXT, 
+                    'label'=>'Lugar de Procedencia',
+                    'options'=>['placeholder'=>'Lugar de procedencia...']],
+            ]
+        ]);     
+    ?>   
      <div class="row">
         <div class="col-sm-6"> 
             <?= $form->field($model, 'TemaIds')->widget(Select2::classname(), [

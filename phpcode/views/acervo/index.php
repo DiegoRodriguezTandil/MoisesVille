@@ -24,59 +24,39 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-//           ['class' => 'yii\grid\SerialColumn'],
             [
-                'label' => 'Nro Orden',
-       //         'format' => 'raw',
+                'label' => 'N.Orden',
                 'value' => 'id',
                 'attribute' => 'id',
-                'contentOptions'=>['style'=>'max-width: 5%;']
-                ],
-    //        'id',
+                'options'=>['width'=>'5%'],
+            ],
             'nombre',
-          //  'ubicacion_id.nombre',
-            [
-                'label' => 'Ubicación',
-                'attribute' => 'ubicaciontexto',
-                ],
             [
                 'label' => 'Colecciones',
                 'attribute' => 'colecciontextos',
-                ],
+            ],
             [
                 'label' => 'Temas',
                 'attribute' => 'tematextos',
-                ],
- //           'nroInventario',
-//            'forma',
-            // 'material',
-            // 'tema_id',
-            // 'tipoAcervo_id',
-             'ancho',
-             'largo',
-             'alto',
-            // 'peso',
-            // 'diametroInterno',
-            // 'diametroExterno',
-            // 'fechaIngreso',
-            // 'ingreso_id',
-            // 'coleccion_id',
-            
-           ['class' => 'yii\grid\ActionColumn', 
-            'template' => '{view} {update} {delete} {imagen}',
-            'buttons' => [
-                'imagen' => function ($url, $model) {
+            ],
+            [
+                'label' => 'Ubicación',
+                'attribute' => 'ubicaciontexto',
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn', 
+                'template' => '{view} {update} {delete} {imagen}',
+                'buttons' => [
+                    'imagen' => function ($url, $model) {
                 //    $url =Url::to('@web/'.'index.php?r=multimedia/subir&objeto_id='.$model->id);
-                    $url = Url::toRoute(['multimedia/create', 'objetos_id' =>$model->id]);
-                    return Html::a('<span class="glyphicon glyphicon-picture"></span>', $url, [
+                        $url = Url::toRoute(['multimedia/create', 'objetos_id' =>$model->id]);
+                        return Html::a('<span class="glyphicon glyphicon-picture"></span>', $url, [
                                     'title' => \Yii::t('yii', 'Agregar Imágenes'),
                                     'data-pjax' => '0',
                         ]);
-                },   
-            ],  
-               
-               
-               ],
+                    },   
+                ],  
+            ],
         ],
     ]); ?>
 

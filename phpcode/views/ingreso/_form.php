@@ -95,17 +95,54 @@ use kartik\grid\GridView;
 
     <?php
         $dataPersona = \yii\helpers\ArrayHelper::map(\app\models\Persona::find()->asArray()->all(), 'id', 'nombre');
+        $dataTipoPersona = \yii\helpers\ArrayHelper::map(\app\models\TipoPersona::find()->asArray()->all(), 'id', 'nombre');
+        
+        echo Form::widget([
+            'model'=>$model,
+            'form'=>$form,
+            'columns'=>2,            
+            'attributes'=>[
+                'persona_id'=>[
+                        'type'=>Form::INPUT_WIDGET, 
+                        'widgetClass'=>'\kartik\select2\Select2', 
+                        'label'=>'Persona Donante',
+                        'options' => [
+                            'options' => ['placeholder' => 'Seleccione Persona...'],                           
+                            'data' => $dataPersona,
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],                            
+                        ],
+                ],
+                'tipoPersona_id'=>[
+                        'type'=>Form::INPUT_WIDGET, 
+                        'widgetClass'=>'\kartik\select2\Select2', 
+                        'options' => [
+                            'options' => ['placeholder' => 'Seleccione Tipo de Persona...'],                           
+                            'data' => $dataTipoPersona,
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],                            
+                        ],
+                ],
+            ]
+        ]);    
+    ?>
+        
+    <?php
+        $dataPersonaDonante = \yii\helpers\ArrayHelper::map(\app\models\Persona::find()->asArray()->all(), 'id', 'nombre');
         
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,
             'columns'=>1,            
             'attributes'=>[
-                'persona_id'=>[
+                'persona_id_depositante'=>[
                         'type'=>Form::INPUT_WIDGET, 
-                        'widgetClass'=>'\kartik\select2\Select2', 'label'=>'Persona Donante',
+                        'widgetClass'=>'\kartik\select2\Select2', 
+                        'label'=>'Persona Depositante',
                         'options' => [
-                            'options' => ['placeholder' => 'Seleccione Persona...'],                           
+                            'options' => ['placeholder' => 'Seleccione Persona Depositante...'],                           
                             'data' => $dataPersona,
                             'pluginOptions' => [
                                 'allowClear' => true

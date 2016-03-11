@@ -30,7 +30,8 @@
         "kartik-v/yii2-widget-select2": "* v2.0.8",
         "kartik-v/bootstrap-popover-x": "dev-master",
         "kartik-v/yii2-tabs-x": "dev-master",
-        "bupy7/yii2-gridify-view": "dev-master"
+        "bupy7/yii2-gridify-view": "dev-master",
+        "kotchuprik/yii2-fotorama-widget": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

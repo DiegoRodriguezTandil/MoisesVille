@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 		
 /**
  * * This is the model class for table "user".
@@ -58,7 +57,7 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
             'id' => 'ID',
 	    'username' => 'Usuario',
 	    'auth_key' => 'Auth Key',
-	    'password' => 'Password',
+	    'password' => 'Contraseña',
 	    'email' => 'Email',
 	    'created_at' => 'Created At',
 	    'updated_at' => 'Updated At',

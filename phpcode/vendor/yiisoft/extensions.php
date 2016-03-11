@@ -309,6 +309,24 @@ return array (
       '@kartik/tabs' => $vendorDir . '/kartik-v/yii2-tabs-x',
     ),
   ),
+  'bupy7/yii2-gridify-view' => 
+  array (
+    'name' => 'bupy7/yii2-gridify-view',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@bupy7/gridifyview' => $vendorDir . '/bupy7/yii2-gridify-view',
+    ),
+  ),
+  'kotchuprik/yii2-fotorama-widget' => 
+  array (
+    'name' => 'kotchuprik/yii2-fotorama-widget',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kotchuprik/fotorama' => $vendorDir . '/kotchuprik/yii2-fotorama-widget',
+    ),
+  ),
   'yiisoft/yii2-codeception' => 
   array (
     'name' => 'yiisoft/yii2-codeception',
@@ -327,15 +345,6 @@ return array (
       '@yii/debug' => $vendorDir . '/yiisoft/yii2-debug',
     ),
   ),
-  'yiisoft/yii2-faker' => 
-  array (
-    'name' => 'yiisoft/yii2-faker',
-    'version' => '2.0.3.0',
-    'alias' => 
-    array (
-      '@yii/faker' => $vendorDir . '/yiisoft/yii2-faker',
-    ),
-  ),
   'yiisoft/yii2-gii' => 
   array (
     'name' => 'yiisoft/yii2-gii',
@@ -345,13 +354,13 @@ return array (
       '@yii/gii' => $vendorDir . '/yiisoft/yii2-gii',
     ),
   ),
-  'bupy7/yii2-gridify-view' => 
+  'yiisoft/yii2-faker' => 
   array (
-    'name' => 'bupy7/yii2-gridify-view',
-    'version' => '9999999-dev',
+    'name' => 'yiisoft/yii2-faker',
+    'version' => '2.0.3.0',
     'alias' => 
     array (
-      '@bupy7/gridifyview' => $vendorDir . '/bupy7/yii2-gridify-view',
+      '@yii/faker' => $vendorDir . '/yiisoft/yii2-faker',
     ),
   ),
 );
