@@ -10,49 +10,65 @@ use yii\helpers\Url;
 $this->title = 'Museo Moises Ville';
 ?>
 <div class="site-index">
+     <div class="row">
+        <div class="col-sm-6"> 
+            <div class="jumbotron">
+                <h2>Museo Histórico Comunal y de la Colonización Judía <br> Rabino A. H. Goldman</h2>
+                <?php
+                echo Html::jumbotron([
+                 //   'heading' => 'Museo Moises Ville', 
+                 //   'body' => 'Museo Histórico Comunal y de la Colonización Judía <br> Rabino A. H. Goldman',
+                    'buttons' => [
+                        [
+                            'label' => 'Agregar Ingreso',
+                            'icon' => 'book',
+                            'url' => \yii\helpers\Url::to(['/ingreso/create']),
+                            'type' => Html::TYPE_PRIMARY,
+                            'size' => Html::SIZE_MEDIUM,
+                            'styles' => 'padding:0;'
+                        ],               
+                        [
+                            'label' => 'Agregar Objeto',
+                            'icon' => 'leaf',
+                            'url' => \yii\helpers\Url::to(['/acervo/create']),
+                            'type' => Html::TYPE_PRIMARY,
+                            'size' => Html::SIZE_MEDIUM 
+                        ],
+                    ]
+                ]);
+                ?>
+            </div>
+        </div>
+   
+        <div class="col-sm-6">
 
-    <div class="jumbotron">
-        <!--h1>Museo Moises Ville</h1>
+            <div class="fotorama"
+                data-width="100%"
+                data-ratio="800/600"
+                >
+                <?php
 
-        <p class="lead">Museo Histórico Comunal y de la Colonización Judía</p-->
-        
-        <?php
-        echo Html::jumbotron([
-            'heading' => 'Museo Moises Ville', 
-            'body' => 'Museo Histórico Comunal y de la Colonización Judía',
-            'buttons' => [
-                [
-                    'label' => 'Agregar Ingreso',
-                    'icon' => 'book',
-                    'url' => \yii\helpers\Url::to(['/ingreso/create']),
-                    'type' => Html::TYPE_PRIMARY,
-                    'size' => Html::SIZE_MEDIUM,
-                    'styles' => 'padding:0;'
-                ],               
-                [
-                    'label' => 'Agregar Objeto',
-                    'icon' => 'leaf',
-                    'url' => \yii\helpers\Url::to(['/acervo/create']),
-                    'type' => Html::TYPE_PRIMARY,
-                    'size' => Html::SIZE_MEDIUM 
+                $widget = \kotchuprik\fotorama\Widget::begin([
+                'version' => '4.5.2',
+                'options' => [
+                    'nav' => 'thumbs',
                 ],
-//                [
-//                     'label' => 'Autores',
-//                     'icon' => 'user',
-//                     'url' => '#',
-//                     'type' => Html::TYPE_PRIMARY,
-//                     'size' => Html::SIZE_MEDIUM 
-//                ],
-//                [
-//                     'label' => 'Mi perfil',
-//                     'icon' => 'info-sign',
-//                     'url' => '#',
-//                     'type' => Html::TYPE_PRIMARY,
-//                     'size' => Html::SIZE_MEDIUM 
-//                ],
-            ]
-        ]);
-        ?>
+                ]);
+                echo Html::img(Yii::getAlias('@web').'/images/museo02.jpg');
+                echo Html::img(Yii::getAlias('@web').'/images/museo03.jpg');
+                echo Html::img(Yii::getAlias('@web').'/images/museo04.jpg');
+                echo Html::img(Yii::getAlias('@web').'/images/museo05.jpg');                
+                ?>
+                   
+               // foreach($dataProvider->getModels() as $img)   
+              //       echo Html::img( '@web' .$img->webPath);
+                <?php
+                $widget->end();
+                ?>
+            </div>
+
+            <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
+        </div>
     </div>
 
     <div class="body-content">

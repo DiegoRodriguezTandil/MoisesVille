@@ -43,6 +43,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $copia_id
  * @property integer $codformaing
  * @property integer $codtipoac
+ * @property integer $clasificacionGenerica_id 
  * @property integer $clasifac
  * @property integer $publicar_id
  * @property integer $idold
@@ -61,6 +62,7 @@ use yii\helpers\ArrayHelper;
  * @property Multimedia[] $multimedia
  * @property TemaAcervo[] $temaAcervos
  * @property Tema[] $temas
+ * @property ClasificacionGenerica $clasificacionGenerica 
  */
 class Acervo extends \yii\db\ActiveRecord
 {
@@ -82,7 +84,7 @@ class Acervo extends \yii\db\ActiveRecord
     {
         return [
             [['descripcion', 'caracteristicas', 'notas'], 'string'],
-            [['tipoAcervo_id', 'unidadMedida_id', 'unidadPeso_id', 'ingreso_id', 'estado_id', 'ubicacion_id', 'motivoBaja_id', 'copia_id', 'codformaing', 'codtipoac', 'clasifac', 'publicar_id', 'idold'], 'integer'],
+            [['tipoAcervo_id', 'unidadMedida_id', 'unidadPeso_id', 'ingreso_id', 'estado_id', 'ubicacion_id', 'motivoBaja_id', 'copia_id', 'codformaing', 'codtipoac', 'clasifac', 'publicar_id', 'clasificacionGenerica_id', 'idold'], 'integer'],
             [['ancho', 'largo', 'alto', 'peso', 'diametroInterno', 'diametroExterno'], 'number'],
             [['fechaIngreso', 'fechaBaja'], 'safe'],
             [['nombre', 'descEpoca', 'descUbicacion'], 'string', 'max' => 255],
@@ -133,15 +135,26 @@ class Acervo extends \yii\db\ActiveRecord
             'codtipoac' => Yii::t('app', 'Codtipoac'),
             'clasifac' => Yii::t('app', 'Clasifac'),
             'publicar_id' => Yii::t('app', 'Publicar en Web'),
+            'clasificacionGenerica_id' => Yii::t('app', 'Clasificación Genérica'),
+            'idold' => Yii::t('app', 'Idold'),
             'idold' => Yii::t('app', 'Idold'),            
             'TemaIds'=> Yii::t('app', 'Tema'),
             'ColeccionIds'=> Yii::t('app', 'Colección'),
         ];
     }
-
+    
+    
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getClasificacionGenerica() 
+    { 
+        return $this->hasOne(ClasificacionGenerica::className(), ['id' => 'clasificacionGenerica_id']); 
+    } 
+
+       /** 
+        * @return \yii\db\ActiveQuery 
+        */ 
     public function getCopia()
     {
         return $this->hasOne(Copia::className(), ['id' => 'copia_id']);

@@ -165,7 +165,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],  
                     [
                         'attribute'=>'largo', 
-                        'label'=>'Largo',
+                        'label'=>'Profundidad',
                         'displayOnly'=>true,
 //                       
                     ], 

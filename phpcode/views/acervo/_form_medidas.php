@@ -18,9 +18,9 @@ use kartik\builder\Form;
             'form'=>$form,
             'columns'=>4,
             'attributes'=>[       
-                'ancho'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Ancho...']],
-                'largo'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Largo...']],
+                'ancho'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Ancho...']],                
                 'alto'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Alto...']],
+                'largo'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Profundidad...']],
                 'unidadMedida_id'=>['type'=>Form::INPUT_WIDGET, 
                                     'label'=>'Unidad de Medida',
                                     'widgetClass'=>'\kartik\widgets\Select2', 

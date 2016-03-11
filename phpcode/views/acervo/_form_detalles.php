@@ -25,7 +25,7 @@ use kartik\form\ActiveField;
                     ]
                 ]);     
         ?>   
-     <div class="row">
+    <div class="row">
         <div class="col-sm-6"> 
             <?= $form->field($model, 'TemaIds')->widget(Select2::classname(), [
                 'data'=>$model->dropTema,
@@ -80,12 +80,21 @@ use kartik\form\ActiveField;
                             'id' => 'caracteristicas', 
                             'placeholder' => 'Ingrese descripción...', 
                             'rows' => 4
-                        ])->hint('Ingrese descripión. Recuerde que esa información en la que aparece en la web.');
+                        ])->hint('Ingrese Caracterísiticas. Recuerde que esa información en la que aparece en la web.');
 
             ?>
         </div>
         <div class="col-sm-6">
             <?= $form->field($model, 'notas')->textarea(['rows' => 4]) ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6"> 
+            <?php 
+                $dataClasifG = ArrayHelper::map(\app\models\Copia::find()->asArray()->all(), 'id', 'nombre');
+                echo  $form->field($model, 'clasificacionGenerica_id')->widget(Select2::classname(), [
+                'data'=>$dataClasifG               
+               ]);?>
         </div>
     </div>
     

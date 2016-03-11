@@ -32,12 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'id',
                 'contentOptions'=>['style'=>'max-width: 5%;']
                 ],
-    //        'id',
-            'nombre',
-          //  'ubicacion_id.nombre',
             [
-                'label' => 'Ubicación',
-                'attribute' => 'ubicaciontexto',
+                'label' => 'Nro Registro',
+                'attribute' => 'nroInventario',
+                ],
+            
+            [
+                'label' => 'Designación',
+                'attribute' => 'nombre',
                 ],
             [
                 'label' => 'Colecciones',
@@ -52,15 +54,17 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'material',
             // 'tema_id',
             // 'tipoAcervo_id',
-             'ancho',
-             'largo',
-             'alto',
+
             // 'peso',
             // 'diametroInterno',
             // 'diametroExterno',
             // 'fechaIngreso',
             // 'ingreso_id',
             // 'coleccion_id',
+            [
+                'label' => 'Ubicación',
+                'attribute' => 'ubicaciontexto',
+                ],
             
            ['class' => 'yii\grid\ActionColumn', 
             'template' => '{view} {update} {delete} {imagen}',
