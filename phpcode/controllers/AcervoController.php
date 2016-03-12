@@ -106,6 +106,26 @@ class AcervoController extends MainController
             }                
             $acervo_id = $model->id;            
         }        
+        
+        // Save UbicacionExterna
+        $ue = new \app\models\UbicacionExterna();
+        if ($ue->load(Yii::$app->request->post('UbicacionExterna'))) {  
+            $ue->acervo_id = $acervo_id;
+            if ($ue->save()) {
+                Yii::$app->session->setFlash('success',
+                    [
+                        'type' => 'success',
+                        'icon' => 'fa fa-users',
+                        'message' => 'Ubicación Externa guardada exitosamente',
+                        'title' => 'Carga de ubicación externa',
+                        'positonY' => 'top',
+                        'positonX' => 'left'
+                    ]                    
+                );            
+            }                
+                // exception error de guardado
+        }        
+        
 
         // Load images
         $files = UploadedFile::getInstances($model,'files');
@@ -259,7 +279,7 @@ class AcervoController extends MainController
         if(Yii::$app->request->post('saveClose')==2){
             $model = $this->findModel($id);
             $dataprovider = new ArrayDataProvider([
-            'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
+                'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
             ]);
             return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id, 'dataprovider' => $dataprovider]);                
         }    

@@ -90,6 +90,7 @@ class Multimedia extends \yii\db\ActiveRecord
             'tipoMultimedia_id' => Yii::t('app', 'Tipo Multimedia ID'),
             'objetos_id' => Yii::t('app', 'Objetos ID'),
             'objetoName' => Yii::t('app', 'Acervo'),
+            'files' => Yii::t('app', 'Archivo'),
         ];
     }
 

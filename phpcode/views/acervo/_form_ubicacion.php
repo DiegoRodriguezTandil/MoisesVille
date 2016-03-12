@@ -2,6 +2,7 @@
 
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -24,7 +25,27 @@ use kartik\builder\Form;
                 'descUbicacion'=>['type'=>Form::INPUT_TEXT, 'label'=>'Más detalles ubicación','options'=>['placeholder'=>'Más detalles...']],        
             ]
         ]);
-       
     ?>
-
+      
+    <?php
+        Modal::begin([
+            'header' => 'Ubicación externa al museo...',
+            'toggleButton' => [
+                'label' => '<i class="glyphicon glyphicon-plus"></i> Agregar Ubicación',
+                'class' => 'btn btn-success'
+            ],
+            'size' => 'modal-lg',
+        ]);
+        
+        echo $this->render(
+            '/ubicacion-externa/create', 
+            [
+                'model' => new \app\models\UbicacionExterna(),
+                'acervo_id' => $model->id,
+            ]
+        );
+        
+        Modal::end();
+    ?>
+        
 </div>
