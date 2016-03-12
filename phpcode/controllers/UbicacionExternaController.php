@@ -32,6 +32,24 @@ class UbicacionExternaController extends Controller
      */
     public function actionIndex()
     {
+//        var_dump(Yii::$app->request->post('UbicacionExterna'));
+//            die();
+        $model = new UbicacionExterna();
+        $m = $model->load(Yii::$app->request->post('UbicacionExterna'));
+        $s = $model->save();
+        if ($m) die('cargo el model');
+        if ($s) {
+            var_dump(Yii::$app->request->post('UbicacionExterna'));
+            die();
+            return $this->redirect(['index', 'id' => $model->id]);
+        } 
+//        else {
+//            return $this->render('create', [
+//                'model' => $model,
+//            ]);
+//        }
+//        if 
+//            $model->load(Yii::$app->request->post()
         $dataProvider = new ActiveDataProvider([
             'query' => UbicacionExterna::find(),
         ]);

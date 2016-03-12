@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Acervo;
 use app\models\Multimedia;
+use app\models\UbicacionExterna;
 use yii\data\ArrayDataProvider;
 use app\models\AcervoSearch;
 use yii\web\NotFoundHttpException;
@@ -160,18 +161,24 @@ class AcervoController extends MainController
         $dataprovider = new ArrayDataProvider([
             'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
             ]);
+        
+        //Obtener Ubicaciones Externas
+        $dataprovider_ue = new ArrayDataProvider([
+            'allModels' => UbicacionExterna::findAll(['acervo_id'=>$model->id]),
+            ]);
          
         if(Yii::$app->request->post('saveClose')==1){           
             if($ingreso_return){
-                return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id, 'dataProvider'=> $dataprovider]);                
+                return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id, 'dataProvider'=> $dataprovider, 'dataProviderUbicacionExterna'=> $dataprovider_ue]);                
             }
-            return $this->redirect(['view', 'id' => $model->id, 'dataProvider'=> $dataprovider]);
+            return $this->redirect(['view', 'id' => $model->id, 'dataProvider'=> $dataprovider, 'dataProviderUbicacionExterna'=> $dataprovider_ue]);
         }
 
         return $this->render('ingreso', [
             'model' => $model,
             'enableReturn' => $ingreso_return,
-            'dataProvider'=> $dataprovider
+            'dataProvider'=> $dataprovider,
+            'dataProviderUbicacionExterna'=> $dataprovider_ue
         ]);
     }
 
@@ -261,7 +268,11 @@ class AcervoController extends MainController
             $dataprovider = new ArrayDataProvider([
             'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
             ]);
-            return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id, 'dataprovider' => $dataprovider]);                
+             //Obtener Ubicaciones Externas
+            $dataprovider_ue = new ArrayDataProvider([
+            'allModels' => UbicacionExterna::findAll(['acervo_id'=>$model->id])->orderBy('fechaInicio DESC'),
+            ]);
+            return $this->redirect(['ingreso/update', 'id' => $model->ingreso_id, 'dataprovider' => $dataprovider, 'dataProviderUbicacionExterna'=> $dataprovider_ue]);                
         }    
         
         return $this->createOrUpdate(
