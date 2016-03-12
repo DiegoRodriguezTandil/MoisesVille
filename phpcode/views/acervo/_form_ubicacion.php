@@ -27,10 +27,10 @@ use yii\grid\GridView;
             ]
         ]);
     ?>
-      
+    <h4>Ubicación Externa</h4>
     <?php
         Modal::begin([
-            'header' => 'Ubicación externa al museo...',
+            'header' => 'Ubicación Externa',
             'toggleButton' => [
                 'label' => '<i class="glyphicon glyphicon-plus"></i> Agregar Ubicación Externa',
                 'class' => 'btn btn-success'
@@ -42,6 +42,7 @@ use yii\grid\GridView;
             '/ubicacion-externa/_form', 
             [
                 'model' => new \app\models\UbicacionExterna(),
+                'form'  => $form
             ]
         );
         
@@ -55,7 +56,7 @@ use yii\grid\GridView;
             'fechaInicio',
             'fechaCierre',
             'ubicacion',
-            ['class' => 'yii\grid\ActionColumn'],
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

@@ -70,8 +70,9 @@ class AcervoController extends MainController
     private function saveUbicacionExterna($acervo_id, $values){
         if(
                 isset($acervo_id)
+                && is_array($values)
                 && array_key_exists('ubicacion', $values)
-                && isset($values['ubicacion'])
+                && isset($values['ubicacion']) && (trim($values['ubicacion'])!='')
         )
         {
             $ue = new \app\models\UbicacionExterna();

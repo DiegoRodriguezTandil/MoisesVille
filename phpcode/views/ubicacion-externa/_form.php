@@ -13,11 +13,13 @@ use yii\bootstrap\TbButton;
 
 <div class="ubicacion-externa-form">
 
-    <?php $form = ActiveForm::begin([
-                'options' => [
-                    'id' => 'create-ue-form'
-                ]
-    ]); ?>
+    <?php 
+//    $form = ActiveForm::begin([
+//                'options' => [
+//                    'id' => 'create-ue-form'
+//                ]
+//    ]); 
+    ?>
     
     <?php
         echo Form::widget([
@@ -42,9 +44,19 @@ use yii\bootstrap\TbButton;
     <?= $form->field($model, 'ubicacion')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton(
+                $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), 
+                [
+                    'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary',
+                    'name' => 'saveUbicacionExternaButton',
+                    'id' => 'saveUbicacionExternaButton',
+                    'value' => 'saveUbicacionExternaButton',
+                ]
+            ) 
+        ?>
     </div>
 
-    <?php ActiveForm::end(); ?>
+
+    <?php //ActiveForm::end(); ?>
 
 </div>
