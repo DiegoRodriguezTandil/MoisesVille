@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 
                 [
                     'label' => 'Ubicación <i class="glyphicon glyphicon-map-marker"></i>',
-                    'content' => $this->render('_form_ubicacion', ['model' => $model, 'form' => $form]),
+                    'content' => $this->render('_form_ubicacion', ['model' => $model, 'form' => $form, 'dataProviderUbicacionExterna'=> $dataProviderUbicacionExterna]),
                 ],
                 
                 [

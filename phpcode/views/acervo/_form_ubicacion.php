@@ -2,6 +2,7 @@
 
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -26,5 +27,19 @@ use kartik\builder\Form;
         ]);
        
     ?>
+    
+      <?= GridView::widget([
+        'dataProvider' => $dataProviderUbicacionExterna,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+//            'id',
+            'fechaInicio',
+            'fechaCierre',
+            'ubicacion',
+//            'acervo_id',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 
 </div>

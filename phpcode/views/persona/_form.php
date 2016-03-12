@@ -56,7 +56,7 @@ use yii\helpers\ArrayHelper;
             'attributes'=>[
                 'mail'=>[
                         'type'=>Form::INPUT_TEXT, 
-                        'options'=>['placeholder'=>'Ingrese Mail...']
+                        'options'=>['placeholder'=>'Ingrese Mail...'],                    
                 ],
                 'telefono'=>[
                         'type'=>Form::INPUT_TEXT, 
