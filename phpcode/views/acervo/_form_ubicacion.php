@@ -31,17 +31,16 @@ use yii\bootstrap\Modal;
         Modal::begin([
             'header' => 'Ubicación externa al museo...',
             'toggleButton' => [
-                'label' => '<i class="glyphicon glyphicon-plus"></i> Agregar Ubicación',
+                'label' => '<i class="glyphicon glyphicon-plus"></i> Agregar Ubicación Externa',
                 'class' => 'btn btn-success'
             ],
             'size' => 'modal-lg',
         ]);
         
         echo $this->render(
-            '/ubicacion-externa/create', 
+            '/ubicacion-externa/_form', 
             [
                 'model' => new \app\models\UbicacionExterna(),
-                'acervo_id' => $model->id,
             ]
         );
         

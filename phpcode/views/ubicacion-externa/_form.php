@@ -41,14 +41,6 @@ use yii\bootstrap\TbButton;
 
     <?= $form->field($model, 'ubicacion')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'acervo_id')->textInput() ?>
-    
-    <?php 
-    
-   echo  Html::a(Yii::t('app', 'Save Ubicacion Externa'), ['create'], ['class' => 'btn btn-success',  'htmlOptions'=>array('onclick' => '$("#create-ue-form").submit()')]) 
-    
-    ?>
-
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

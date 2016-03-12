@@ -66,6 +66,22 @@ class AcervoController extends MainController
         ]);
     }
     
+    private function saveUbicacionExterna($acervo_id, $values){
+        if(isset($values['ubicacion']))
+        {
+            $ue = new \app\models\UbicacionExterna();
+            $ue->acervo_id = $acervo_id;
+            $ue->fechaInicio = $values['fechaInicio'];
+            $ue->fechaCierre = $values['fechaCierre'];
+            $ue->ubicacion = $values['ubicacion'];
+            if($ue->save())
+            {
+                return $ue;
+            }
+        }
+        return false;
+    }
+    
     /**
      * Displays a single Acervo model with images
      * @param integer $id
@@ -108,23 +124,20 @@ class AcervoController extends MainController
         }        
         
         // Save UbicacionExterna
-        $ue = new \app\models\UbicacionExterna();
-        if ($ue->load(Yii::$app->request->post('UbicacionExterna'))) {  
-            $ue->acervo_id = $acervo_id;
-            if ($ue->save()) {
-                Yii::$app->session->setFlash('success',
-                    [
-                        'type' => 'success',
-                        'icon' => 'fa fa-users',
-                        'message' => 'Ubicación Externa guardada exitosamente',
-                        'title' => 'Carga de ubicación externa',
-                        'positonY' => 'top',
-                        'positonX' => 'left'
-                    ]                    
-                );            
-            }                
-                // exception error de guardado
+        if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'))) 
+        {  
+            Yii::$app->session->setFlash('success',
+                [
+                    'type' => 'success',
+                    'icon' => 'fa fa-users',
+                    'message' => 'Ubicación Externa guardada exitosamente',
+                    'title' => 'Carga de ubicación externa',
+                    'positonY' => 'top',
+                    'positonX' => 'left'
+                ]                    
+            );            
         }        
+        // exception error de guardado
         
 
         // Load images
