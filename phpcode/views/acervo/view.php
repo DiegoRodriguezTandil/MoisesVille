@@ -29,7 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <a href="#fotos"><i class="glyphicon glyphicon-picture"></i> Ver imágenes</a>
+        <a href="#fotos" class="btn btn-primary pull-right navigate-top" ><i class="glyphicon glyphicon-picture"></i> Ver imágenes</a>
+   
     </p>
 
     <?php 

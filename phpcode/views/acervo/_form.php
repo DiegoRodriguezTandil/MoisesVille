@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 use kartik\switchinput\SwitchInput;
 use kartik\widgets\Select2;
+use kartik\form\ActiveField;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -22,7 +23,13 @@ use kartik\widgets\Select2;
         </div>
 
         <div class="col-sm-3">     
-            <?= $form->field($model, 'nombre')->textInput() ?>
+            <?= $form->field($model, 'nombre', [
+                'hintType' => ActiveField::HINT_SPECIAL,
+                'hintSettings' => [
+                    'showIcon' => false,
+                    'title' => '<i class="glyphicon glyphicon-info-sign"></i> Nota'
+                ]
+                ])->textInput()->hint('Ingrese el nombre/designación con que se describirá el objeto.'); ?>
         </div>              
         <div class="col-sm-3">
             <?php   

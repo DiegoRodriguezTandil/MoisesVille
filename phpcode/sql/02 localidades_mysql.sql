@@ -1,10 +1,16 @@
 use moisesville;
 
-insert into pais (id, nombre) VALUES(1, 'ARGENTINA');
-
+delete from pais where id > -1;
 delete from localidad where id > -1;
 delete from departamento where id > -1;
 delete from provincia where id > -1;
+
+LOCK TABLES pais WRITE;
+insert into pais (id, nombre) VALUES(1, 'ARGENTINA');
+UNLOCK TABLES;
+
+
+LOCK TABLES provincia WRITE;
 
 INSERT INTO provincia (pais_id,id,nombre) VALUES(1,1,'BUENOS AIRES');
 INSERT INTO provincia (pais_id,id,nombre) VALUES(1,2,'CATAMARCA');
@@ -29,6 +35,9 @@ INSERT INTO provincia (pais_id,id,nombre) VALUES(1,20,'SANTA FE');
 INSERT INTO provincia (pais_id,id,nombre) VALUES(1,21,'SANTIAGO DEL ESTERO');
 INSERT INTO provincia (pais_id,id,nombre) VALUES(1,22,'TIERRA DEL FUEGO');
 INSERT INTO provincia (pais_id,id,nombre) VALUES(1,23,'TUCUMAN');
+
+UNLOCK TABLES;
+LOCK TABLES departamento WRITE;
 
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(1,1,'AZUL');
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(2,1,'PUAN');
@@ -603,6 +612,9 @@ INSERT INTO departamento (id,provincia_id,nombre) VALUES(571,23,'TAFI');
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(572,23,'GRANEROS');
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(573,23,'FAMAILLA');
 INSERT INTO departamento (id,provincia_id,nombre) VALUES(574,23,'CAPITAL');
+
+UNLOCK TABLES;
+LOCK TABLES localidad WRITE;
 
 
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(1,1,'16 DE JULIO');
@@ -6044,3 +6056,6 @@ INSERT INTO localidad (id,departamento_id,nombre) VALUES(5436,565,'VIPOS');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(5437,566,'YACUCHINA');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(5438,572,'YANIMAS');
 INSERT INTO localidad (id,departamento_id,nombre) VALUES(5439,571,'YERBA BUENA');
+
+UNLOCK TABLES;
+

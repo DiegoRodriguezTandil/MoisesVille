@@ -27,16 +27,28 @@ use kartik\form\ActiveField;
     ?>   
      <div class="row">
         <div class="col-sm-6"> 
-            <?= $form->field($model, 'TemaIds')->widget(Select2::classname(), [
+            <?= $form->field($model, 'TemaIds',[
+                'hintType' => ActiveField::HINT_SPECIAL,
+                'hintSettings' => [
+                    'showIcon' => false,
+                    'title' => '<i class="glyphicon glyphicon-info-sign"></i> Ayuda'
+                ]
+                ])->widget(Select2::classname(), [
                 'data'=>$model->dropTema,
                 'options' => ['multiple' => true]
-               ]);?>
+               ])->hint('Seleccione todos los temas que desea que contengan el objeto.');?>
         </div>
         <div class="col-sm-6">
-            <?= $form->field($model, 'ColeccionIds')->widget(Select2::classname(), [
+            <?= $form->field($model, 'ColeccionIds', [
+                'hintType' => ActiveField::HINT_SPECIAL,
+                'hintSettings' => [
+                    'showIcon' => false,
+                    'title' => '<i class="glyphicon glyphicon-info-sign"></i> Ayuda'
+                ]
+                ])->widget(Select2::classname(), [
                 'data'=>$model->dropColeccion,
                 'options' => ['multiple' => true]
-               ]);?>
+               ])->hint('Seleccione todas las Colecciones que desea que contengan el objeto.');?>
         </div>
     </div>
     <?php   
