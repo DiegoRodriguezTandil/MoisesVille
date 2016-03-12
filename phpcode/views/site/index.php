@@ -17,27 +17,36 @@ $this->title = 'Museo Moises Ville';
                 <?= Html::img(Yii::getAlias('@web').'/images/museomoisesville.png');?>
                 <h2><strong>Museo Histórico Comunal y de la Colonización Judía </strong><br>"Rabino Aarón H. Goldman"</h2>
                 <?php
-                echo Html::jumbotron([
-                 //   'heading' => 'Museo Moises Ville', 
-                 //   'body' => 'Museo Histórico Comunal y de la Colonización Judía <br> Rabino A. H. Goldman',
-                    'buttons' => [
-                        [
-                            'label' => 'Agregar Ingreso',
-                            'icon' => 'book',
-                            'url' => \yii\helpers\Url::to(['/ingreso/create']),
-                            'type' => Html::TYPE_PRIMARY,
-                            'size' => Html::SIZE_MEDIUM,
-                            'styles' => 'padding:0;'
-                        ],               
-                        [
-                            'label' => 'Agregar Objeto',
-                            'icon' => 'leaf',
-                            'url' => \yii\helpers\Url::to(['/acervo/create']),
-                            'type' => Html::TYPE_PRIMARY,
-                            'size' => Html::SIZE_MEDIUM 
-                        ],
-                    ]
-                ]);
+                if (!Yii::$app->user->isGuest ){
+                    echo Html::jumbotron([
+                     //   'heading' => 'Museo Moises Ville', 
+                     //   'body' => 'Museo Histórico Comunal y de la Colonización Judía <br> Rabino A. H. Goldman',
+                        'buttons' => [
+                             [
+                                'label' => 'Agregar Persona',
+                                'icon' => 'user',
+                                'url' => \yii\helpers\Url::to(['/persona/create']),
+                                'type' => Html::TYPE_PRIMARY,
+                                'size' => Html::SIZE_MEDIUM 
+                            ],
+                            [
+                                'label' => 'Agregar Ingreso',
+                                'icon' => 'book',
+                                'url' => \yii\helpers\Url::to(['/ingreso/create']),
+                                'type' => Html::TYPE_PRIMARY,
+                                'size' => Html::SIZE_MEDIUM,
+                                'styles' => 'padding:0;'
+                            ],               
+                            [
+                                'label' => 'Agregar Objeto',
+                                'icon' => 'leaf',
+                                'url' => \yii\helpers\Url::to(['/acervo/create']),
+                                'type' => Html::TYPE_PRIMARY,
+                                'size' => Html::SIZE_MEDIUM 
+                            ],
+                        ]
+                    ]);
+                }
                 ?>
             </div>
         </div>
@@ -46,7 +55,7 @@ $this->title = 'Museo Moises Ville';
 
             <div class="fotorama"
                 data-width="100%"
-                data-ratio="800/600"
+                data-ratio="800/600"                
                 >
                 <?php
 
@@ -54,6 +63,8 @@ $this->title = 'Museo Moises Ville';
                 'version' => '4.5.2',
                 'options' => [
                     'nav' => 'thumbs',
+                    'autoplay' => 'true',
+                    'transition' => 'crossfade'
                 ],
                 ]);
                 echo Html::img(Yii::getAlias('@web').'/images/museo02.jpg');

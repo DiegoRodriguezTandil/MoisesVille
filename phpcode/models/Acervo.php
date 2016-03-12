@@ -47,6 +47,9 @@ use yii\helpers\ArrayHelper;
  * @property integer $clasifac
  * @property integer $publicar_id
  * @property integer $idold
+ * @property integer $clasificacionGenerica_id
+ * @property string $fechaRestauracion
+ * @property string $restauracion
  *
  * @property Copia $copia
  * @property Estado $estado
@@ -63,6 +66,7 @@ use yii\helpers\ArrayHelper;
  * @property TemaAcervo[] $temaAcervos
  * @property Tema[] $temas
  * @property ClasificacionGenerica $clasificacionGenerica 
+ * @property UbicacionExterna[] $ubicacionExternas
  */
 class Acervo extends \yii\db\ActiveRecord
 {
@@ -86,8 +90,8 @@ class Acervo extends \yii\db\ActiveRecord
             [['descripcion', 'caracteristicas', 'notas'], 'string'],
             [['tipoAcervo_id', 'unidadMedida_id', 'unidadPeso_id', 'ingreso_id', 'estado_id', 'ubicacion_id', 'motivoBaja_id', 'copia_id', 'codformaing', 'codtipoac', 'clasifac', 'publicar_id', 'clasificacionGenerica_id', 'idold'], 'integer'],
             [['ancho', 'largo', 'alto', 'peso', 'diametroInterno', 'diametroExterno'], 'number'],
-            [['fechaIngreso', 'fechaBaja'], 'safe'],
-            [['nombre', 'descEpoca', 'descUbicacion'], 'string', 'max' => 255],
+            [['fechaIngreso', 'fechaBaja', 'fechaRestauracion'], 'safe'],
+            [['nombre', 'descEpoca', 'descUbicacion', 'restauracion'], 'string', 'max' => 255],
             [['nroInventario', 'color', 'nroA', 'nroB', 'nroC', 'nroD'], 'string', 'max' => 45],
             [['forma', 'material', 'lugarprocac'], 'string', 'max' => 100]
         ];
@@ -100,7 +104,7 @@ class Acervo extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'nombre' => Yii::t('app', 'Nombre'),
+            'nombre' => Yii::t('app', 'Designación'),
             'descripcion' => Yii::t('app', 'Descripción'),
             'nroInventario' => Yii::t('app', 'Nro Registro'),
             'forma' => Yii::t('app', 'Forma'),
@@ -140,6 +144,8 @@ class Acervo extends \yii\db\ActiveRecord
             'idold' => Yii::t('app', 'Idold'),            
             'TemaIds'=> Yii::t('app', 'Tema'),
             'ColeccionIds'=> Yii::t('app', 'Colección'),
+            'fechaRestauracion' => Yii::t('app', 'Fecha Restauracion'),
+            'restauracion' => Yii::t('app', 'Restauracion'),
         ];
     }
     
@@ -467,5 +473,14 @@ class Acervo extends \yii\db\ActiveRecord
             return substr($temas, 0, -2);               
     }
     
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUbicacionExternas()
+    {
+        return $this->hasMany(UbicacionExterna::className(), ['acervo_id' => 'id']);
+    }
+
   
 }

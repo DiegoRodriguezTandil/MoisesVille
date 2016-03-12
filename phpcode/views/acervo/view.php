@@ -8,6 +8,7 @@ use kartik\detail\DetailView;
 use bupy7\gridifyview\GridifyView;
 use kartik\grid\GridView;
 
+
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
 
@@ -15,7 +16,7 @@ $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Acervos'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="acervo-view">
+<div class="acervo-view" id="top">
 
     <h1><?php //echo Html::encode($this->title) ?>
         <?php echo " Objeto: ".$model->nombre; ?></h1>
@@ -28,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <a href="#fotos"><i class="glyphicon glyphicon-picture"></i> Ver imágenes</a>
     </p>
 
     <?php 
@@ -236,7 +238,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
       
 </div>
-<div class="acervo-view">
+<div class="acervo-view" id="fotos">
+    <br><a href="#top"><i class="glyphicon glyphicon-circle-arrow-up"></i> Top</a>
+    <h3>Imágenes del Objeto</h3>
     <div class="fotorama"
         data-fit="scaledown"
         data-width="100%"

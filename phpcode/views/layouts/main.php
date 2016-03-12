@@ -27,7 +27,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="wrap_old">
+<div class="wrap">
     <?php //$content = '<p class="text-justify">' .
     //'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.' . 
    // '</p>';
@@ -75,11 +75,11 @@ AppAsset::register($this);
     
     
     <?php
-    $logo = Html::img('@web/gestion2.png', ['width'=>'300']);
+    $logo = Html::img('@web/gestion.png', ['width'=>'300']);
     NavBar::begin([
         'brandLabel' => $logo, //'<img src="' . \Yii::$app->urlManager->createAbsoluteUrl('/web/moises.png') . '" width="100%">',
         'brandUrl' => 'index.php?r=site/index',
-        'brandOptions' => ['title' => 'Gestor de Colecciones', 'style'=>'width:auto'],
+        'brandOptions' => ['title' => 'Gestión de Colecciones', 'style'=>'width:auto'],
         'options' => [
             'id' => 'top-menu',
             'class' => 'navbar-inverse',
@@ -91,8 +91,16 @@ AppAsset::register($this);
         {        
             $itemsLeft = [
                 ['label' => 'Inicio','url' => ['/site/index']],        
-                ['label' => Yii::t('app','Ingreso'), 'url' => ['/ingreso']],
-                    ['label' => Yii::t('app','Acervo'), 'url' => ['/acervo']],
+                ['label' => Yii::t('app','Ingresos'), 'url' => ['/ingreso'],
+                            'items'=>array(
+                                array('label'=>'Listado de Ingresos', 'url'=>array('/ingreso')),
+                                array('label'=>'Nuevo Ingreso', 'url'=>array('/ingreso/create')),                                
+                              ),],
+                    ['label' => Yii::t('app','Objetos'), 'url' => ['/acervo'],
+                                'items'=>array(
+                                array('label'=>'Listado de Objetos', 'url'=>array('/acervo')),
+                                array('label'=>'Nuevo Objeto', 'url'=>array('/acervo/create')),                                
+                              ),],
                     ['label' => Yii::t('app','Personas'), 'url' => ['/persona']],                    
                     ['label' => Yii::t('app','Configuración'), 'url' => ['/site/contacto'],
                         'items'=>array(
@@ -117,24 +125,7 @@ AppAsset::register($this);
                     'linkOptions' => ['data-method' => 'post']
                 ],
     ];
-   
-    
-//    $userPopover = '<li class="dropdown"><div class="navbar-form">' . PopoverX::widget([
-//        'header' => 'Hello world',
-//        'placement' => PopoverX::ALIGN_BOTTOM_RIGHT,
-//        'size' => 'md',
-//        'content' => $content,
-//        'footer' => Html::button('Proceed &raquo;', ['class'=>'btn btn-sm btn-default']),
-//        'toggleButton' => [
-//            'label' => 'Logout' . Html::tag('span', '', ['class' => 'glyphicon glyphicon-lock', 'style' => 'padding-left: 10px']),
-//            'class'=>'btn btn-default'
-//        ]
-//    ]) . '</div></li>';
-//    $itemsRight = [
-//        ['label' => 'Account', 'url' => '#'],
-//        '<li class="divider-vertical"></li>',
-//        '<li>' . $userPopover . '</li>'
-//    ];
+
     echo NavX::widget(['options' => ['class' => 'navbar-nav navbar-right'], 'items' => $itemsRight]);
     NavBar::end();
     ?>
@@ -166,30 +157,12 @@ AppAsset::register($this);
             ]) ?>
             <?= $content ?>
         </div>
-        <!--div class="col-sm-3">
-            <p><?php //echo "Mensajes ".Html::badge('15');
-                //echo Html::well("Mensajes ".Html::badge('15'), Html::SIZE_TINY);
-                ?>
-                <button class="btn btn-primary" type="button">
-                Mensajes <span class="badge">4</span>
-                </button>   
-            </p>
-            <div class="list-group">
-                <a href="#" class="list-group-item disabled">
-                  Agregar Componentes
-                </a>
-                <a href="index.php?r=ingreso/create" class="list-group-item">Nuevo Ingreso</a>
-                <a href="index.php?r=tema/create" class="list-group-item">Nuevo Tema</a>
-                <a href="index.php?r=coleccion/create" class="list-group-item">Nueva Colección</a>
-                <a href="index.php?r=tipo-acervo/create" class="list-group-item">Nuevo Tipo de Acervo</a>
-            </div>
-        </div-->
     </div>
 </div>
-
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Moises Ville Museo <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Museo Histórico Comunal y de la Colonización Judía
+"Rabino Aarón H. Goldman" - <?= date('Y') ?></p>
 
         <p class="pull-right"><a href="http://www.qwavee.com">Qwavee</a></p>
     </div>
