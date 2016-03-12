@@ -4,6 +4,9 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 
+use kartik\widgets\ActiveForm;
+use kartik\builder\Form;
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -17,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a(Yii::t('app', 'Create Tipo Acervo'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    
 
     <?= GridView::widget([ 
         'dataProvider' => $dataProvider,
@@ -37,6 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],*/
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]); 
+
+    
+?>
 
 </div>
