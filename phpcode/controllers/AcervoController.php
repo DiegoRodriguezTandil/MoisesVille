@@ -67,6 +67,22 @@ class AcervoController extends MainController
         ]);
     }
     
+    private function saveUbicacionExterna($acervo_id, $values){
+        if(isset($values['ubicacion']))
+        {
+            $ue = new \app\models\UbicacionExterna();
+            $ue->acervo_id = $acervo_id;
+            $ue->fechaInicio = $values['fechaInicio'];
+            $ue->fechaCierre = $values['fechaCierre'];
+            $ue->ubicacion = $values['ubicacion'];
+            if($ue->save())
+            {
+                return $ue;
+            }
+        }
+        return false;
+    }
+    
     /**
      * Displays a single Acervo model with images
      * @param integer $id
@@ -107,6 +123,23 @@ class AcervoController extends MainController
             }                
             $acervo_id = $model->id;            
         }        
+        
+        // Save UbicacionExterna
+        if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'))) 
+        {  
+            Yii::$app->session->setFlash('success',
+                [
+                    'type' => 'success',
+                    'icon' => 'fa fa-users',
+                    'message' => 'Ubicación Externa guardada exitosamente',
+                    'title' => 'Carga de ubicación externa',
+                    'positonY' => 'top',
+                    'positonX' => 'left'
+                ]                    
+            );            
+        }        
+        // exception error de guardado
+        
 
         // Load images
         $files = UploadedFile::getInstances($model,'files');
@@ -266,7 +299,7 @@ class AcervoController extends MainController
         if(Yii::$app->request->post('saveClose')==2){
             $model = $this->findModel($id);
             $dataprovider = new ArrayDataProvider([
-            'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
+                'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
             ]);
              //Obtener Ubicaciones Externas
             $dataprovider_ue = new ArrayDataProvider([

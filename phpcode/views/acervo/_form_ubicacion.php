@@ -2,6 +2,7 @@
 
 use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
+use yii\bootstrap\Modal;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -25,19 +26,35 @@ use yii\grid\GridView;
                 'descUbicacion'=>['type'=>Form::INPUT_TEXT, 'label'=>'Más detalles ubicación','options'=>['placeholder'=>'Más detalles...']],        
             ]
         ]);
-       
     ?>
-    
-      <?= GridView::widget([
+      
+    <?php
+        Modal::begin([
+            'header' => 'Ubicación externa al museo...',
+            'toggleButton' => [
+                'label' => '<i class="glyphicon glyphicon-plus"></i> Agregar Ubicación Externa',
+                'class' => 'btn btn-success'
+            ],
+            'size' => 'modal-lg',
+        ]);
+        
+        echo $this->render(
+            '/ubicacion-externa/_form', 
+            [
+                'model' => new \app\models\UbicacionExterna(),
+            ]
+        );
+        
+        Modal::end();
+    ?>
+            
+    <?= GridView::widget([
         'dataProvider' => $dataProviderUbicacionExterna,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-//            'id',
             'fechaInicio',
             'fechaCierre',
             'ubicacion',
-//            'acervo_id',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
