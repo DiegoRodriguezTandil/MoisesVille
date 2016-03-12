@@ -67,7 +67,11 @@ class AcervoController extends MainController
     }
     
     private function saveUbicacionExterna($acervo_id, $values){
-        if(isset($values['ubicacion']))
+        if(
+                isset($acervo_id)
+                && array_key_exists('ubicacion', $values)
+                && isset($values['ubicacion'])
+        )
         {
             $ue = new \app\models\UbicacionExterna();
             $ue->acervo_id = $acervo_id;
@@ -90,7 +94,7 @@ class AcervoController extends MainController
     private function createOrUpdate($id = NULL, $ingreso_id = NULL, $ingreso_return = FALSE)
     {   
         $model = NULL;
-        
+        $acervo_id = NULL;
         // Load Acervo ID From Model or Update ID
         $acervo = Yii::$app->request->post('Acervo');
         if(!empty($acervo)&&(array_key_exists('id',$acervo))){
@@ -192,7 +196,12 @@ class AcervoController extends MainController
         //Obtener fotos
         $dataprovider = new ArrayDataProvider([
             'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
-            ]);
+        ]);
+        
+        //Obtener UbicacionExterna
+        $dataprovider = new ArrayDataProvider([
+            'allModels' => UbicacionExterna::findAll(['objetos_id'=>$model->id]),
+        ]);
          
         if(Yii::$app->request->post('saveClose')==1){           
             if($ingreso_return){
