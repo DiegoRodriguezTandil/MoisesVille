@@ -21,13 +21,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <div style="width:1000px; float:left; font-size: 14px;  border-style: solid;
     border-bottom: dotted #000;">
         <div style="width:200px; float:left;">
-            <p>N° de Registro</p>
+            <p>N° de Registro</p><?=$model->nroInventario;?>
         </div>
         <div style="float:left; width:300px; text-align:center;">
             <h4>Museo Histórico Comunal <br>y de la colonización judía<br>"Rabino Aarón N. Goldman"</h4>            
         </div>
         <div style="width:100px; float:right;">
-            <p>N° de Orden</p>
+            <p>N° de Orden</p><?=$model->id;?>
         </div>
     </div>
     
@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <p><strong>Designación:</strong> <?=$model->nombre;?> </p>
         </div>
         <div style="float:left; text-align:center;">
-            <p><strong>Clasificación Genérica: </strong><?=$model->tipoAcervo->descripcion;?></p>
+            <p><strong>Clasificación Genérica: </strong><?=$model->clasificacionGenerica->nombre;?></p>
         </div>       
     </div>
     
@@ -82,19 +82,52 @@ $this->params['breadcrumbs'][] = $this->title;
             <strong>Color: </strong><?=$model->color;?>
         </div>             
     </div>
-    
+      
     <div style="width:1000px; float:left; font-size: 14px; margin-bottom: 10px; border-style: solid; border-bottom: thin #000;">
         <div style="float:left; width: 150px;"><strong>Características</strong></div>
         <div style="float:left;margin-bottom: 20px; ">
             <?=$model->caracteristicas;?>
         </div> 
+    </div>
+    
+    <div style="width:1000px; float:left; font-size: 14px; margin-bottom: 10px;">
+        <div style="float:left; width: 400px;">
+            <strong>Descripción Época: </strong> <?=$model->descEpoca;?>
+        </div> 
+        <div style="float:left; ">
+            <strong>Lugar de Procedencia: </strong> <?=$model->lugarprocac;?> 
+        </div>                 
+    </div>
+    <div style="width:1000px; float:left; font-size: 14px; margin-bottom: 10px;">
+        <div style="float:left; width: 150px;"><strong>Restauración</strong>        
+            <?=$model->restauracion;?>
+        </div> 
+    </div>
+    
+    <div style="width:1000px; float:left; font-size: 14px; margin-bottom: 10px; border-style: solid; border-bottom: thin #000;">
+        <div style="float:left; width: 150px; margin-bottom: 10px; "><strong>Observaciones</strong></div>
+        <div style="float:left;margin-bottom: 20px; ">
+            <?=$model->notas;?>
+        </div> 
     </div> 
     
-    <div style="width:500px; float:left; font-size: 14px; margin: 10px;  ">
-        <strong>Fotografías:</strong>
-        <?php foreach($dataProvider->getModels() as $img)   
-                 echo Html::img( '@web' .$img->webPath);
-        ?>
-    </div>     
+    <div style="float:left; font-size: 14px; margin: 10px;  ">
+        <strong>Fotografías:</strong>        
+        <?php foreach($dataProvider->getModels() as $img) {  ?>
+                <div style="width:400px; float:left; font-size: 14px; margin: 10px;  ">
+                    <?php   echo Html::img( '@web' .$img->webPath); 
+                            echo '</div>';
+             } ?>
+                    
+    </div>
+        
+    <div style="width:1000px; float:left; font-size: 14px; margin-bottom: 10px;">
+        <div style="float:left; width: 400px;"><br>
+            <strong>Firma: </strong>
+        </div> 
+        <div style="float:left; width: 200px;">
+            <strong>Fecha: ......../......../........
+        </div>                 
+    </div>
    
 </div>

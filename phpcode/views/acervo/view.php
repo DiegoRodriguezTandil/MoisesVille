@@ -29,7 +29,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <a href="#fotos" class="btn btn-primary pull-right navigate-top" ><i class="glyphicon glyphicon-picture"></i> Ver imágenes</a>
+        
+        <a href="#fotos" class="btn btn-info pull-right navigate-top" style="margin-left:5px;" ><i class="glyphicon glyphicon-print"></i> Ficha</a>
+        <a href="#fotos" class="btn btn-primary pull-right navigate-top" ><i class="glyphicon glyphicon-picture"></i> Imágenes</a>
    
     </p>
 
@@ -175,7 +177,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute'=>'unidadMedida_id', 
                         'label'=>'Unidad Medida',
-                        'value' => $model->unidadMedidaDescripcion,                       
+                        'value' => $model->unidadMedida->descripcion,                       
                         'displayOnly'=>true,                      
                     ], 
                 ],
@@ -199,13 +201,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     ], 
                     [
                         'attribute'=>'unidadPeso_id',                         
-                        'value' => $model->unidadMedidaDescripcion,                       
+                        'value' => $model->unidadMedida->descripcion,                       
                         'displayOnly'=>true,
                         
                     ], 
                 ],
             ],
-                        [
+            [
                 'group'=>true,
                 'label'=>'Características',
                 'rowOptions'=>['class'=>'info']
@@ -227,7 +229,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'valueColOptions'=>['style'=>'width:30%']
                     ],                    
                 ],
-            ],
+            ],           
         ];
 
         
@@ -239,6 +241,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
       
 </div>
+
 <div class="acervo-view" id="fotos">
     <br><a href="#top"><i class="glyphicon glyphicon-circle-arrow-up"></i> Top</a>
     <h3>Imágenes del Objeto</h3>
