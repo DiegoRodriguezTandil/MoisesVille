@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php echo " Objeto: ".$model->nombre; ?></h1>
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -29,10 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        
-        <a href="#fotos" class="btn btn-info pull-right navigate-top" style="margin-left:5px;" ><i class="glyphicon glyphicon-print"></i> Ficha</a>
+       
         <a href="#fotos" class="btn btn-primary pull-right navigate-top" ><i class="glyphicon glyphicon-picture"></i> Imágenes</a>
-   
+        <?= Html::a(Yii::t('app', 'Ficha'), ['print', 'id' => $model->id], ['class' => 'btn btn-info']) ?>
     </p>
 
     <?php 

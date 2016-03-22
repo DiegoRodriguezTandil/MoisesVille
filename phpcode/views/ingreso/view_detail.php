@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <a href="#fotos" class="btn btn-info pull-right navigate-top" style="margin-left:5px;" ><i class="glyphicon glyphicon-print"></i> Ficha</a> 
+        <?= Html::a(Yii::t('app', 'Ficha'), ['print', 'id' => $model->id], ['class' => 'btn btn-info']) ?>
     </p>
 
    <div class="ingreso-view" id="top">
