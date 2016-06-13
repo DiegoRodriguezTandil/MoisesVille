@@ -18,7 +18,9 @@ use kartik\form\ActiveField;
             'form'=>$form,           
             'columns'=>2,
             'attributes'=>[                 
-                'descEpoca'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Epoca...']],
+                'descEpoca'=>['type'=>Form::INPUT_TEXT, 
+                    'label'=>'Época de Procedencia',                    
+                    'options'=>['placeholder'=>'Época...']],
                 'lugarprocac'=>['type'=>Form::INPUT_TEXT, 
                     'label'=>'Lugar de Procedencia',
                     'options'=>['placeholder'=>'Lugar de procedencia...']],

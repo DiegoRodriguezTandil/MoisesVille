@@ -160,6 +160,9 @@ class AcervoController extends MainController
         // Load Ingreso ID. Request comes from Ingreso form
         if(!empty($ingreso_id)){
             $model->ingreso_id = $ingreso_id;
+            if($model->isNewRecord){
+                $model->nroA = $ingreso_id;
+            }
         }
         
         // Load Form data into model & Save it
