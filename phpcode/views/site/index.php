@@ -14,39 +14,40 @@ $this->title = 'Museo Moises Ville';
      <div class="row">
         <div class="col-sm-6"> 
             <div class="jumbotron">
-                <?= Html::img(Yii::getAlias('@web').'/images/logo.jpg');?>
+                <?= Html::img(Yii::getAlias('@web').'/images/logo1.jpg', ['width'=>'180px']);?>
+                <?= Html::img(Yii::getAlias('@web').'/images/logo2.jpg', ['width'=>'180px']);?>                
                 <h3><strong>Museo Histórico Comunal y de la Colonización Judía </strong><br>"Rabino Aarón H. Goldman"</h3>
                 <?php
-                if (!Yii::$app->user->isGuest ){
-                    echo Html::jumbotron([
-                     //   'heading' => 'Museo Moises Ville', 
-                     //   'body' => 'Museo Histórico Comunal y de la Colonización Judía <br> Rabino A. H. Goldman',
-                        'buttons' => [
-                             [
-                                'label' => 'Agregar Persona',
-                                'icon' => 'user',
-                                'url' => \yii\helpers\Url::to(['/persona/create']),
-                                'type' => Html::TYPE_PRIMARY,
-                                'size' => Html::SIZE_MEDIUM 
-                            ],
-                            [
-                                'label' => 'Agregar Ingreso',
-                                'icon' => 'book',
-                                'url' => \yii\helpers\Url::to(['/ingreso/create']),
-                                'type' => Html::TYPE_PRIMARY,
-                                'size' => Html::SIZE_MEDIUM,
-                                'styles' => 'padding:0;'
-                            ],               
-                            [
-                                'label' => 'Agregar Acervo',
-                                'icon' => 'leaf',
-                                'url' => \yii\helpers\Url::to(['/acervo/create']),
-                                'type' => Html::TYPE_PRIMARY,
-                                'size' => Html::SIZE_MEDIUM 
-                            ],
-                        ]
-                    ]);
-                }
+//                if (!Yii::$app->user->isGuest ){
+//                    echo Html::jumbotron([
+//                        'heading' => 'Museo Moises Ville', 
+//                        'body' => 'Museo Histórico Comunal y de la Colonización Judía <br> Rabino A. H. Goldman',
+//                        'buttons' => [
+//                             [
+//                                'label' => 'Agregar Persona',
+//                                'icon' => 'user',
+//                                'url' => \yii\helpers\Url::to(['/persona/create']),
+//                                'type' => Html::TYPE_PRIMARY,
+//                                'size' => Html::SIZE_MEDIUM 
+//                            ],
+//                            [
+//                                'label' => 'Agregar Ingreso',
+//                                'icon' => 'book',
+//                                'url' => \yii\helpers\Url::to(['/ingreso/create']),
+//                                'type' => Html::TYPE_PRIMARY,
+//                                'size' => Html::SIZE_MEDIUM,
+//                                'styles' => 'padding:0;'
+//                            ],               
+//                            [
+//                                'label' => 'Agregar Acervo',
+//                                'icon' => 'leaf',
+//                                'url' => \yii\helpers\Url::to(['/acervo/create']),
+//                                'type' => Html::TYPE_PRIMARY,
+//                                'size' => Html::SIZE_MEDIUM 
+//                            ],
+//                        ]
+//                    ]);
+//                }
                 ?>
             </div>
         </div>
