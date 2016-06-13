@@ -74,10 +74,10 @@ class AcervoController extends MainController
         $multimediaProvider = new ArrayDataProvider([
             'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
         ]);
-        $this->render('print', [
-            'model' => $model, 
-            'dataProvider' => $multimediaProvider,            
-        ]);
+//        $this->render('print', [
+//            'model' => $model, 
+//            'dataProvider' => $multimediaProvider,            
+//        ]);
         $pdf = new Pdf([
             'mode' => Pdf::MODE_CORE, 
             // A4 paper format
@@ -97,14 +97,14 @@ class AcervoController extends MainController
                                 'dataProvider' => $multimediaProvider,      
                             ]),
             'options' => [
-                'title' => 'Listado de Usuarios',
-                'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+                'title' => 'Acervo'               
             ],
             'methods' => [
-                'SetHeader' => ['Gestión de Colecciones -' . date("d-M-y")],
+                'SetHeader' => ['Gestión de Colecciones'],
                 'SetFooter' => ['|Página {PAGENO}|'],
             ]
         ]);
+        
         return $pdf->render();
     }
     

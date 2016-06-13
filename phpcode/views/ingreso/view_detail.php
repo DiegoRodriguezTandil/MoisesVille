@@ -17,6 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<i class="fa glyphicon glyphicon-print"></i> '.Yii::t('app', 'Imprimir'), ['print', 'id' => $model->id], ['class' => 'btn btn-primary',  'target'=>'_blank']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -24,8 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a(Yii::t('app', 'Ficha'), ['print', 'id' => $model->id], ['class' => 'btn btn-info']) ?>
-    </p>
+   </p>
 
    <div class="ingreso-view" id="top">
 
@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         
-                        'value'=>$model->persona->nombre, 
+                        'value'=>$model->personaName, 
                         'format'=>'raw', 
                         'label'=>'Donante',
                         'valueColOptions'=>['style'=>'width:30%'], 

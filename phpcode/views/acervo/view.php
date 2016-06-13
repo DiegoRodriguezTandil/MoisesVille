@@ -8,7 +8,6 @@ use kartik\detail\DetailView;
 use bupy7\gridifyview\GridifyView;
 use kartik\grid\GridView;
 
-
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
 
@@ -19,10 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="acervo-view" id="top">
 
     <h1><?php //echo Html::encode($this->title) ?>
-        <?php echo " Objeto: ".$model->nombre; ?></h1>
+        <?php echo " Acervo: ".$model->nombre; ?></h1>
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        
+        <?= Html::a('<i class="fa glyphicon glyphicon-print"></i> '.Yii::t('app', 'Imprimir'), ['print', 'id' => $model->id], ['class' => 'btn btn-primary',  'target'=>'_blank']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -32,8 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
        
         <a href="#fotos" class="btn btn-primary pull-right navigate-top" ><i class="glyphicon glyphicon-picture"></i> Imágenes</a>
-        <?= Html::a(Yii::t('app', 'Ficha'), ['print', 'id' => $model->id], ['class' => 'btn btn-info']) ?>
-    </p>
+   </p>
 
     <?php 
 //    echo DetailView::widget([
@@ -177,7 +175,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute'=>'unidadMedida_id', 
                         'label'=>'Unidad Medida',
-                        'value' => $model->unidadMedida->descripcion,                       
+                        'value' => $model->unidadMedidaDescripcion,                       
                         'displayOnly'=>true,                      
                     ], 
                 ],
@@ -201,7 +199,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ], 
                     [
                         'attribute'=>'unidadPeso_id',                         
-                        'value' => $model->unidadMedida->descripcion,                       
+                        'value' => $model->unidadPesoDescripcion,                       
                         'displayOnly'=>true,
                         
                     ], 
@@ -243,8 +241,13 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <div class="acervo-view" id="fotos">
-    <br><a href="#top"><i class="glyphicon glyphicon-circle-arrow-up"></i> Top</a>
+    <br><a href="#top"><i class="glyphicon glyphicon-circle-arrow-up"></i> Subir</a>
     <h3>Imágenes del Objeto</h3>
+    <?php 
+    if (count($dataProvider->getModels()) == 0) {
+        echo '<p><strong>Hasta el momento el acervo no tiene fotografías asociadas</strong></p>';
+        echo '<br><br>';
+        } ?>
     <div class="fotorama"
         data-fit="scaledown"
         data-width="100%"
@@ -268,6 +271,7 @@ $this->params['breadcrumbs'][] = $this->title;
              echo Html::img( '@web' .$img->webPath);
 
         $widget->end();
+        echo '</br></br>';
         ?>
     </div>
 </div>

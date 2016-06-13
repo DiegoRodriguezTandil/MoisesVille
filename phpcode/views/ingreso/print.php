@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>           -->
     </div>      
 <!--    <div style="width:1000px; float:left; background-color: #cecece">
-                <strong>Donante  </strong><?=$model->persona->nombre;?>
+                <strong>Donante  </strong><?=$model->personaName;?>
     </div>
     <div style="width:1000px; float:left; margin-top:15px;">
                 <strong>Descripción  </strong><?=$model->descripcion;?>
@@ -64,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [//columnas materiales    
                 'columns' => [
                     [                          
-                        'value'=>$model->persona->nombre,                          
+                        'value'=>$model->personaName,                          
                         'label'=>'Donante',
                         'displayOnly'=>true,
                         'valueColOptions'=>['style'=>'width:75%']
