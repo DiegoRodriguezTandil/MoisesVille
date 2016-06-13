@@ -155,6 +155,7 @@ class AcervoController extends MainController
         else 
         {
             $model = new Acervo();
+            $model->publicar_id = 1;            
         }
         
         // Load Ingreso ID. Request comes from Ingreso form
