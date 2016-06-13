@@ -6,6 +6,7 @@ use kartik\builder\Form;
 use kartik\switchinput\SwitchInput;
 use kartik\widgets\Select2;
 use kartik\form\ActiveField;
+use kartik\widgets\DepDrop;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -45,10 +46,14 @@ use kartik\form\ActiveField;
         </div>
         <div class="col-sm-3">
             <?php 
-                    echo $form->field($model, 'publicar_id')->widget(SwitchInput::classname(), ['value' => 1,'pluginOptions' => [
-                            'onText' => 'Si',
-                            'offText' => 'No'
-                        ],'inlineLabel' => false]);                
+                    echo $form->field($model, 'publicar_id')->widget(Select2::classname(), [
+                            'data' => array('1'=>'Si','0'=>'No'),
+                            'value' => ['Si'], // initial value
+                            'options' => ['placeholder' => 'Si'],
+                            'pluginOptions' => [
+                                'allowClear' => false
+                            ],
+                        ]);
             ?>
         </div>  
     </div>   

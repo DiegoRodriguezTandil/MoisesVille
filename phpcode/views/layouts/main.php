@@ -99,7 +99,7 @@ AppAsset::register($this);
                     ['label' => Yii::t('app','Acervo'), 'url' => ['/acervo'],
                                 'items'=>array(
                                 array('label'=>'Listado de Acervos', 'url'=>array('/acervo')),
-                                array('label'=>'Nuevo Acervo', 'url'=>array('/acervo/create')),                                
+                            //    array('label'=>'Nuevo Acervo', 'url'=>array('/acervo/create')),                                
                               ),],
                     ['label' => Yii::t('app','Personas'), 'url' => ['/persona']],                    
                     ['label' => Yii::t('app','Configuración'), 'url' => ['/site/contacto'],
