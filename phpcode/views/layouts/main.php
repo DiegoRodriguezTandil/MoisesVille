@@ -73,11 +73,11 @@ AppAsset::register($this);
      */
     ?>
     
-    
     <?php
-    $logo = Html::img('@web/gestion.png', ['width'=>'300']);
+//    $logo1 = Html::img(Yii::getAlias('@web').'/images/museomoisesville.png', ['height'=>'30']);
+//    $logo = Html::img('@web/gestion.png', ['width'=>'300']);
     NavBar::begin([
-        'brandLabel' => $logo, //'<img src="' . \Yii::$app->urlManager->createAbsoluteUrl('/web/moises.png') . '" width="100%">',
+        'brandLabel' => '<img src="' . \Yii::getAlias('@web').'/images/museomoisesville.png' . ' " width="8%" style="float:left;margin-top:-7px; margin-right:10px;"><img src="' .\Yii::getAlias('@web').'/images/gestion.jpg'. ' " width="320" style="float:left;">',
         'brandUrl' => 'index.php?r=site/index',
         'brandOptions' => ['title' => 'Gestión de Colecciones', 'style'=>'width:auto'],
         'options' => [
@@ -96,10 +96,10 @@ AppAsset::register($this);
                                 array('label'=>'Listado de Ingresos', 'url'=>array('/ingreso')),
                                 array('label'=>'Nuevo Ingreso', 'url'=>array('/ingreso/create')),                                
                               ),],
-                    ['label' => Yii::t('app','Objetos'), 'url' => ['/acervo'],
+                    ['label' => Yii::t('app','Acervo'), 'url' => ['/acervo'],
                                 'items'=>array(
-                                array('label'=>'Listado de Objetos', 'url'=>array('/acervo')),
-                                array('label'=>'Nuevo Objeto', 'url'=>array('/acervo/create')),                                
+                                array('label'=>'Listado de Acervos', 'url'=>array('/acervo')),
+                                array('label'=>'Nuevo Acervo', 'url'=>array('/acervo/create')),                                
                               ),],
                     ['label' => Yii::t('app','Personas'), 'url' => ['/persona']],                    
                     ['label' => Yii::t('app','Configuración'), 'url' => ['/site/contacto'],

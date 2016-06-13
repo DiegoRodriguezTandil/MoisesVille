@@ -45,10 +45,10 @@ use kartik\form\ActiveField;
         </div>
         <div class="col-sm-3">
             <?php 
-                    echo $form->field($model, 'publicar_id')->widget(SwitchInput::classname(), ['pluginOptions' => [
+                    echo $form->field($model, 'publicar_id')->widget(SwitchInput::classname(), ['value' => 1,'pluginOptions' => [
                             'onText' => 'Si',
-                            'offText' => 'No',
-                        ],'inlineLabel' => false,]);                
+                            'offText' => 'No'
+                        ],'inlineLabel' => false]);                
             ?>
         </div>  
     </div>   

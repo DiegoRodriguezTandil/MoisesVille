@@ -157,7 +157,7 @@ use kartik\grid\GridView;
     
     <div>       
     <?php 
-        $heading = '<i class="glyphicon glyphicon-book"></i> Objetos';                        
+        $heading = '<i class="glyphicon glyphicon-book"></i> Acervos';                        
         $gridColumns = [
             ['class' => 'kartik\grid\SerialColumn'],
             [
@@ -189,9 +189,9 @@ use kartik\grid\GridView;
                         return Url::toRoute(['acervo/delete', 'id' => $key]);
                     }
                 },
-                'viewOptions'=>['title'=>'Ver detalles del objeto', 'data-toggle'=>'tooltip'],
-                'updateOptions'=>['url'=>'urlCreator', 'title'=>'Para actualizar el objeto', 'data-toggle'=>'tooltip'],
-                'deleteOptions'=>['url'=>'urlCreator', 'title'=>'Eliminar el objeto', 'data-toggle'=>'tooltip',],
+                'viewOptions'=>['title'=>'Ver detalles del acervo', 'data-toggle'=>'tooltip'],
+                'updateOptions'=>['url'=>'urlCreator', 'title'=>'Para actualizar el cervo', 'data-toggle'=>'tooltip'],
+                'deleteOptions'=>['url'=>'urlCreator', 'title'=>'Eliminar el acervo', 'data-toggle'=>'tooltip',],
                 'headerOptions'=>['class'=>'kartik-sheet-style'],
                 'buttons'=> [
                     'delete'=> function ($url, $model, $key){

@@ -14,8 +14,8 @@ $this->title = 'Museo Moises Ville';
      <div class="row">
         <div class="col-sm-6"> 
             <div class="jumbotron">
-                <?= Html::img(Yii::getAlias('@web').'/images/museomoisesville.png');?>
-                <h2><strong>Museo Histórico Comunal y de la Colonización Judía </strong><br>"Rabino Aarón H. Goldman"</h2>
+                <?= Html::img(Yii::getAlias('@web').'/images/logo.jpg');?>
+                <h3><strong>Museo Histórico Comunal y de la Colonización Judía </strong><br>"Rabino Aarón H. Goldman"</h3>
                 <?php
                 if (!Yii::$app->user->isGuest ){
                     echo Html::jumbotron([
@@ -38,7 +38,7 @@ $this->title = 'Museo Moises Ville';
                                 'styles' => 'padding:0;'
                             ],               
                             [
-                                'label' => 'Agregar Objeto',
+                                'label' => 'Agregar Acervo',
                                 'icon' => 'leaf',
                                 'url' => \yii\helpers\Url::to(['/acervo/create']),
                                 'type' => Html::TYPE_PRIMARY,
