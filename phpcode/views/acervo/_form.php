@@ -62,10 +62,21 @@ use kartik\form\ActiveField;
             'form'=>$form,           
             'columns'=>4,
             'attributes'=>[       // 3 column layout                
-                'nroA'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número A..', 'addon' => ['append' => ['content'=>'.00']]]],
-                'nroB'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número B..']],
-                'nroC'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número C..']],
-                'nroD'=>['type'=>Form::INPUT_TEXT, 'options'=>['placeholder'=>'Número D..']],
+                'nroA'=>['type'=>Form::INPUT_TEXT, 
+                    'label'=>'Nro. Temporario',                    
+                    'options'=>[
+                        'placeholder'=>'Número Temporario', 
+                        'addon' => ['append' => ['content'=>'.00']]
+                    ]],
+                'nroB'=>['type'=>Form::INPUT_TEXT, 
+                    'label'=>'Nro. de Registro Anterior',
+                    'options'=>['placeholder'=>'Nro. de Registro Anterior']],
+                'nroC'=>['type'=>Form::INPUT_TEXT, 
+                    'label'=>'Clasificación de Familia',                    
+                    'options'=>['placeholder'=>'Clasificación de Familia']],
+                'nroD'=>['type'=>Form::INPUT_TEXT, 
+                    'label'=>'Elemento en la Familia',                    
+                    'options'=>['placeholder'=>'Elemento en la Familia']],
             ]
         ]);       
     ?>
