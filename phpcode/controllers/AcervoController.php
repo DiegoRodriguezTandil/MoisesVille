@@ -11,6 +11,7 @@ use app\models\AcervoSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use kartik\mpdf\Pdf;
 
 /**
  * AcervoController implements the CRUD actions for Acervo model.
@@ -65,6 +66,46 @@ class AcervoController extends MainController
             'model' => $model, 
             'dataProvider' => $multimediaProvider,            
         ]);
+    }
+    
+    public function actionPrint($id)
+    {   
+        $model = $this->findModel($id);
+        $multimediaProvider = new ArrayDataProvider([
+            'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
+        ]);
+//        $this->render('print', [
+//            'model' => $model, 
+//            'dataProvider' => $multimediaProvider,            
+//        ]);
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_CORE, 
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4, 
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER,  
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '* {font-size:14px}', 
+             // set mPDF properties on the fly
+
+            'content' => $this->renderPartial('print', [
+                             //   'searchModel' => $searchModel,
+                                'model' => $model, 
+                                'dataProvider' => $multimediaProvider,      
+                            ]),
+            'options' => [
+                'title' => 'Acervo'               
+            ],
+            'methods' => [
+                'SetHeader' => ['Gestión de Colecciones'],
+                'SetFooter' => ['|Página {PAGENO}|'],
+            ]
+        ]);
+        
+        return $pdf->render();
     }
     
     private function saveUbicacionExterna($acervo_id, $values){

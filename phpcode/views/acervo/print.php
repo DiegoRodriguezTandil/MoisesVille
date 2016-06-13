@@ -17,40 +17,28 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="acervo-view" id="top">
 
-    <h1><?php //echo Html::encode($this->title) ?>
-        <?php echo " Acervo: ".$model->nombre; ?></h1>
-    <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('<i class="fa glyphicon glyphicon-print"></i> '.Yii::t('app', 'Imprimir'), ['print', 'id' => $model->id], ['class' => 'btn btn-primary',  'target'=>'_blank']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                'method' => 'post',
-            ],
-        ]) ?>
-       
-        <a href="#fotos" class="btn btn-primary pull-right navigate-top" ><i class="glyphicon glyphicon-picture"></i> Imágenes</a>
-   </p>
-
-    <?php 
-//    echo DetailView::widget([
-//        'model' => $model,
-//        'attributes' => [
-//            'id',
-//            'nombre',
-//            'descripcion:ntext',
-//
-//        ],
-//    ]) 
-            ?>
+    <div style="width:1000px; float:left; font-size: 14px;  border-style: solid;
+    border-bottom: dotted #000;">
+        <div style="width:200px; float:left;">
+            <p>N° de Registro</p><?=$model->nroInventario;?>
+        </div>
+        <div style="float:left; width:300px; text-align:center;">
+            <h4>Museo Histórico Comunal <br>y de la colonización judía<br>"Rabino Aarón N. Goldman"</h4>            
+        </div>
+        <div style="width:100px; float:right;">
+            <p>N° de Orden</p><?=$model->id;?>
+        </div>
+    </div>
+    <h4><?php //echo Html::encode($this->title) ?>
+        <?php echo " Objeto: ".$model->nombre; ?></h4>
     
     <?php 
         $attributes = [
             [
                 'group'=>true,
                 'label'=>'Información General',
-                'rowOptions'=>['class'=>'info']
+                'rowOptions'=>['class'=>'info'],
+                'valueColOptions'=>['style'=>'border-style: hidden;']
             ],
             [
                 'columns' => [
@@ -126,7 +114,33 @@ $this->params['breadcrumbs'][] = $this->title;
                         'displayOnly'=>true
                     ],                    
                 ],
-            ],           
+            ], 
+            [//columnas materiales    
+                'columns' => [
+                    [
+                        'attribute'=>'fechaIngreso', 
+                        'label'=>'Fecha Ingreso',
+                        'displayOnly'=>true,
+//                        'value'=> $model->tipoAcervo->descripcion,
+                        'valueColOptions'=>['style'=>'width:15%']
+                    ],
+                    [
+                        'value'=>$model->clasificacionGenericaTexto, 
+                        'label'=>'Clasificación Genérica',
+                        'displayOnly'=>true,
+//                        'value'=> $model->copia->nombre,                    
+                        'valueColOptions'=>['style'=>'width:20%'], 
+                        'displayOnly'=>true
+                    ],
+                    [
+                        'attribute'=>'descEpoca', 
+                        'label'=>'Época',
+                        'format'=>'raw',                       
+                        'valueColOptions'=>['style'=>'width:15%'], 
+                        'displayOnly'=>true
+                    ],                    
+                ],
+            ], 
             [
                 'group'=>true,
                 'label'=>'Ubicación',
@@ -239,39 +253,25 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
       
 </div>
-
-<div class="acervo-view" id="fotos">
-    <br><a href="#top"><i class="glyphicon glyphicon-circle-arrow-up"></i> Subir</a>
-    <h3>Imágenes del Objeto</h3>
-    <?php 
-    if (count($dataProvider->getModels()) == 0) {
-        echo '<p><strong>Hasta el momento el acervo no tiene fotografías asociadas</strong></p>';
-        echo '<br><br>';
-        } ?>
-    <div class="fotorama"
-        data-fit="scaledown"
-        data-width="100%"
-        data-ratio="800/600"
-        data-minwidth="400"
-        data-maxwidth="1000"
-        data-minheight="600"
-        data-maxheight="100%"
-        >
-
-        <?php
-
-        $widget = \kotchuprik\fotorama\Widget::begin([
-        'version' => '4.5.2',
-        'options' => [
-            'nav' => 'thumbs',
-        ],
-        ]);
-
-        foreach($dataProvider->getModels() as $img)   
-             echo Html::img( '@web' .$img->webPath);
-
-        $widget->end();
-        echo '</br></br>';
-        ?>
+    
+    <div style="float:left; font-size: 14px; margin: 10px;  ">
+        <?php if($dataProvider->getTotalCount() > 0) { ?>
+        <strong>Fotografías:</strong>   
+        <?php } ?>
+        <?php foreach($dataProvider->getModels() as $img) {  ?>
+                <div style="width:400px; float:left; font-size: 14px; margin: 10px;  ">
+                    <?php   echo Html::img( '@web' .$img->webPath); 
+                            echo '</div>';
+             } ?>
+                    
+    </div>
+    
+    <div style="width:1000px; float:left; font-size: 14px; margin-bottom: 10px;">
+        <div style="float:left; width: 400px;"><br>
+            <strong>Firma: </strong>
+        </div> 
+        <div style="float:right; width: 200px;">
+            <strong>Fecha: ......../......../........
+        </div>                 
     </div>
 </div>

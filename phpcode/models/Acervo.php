@@ -158,6 +158,14 @@ class Acervo extends \yii\db\ActiveRecord
         return $this->hasOne(ClasificacionGenerica::className(), ['id' => 'clasificacionGenerica_id']); 
     } 
 
+    public function getClasificacionGenericaTexto() 
+    { 
+        $clasif = $this->clasificacionGenerica; 
+        if ($clasif)
+            return $clasif->nombre;
+        return '';
+    } 
+
        /** 
         * @return \yii\db\ActiveQuery 
         */ 
@@ -214,14 +222,11 @@ class Acervo extends \yii\db\ActiveRecord
         return $this->hasOne(UnidadMedida::className(), ['id' => 'unidadMedida_id']);
     }
     
-     /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getUnidadMedidaDescripcion()
     {        
-        $unidadmedida = $this->unidadMedida;
-        if($unidadmedida){
-            return $unidadmedida->descripcion;
+        $unidadMedida = $this->unidadMedida;
+        if($unidadMedida){
+            return $unidadMedida->descripcion;
         }
         return '(no definido)';
     }

@@ -139,7 +139,7 @@ class UserController extends MainController
     
     public function actionPrint() {
         
-         $searchModel = new UserSearch();
+        $searchModel = new UserSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $this->render('usuarios', [
             'searchModel' => $searchModel,

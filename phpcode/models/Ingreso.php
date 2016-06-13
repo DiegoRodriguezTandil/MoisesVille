@@ -112,6 +112,15 @@ class Ingreso extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Persona::className(), ['id' => 'persona_id_depositante']);
     }
+    
+    public function getPersonaDepositanteTexto()
+    {       
+        $persona = $this->hasOne(Persona::className(), ['id' => 'persona_id_depositante'])->one();
+     //   var_dump($persona); die();
+        if ($persona)
+            return $persona->apellido.' '. $persona->nombre;
+        return '';
+    }
 
     /**
      * @return \yii\db\ActiveQuery

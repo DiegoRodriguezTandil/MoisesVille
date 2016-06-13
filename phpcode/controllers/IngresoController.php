@@ -8,6 +8,7 @@ use app\models\IngresoSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use kartik\mpdf\Pdf;
 
 /**
  * IngresoController implements the CRUD actions for Ingreso model.
@@ -58,10 +59,58 @@ class IngresoController extends MainController
     {
         $m = $this->findModel($id);
         $acervos = $this->getObjectsProvider($m);
-        return $this->render('view', [
+        return $this->render('view_detail', [
             'model' => $m,
             'acervos' => $acervos,
         ]);
+    }
+    
+    public function actionDetail($id)
+    {
+        $m = $this->findModel($id);
+        $acervos = $this->getObjectsProvider($m);
+        return $this->render('view_detail', [
+            'model' => $m,
+            'acervos' => $acervos,
+        ]);
+    }
+    
+    public function actionPrint($id)
+    {
+        $m = $this->findModel($id);
+        $acervos = $this->getObjectsProvider($m);
+//        return $this->render('print', [
+//            'model' => $m,
+//            'acervos' => $acervos,
+//        ]);
+        $pdf = new Pdf([
+            'mode' => Pdf::MODE_CORE, 
+            // A4 paper format
+            'format' => Pdf::FORMAT_A4, 
+            // portrait orientation
+            'orientation' => Pdf::ORIENT_PORTRAIT, 
+            // stream to browser inline
+            'destination' => Pdf::DEST_BROWSER,  
+            'cssFile' => '@vendor/kartik-v/yii2-mpdf/assets/kv-mpdf-bootstrap.min.css',
+            // any css to be embedded if required
+            'cssInline' => '* {font-size:14px}', 
+             // set mPDF properties on the fly
+
+            'content' => $this->renderPartial('print', [
+                             //   'searchModel' => $searchModel,
+                                'model' => $m, 
+                                'acervos' => $acervos,      
+                            ]),
+            'options' => [
+                'title' => 'Ingreso',
+                'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+            ],
+            'methods' => [
+                'SetHeader' => ['Gestión de Colecciones -' . date("d-M-y")],
+                'SetFooter' => ['|Página {PAGENO}|'],
+            ]
+        ]);
+        return $pdf->render();
     }
     
     private function getObjectsProvider($model){
