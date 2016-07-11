@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use kartik\widgets\ActiveForm;
+use kartik\form\ActiveForm;
 //use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 //use yii\grid\GridView;
