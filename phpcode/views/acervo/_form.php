@@ -57,7 +57,19 @@ use kartik\widgets\DepDrop;
             ?>
         </div>  
     </div>   
-    
+        <div class="row">
+              <div class="col-sm-3">
+      <?php   
+         echo   $form->field($model,  'nroC',[
+                'hintType' => ActiveField::HINT_SPECIAL,
+                'hintSettings' => [
+
+                    'showIcon' => false,
+                    'title' => '<i class="glyphicon glyphicon-info-sign"></i> Nota'
+                ]
+                ])->textInput()->hint('Es el la cantidad de elementos que tiene la serie. En elemento en la familia por número dentro de la serie (pueden ser letras y/o números ).')->label('Cantidad');  
+    ?>
+</div>
     <?php    
         echo Html::hiddenInput('fechaIngreso',$model->fechaIngreso);
         echo Html::hiddenInput('ingreso_id',$model->ingreso_id);
@@ -65,7 +77,7 @@ use kartik\widgets\DepDrop;
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,           
-            'columns'=>4,
+            'columns'=>3,
             'attributes'=>[       // 3 column layout                
                 'nroA'=>['type'=>Form::INPUT_TEXT, 
                     'label'=>'Nro. Temporario',                    
@@ -76,13 +88,17 @@ use kartik\widgets\DepDrop;
                 'nroB'=>['type'=>Form::INPUT_TEXT, 
                     'label'=>'Nro. de Registro Anterior',
                     'options'=>['placeholder'=>'Nro. de Registro Anterior']],
-                'nroC'=>['type'=>Form::INPUT_TEXT, 
-                    'label'=>'Clasificación de Familia',                    
-                    'options'=>['placeholder'=>'Clasificación de Familia']],
+                // 'nroC'=>['type'=>Form::INPUT_TEXT, 
+                //     'label'=>'Cantidad',                    
+                //     'options'=>['placeholder'=>'historio',
+                //     ]],
                 'nroD'=>['type'=>Form::INPUT_TEXT, 
                     'label'=>'Elemento en la Familia',                    
                     'options'=>['placeholder'=>'Elemento en la Familia']],
             ]
-        ]);       
+        ]);  
+    
     ?>
+
+</div>
 </div>
