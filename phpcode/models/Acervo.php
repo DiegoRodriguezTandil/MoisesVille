@@ -48,7 +48,9 @@ use yii\helpers\ArrayHelper;
  * @property integer $publicar_id
  * @property integer $idold
  * @property integer $clasificacionGenerica_id
- * @property string $fechaRestauracion
+ * @property string $fechaInicioRestauracion
+ * @property string $fechaFinRestauracion 
+ *
  * @property string $restauracion
  *
  * @property Copia $copia
@@ -90,7 +92,8 @@ class Acervo extends \yii\db\ActiveRecord
             [['descripcion', 'caracteristicas', 'notas'], 'string'],
             [['tipoAcervo_id', 'unidadMedida_id', 'unidadPeso_id', 'ingreso_id', 'estado_id', 'ubicacion_id', 'motivoBaja_id', 'copia_id', 'codformaing', 'codtipoac', 'clasifac', 'publicar_id', 'clasificacionGenerica_id', 'idold'], 'integer'],
             [['ancho', 'largo', 'alto', 'peso', 'diametroInterno', 'diametroExterno'], 'number'],
-            [['fechaIngreso', 'fechaBaja', 'fechaRestauracion'], 'safe'],
+            [['fechaIngreso', 'fechaBaja', 'fechaInicioRestauracion'], 'safe'],
+            [['fechaIngreso', 'fechaBaja', 'fechaFinRestauracion'], 'safe'],
             [['nombre', 'descEpoca', 'descUbicacion', 'restauracion'], 'string', 'max' => 255],
             [['nroInventario', 'color', 'nroA', 'nroB', 'nroC', 'nroD'], 'string', 'max' => 45],
             [['forma', 'material', 'lugarprocac'], 'string', 'max' => 100]
@@ -144,7 +147,8 @@ class Acervo extends \yii\db\ActiveRecord
             'idold' => Yii::t('app', 'Idold'),            
             'TemaIds'=> Yii::t('app', 'Tema'),
             'ColeccionIds'=> Yii::t('app', 'Colección'),
-            'fechaRestauracion' => Yii::t('app', 'Fecha Restauracion'),
+            'fechaInicioRestauracion' => Yii::t('app', 'Fecha Inicio Restauración'),
+            'fechaFinRestauracion' => Yii::t('app', 'Fecha Fin Restauración'),
             'restauracion' => Yii::t('app', 'Restauracion'),
         ];
     }
