@@ -190,7 +190,7 @@ use kartik\grid\GridView;
                     }
                 },
                 'viewOptions'=>['title'=>'Ver detalles del acervo', 'data-toggle'=>'tooltip'],
-                'updateOptions'=>['url'=>'urlCreator', 'title'=>'Para actualizar el cervo', 'data-toggle'=>'tooltip'],
+                'updateOptions'=>['url'=>'urlCreator', 'title'=>'Para actualizar el Acervo', 'data-toggle'=>'tooltip'],
                 'deleteOptions'=>['url'=>'urlCreator', 'title'=>'Eliminar el acervo', 'data-toggle'=>'tooltip',],
                 'headerOptions'=>['class'=>'kartik-sheet-style'],
                 'buttons'=> [

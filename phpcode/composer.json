@@ -32,14 +32,14 @@
         "kartik-v/yii2-tabs-x": "dev-master",
         "bupy7/yii2-gridify-view": "dev-master",
         "kotchuprik/yii2-fotorama-widget": "dev-master",
-        "kartik-v/yii2-widget-activeform": "@dev",
         "kartik-v/yii2-dialog": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
+        "yiisoft/yii2-faker": "*",
+        "kartik-v/yii2-widget-activeform": "1.4.x-dev"
     },
     "config": {
         "process-timeout": 1800
