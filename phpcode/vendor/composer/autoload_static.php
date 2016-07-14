@@ -23,6 +23,10 @@ class ComposerStaticInitb67f4ccc492bdd59afbcc1ba1d1df3f0
             'yii\\bootstrap\\' => 14,
             'yii\\' => 4,
         ),
+        'm' => 
+        array (
+            'mdm\\admin\\' => 10,
+        ),
         'k' => 
         array (
             'kotchuprik\\fotorama\\' => 20,
@@ -111,6 +115,10 @@ class ComposerStaticInitb67f4ccc492bdd59afbcc1ba1d1df3f0
         'yii\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
+        ),
+        'mdm\\admin\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mdmsoft/yii2-admin',
         ),
         'kotchuprik\\fotorama\\' => 
         array (
