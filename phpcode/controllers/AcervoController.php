@@ -157,7 +157,7 @@ class AcervoController extends MainController
             $model = new Acervo();
             $model->publicar_id = 1;            
         }
-        
+ 
         // // Load Ingreso ID. Request comes from Ingreso form
         // if(!empty($ingreso_id)){
         //     $model->ingreso_id = $ingreso_id;
@@ -168,12 +168,21 @@ class AcervoController extends MainController
         
         // Load Form data into model & Save it
         if ($model->load(Yii::$app->request->post())) {    
+                  $fechaInicio= Yii::$app->request->post('fechaInicioRestauracion-acervo-fechainiciorestauracion');
+                  $fechaFin= Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
+                 list($dia, $mes, $anio) = explode("/",$fechaInicio); 
+                 list($dia2, $mes2, $anio2) = explode("/",$fechaFin);
+                 $model->fechaInicioRestauracion=$anio.'-'.$mes.'-'.$dia;//Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
+                 $model->fechaFinRestauracion=$anio2.'-'.$mes2.'-'.$dia2;
+
             if (!$model->save()) {
-                // exception error de guardado
-            }                
+                // exception err var_dump($model);die();or de guardado
+            }   
+
+
             $acervo_id = $model->id;            
         }        
-        
+ 
         // Save UbicacionExterna
         if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'))) 
         {  

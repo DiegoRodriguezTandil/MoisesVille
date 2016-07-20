@@ -96,7 +96,11 @@ class Acervo extends \yii\db\ActiveRecord
             [['fechaIngreso', 'fechaBaja', 'fechaFinRestauracion'], 'safe'],
             [['nombre', 'descEpoca', 'descUbicacion', 'restauracion'], 'string', 'max' => 255],
             [['nroInventario', 'color', 'nroA', 'nroB', 'nroC', 'nroD'], 'string', 'max' => 45],
-            [['forma', 'material', 'lugarprocac'], 'string', 'max' => 100]
+            [['forma', 'material', 'lugarprocac'], 'string', 'max' => 100],
+          [['fechaInicioRestauracion'], 'compare', 'compareAttribute'=>'fechaFinRestauracion', 'operator'=>'<=', 'skipOnEmpty'=>true],
+          [['fechaFinRestauracion'], 'compare', 'compareAttribute'=>'fechaInicioRestauracion', 'operator'=>'>='],        
+
+
         ];
     }
 
