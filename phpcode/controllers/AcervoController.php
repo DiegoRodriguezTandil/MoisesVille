@@ -108,19 +108,22 @@ class AcervoController extends MainController
         return $pdf->render();
     }
     
-    private function saveUbicacionExterna($acervo_id, $values){
+    private function saveUbicacionExterna($acervo_id, $ubicacion, $finicio,$fcierre){
         if(
                 isset($acervo_id)
-                && is_array($values)
-                && array_key_exists('ubicacion', $values)
-                && isset($values['ubicacion']) && (trim($values['ubicacion'])!='')
+                && is_array($ubicacion)
+                && array_key_exists('ubicacion', $ubicacion)
+                && isset($ubicacion['ubicacion']) && (trim($ubicacion['ubicacion'])!='')
         )
         {
+
+                 list($dia, $mes, $anio) = explode("/",$finicio); 
+                 list($dia2, $mes2, $anio2) = explode("/",$fcierre);
             $ue = new \app\models\UbicacionExterna();
             $ue->acervo_id = $acervo_id;
-            $ue->fechaInicio = $values['fechaInicio'];
-            $ue->fechaCierre = $values['fechaCierre'];
-            $ue->ubicacion = $values['ubicacion'];
+            $ue->fechaInicio =$anio.'-'.$mes.'-'.$dia;
+            $ue->fechaCierre =$anio2.'-'.$mes2.'-'.$dia2;
+            $ue->ubicacion = $ubicacion['ubicacion'];
             if($ue->save())
             {
                 return $ue;
@@ -182,10 +185,16 @@ class AcervoController extends MainController
 
             $acervo_id = $model->id;            
         }        
- 
+ // var_dump(Yii::$app->request);die();
         // Save UbicacionExterna
-        if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'))) 
+        if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'),Yii::$app->request->post('fechaInicioRestauracion-acervo-fechainiciorestauracion'),Yii::$app->request->post('fechaCierre-ubicacionexterna-fechacierre'))) 
         {  
+           //  var_dump(Yii::$app->request->post('fechaInicioRestauracion-acervo-fechainiciorestauracion'));
+           //  var_dump(Yii::$app->request->post('fechaCierre-ubicacionexterna-fechacierre'));
+
+           // die();
+
+            // var_dump(Yii::$app->request->post('UbicacionExterna'));die();
             Yii::$app->session->setFlash('success',
                 [
                     'type' => 'success',

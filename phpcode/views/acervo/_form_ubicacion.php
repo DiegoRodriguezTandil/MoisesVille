@@ -53,8 +53,14 @@ use yii\grid\GridView;
         'dataProvider' => $dataProviderUbicacionExterna,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'fechaInicio',
-            'fechaCierre',
+            [
+                'attribute'=>'fechaInicio',   
+                'format' => ['date', 'php:d/m/Y'], 
+            ],
+            [
+                'attribute'=>'fechaCierre',   
+                'format' => ['date', 'php:d/m/Y'], 
+            ],
             'ubicacion',
             //['class' => 'yii\grid\ActionColumn'],
         ],
