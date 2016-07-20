@@ -109,21 +109,37 @@ class AcervoController extends MainController
     }
     
     private function saveUbicacionExterna($acervo_id, $ubicacion, $finicio,$fcierre){
+$fi=$finicio;
+$ff=$fcierre;
+
         if(
                 isset($acervo_id)
                 && is_array($ubicacion)
                 && array_key_exists('ubicacion', $ubicacion)
                 && isset($ubicacion['ubicacion']) && (trim($ubicacion['ubicacion'])!='')
-        )
-        {
-
-                 list($dia, $mes, $anio) = explode("/",$finicio); 
+        ){
+      
+           if(isset($finicio) &&strlen($finicio)>0){
+                    list($dia, $mes, $anio) = explode("/",$finicio);
+                    $fi= $anio.'-'.$mes.'-'.$dia;
+              }
+            if(isset($fcierre) and strlen($fcierre)>0 ){
                  list($dia2, $mes2, $anio2) = explode("/",$fcierre);
-            $ue = new \app\models\UbicacionExterna();
-            $ue->acervo_id = $acervo_id;
-            $ue->fechaInicio =$anio.'-'.$mes.'-'.$dia;
-            $ue->fechaCierre =$anio2.'-'.$mes2.'-'.$dia2;
-            $ue->ubicacion = $ubicacion['ubicacion'];
+                 $ff=$anio2.'-'.$mes2.'-'.$dia2;
+            }
+                     
+
+                 
+                    
+    // var_dump($finicio);
+    //  var_dump($fcierre);die();
+                    
+            
+                $ue = new \app\models\UbicacionExterna();
+                $ue->acervo_id = $acervo_id;
+                $ue->fechaInicio =$fi;
+                $ue->fechaCierre =$ff;
+                $ue->ubicacion = $ubicacion['ubicacion'];
             if($ue->save())
             {
                 return $ue;
@@ -131,6 +147,7 @@ class AcervoController extends MainController
         }
         return false;
     }
+
     
     /**
      * Displays a single Acervo model with images
@@ -171,12 +188,24 @@ class AcervoController extends MainController
         
         // Load Form data into model & Save it
         if ($model->load(Yii::$app->request->post())) {    
+                 $dia='';
+                 $dia2='';
+                 $mes='';
+                 $mes2='';
+                $anio='';
+                $anio2='';
+
                   $fechaInicio= Yii::$app->request->post('fechaInicioRestauracion-acervo-fechainiciorestauracion');
                   $fechaFin= Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
-                 list($dia, $mes, $anio) = explode("/",$fechaInicio); 
-                 list($dia2, $mes2, $anio2) = explode("/",$fechaFin);
+               if(  strlen($fechaFin)>0) {
+                     list($dia2, $mes2, $anio2) = explode("/",$fechaFin);
+                     $model->fechaFinRestauracion=$anio2.'-'.$mes2.'-'.$dia2;
+               }    
+          if(isset($fechaInicio)and  strlen($fechaInicio)>0 ){
+               list($dia, $mes, $anio) = explode("/",$fechaInicio); 
                  $model->fechaInicioRestauracion=$anio.'-'.$mes.'-'.$dia;//Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
-                 $model->fechaFinRestauracion=$anio2.'-'.$mes2.'-'.$dia2;
+
+          }
 
             if (!$model->save()) {
                 // exception err var_dump($model);die();or de guardado
@@ -185,16 +214,12 @@ class AcervoController extends MainController
 
             $acervo_id = $model->id;            
         }        
- // var_dump(Yii::$app->request);die();
+ //var_dump(Yii::$app->request);die();
         // Save UbicacionExterna
-        if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'),Yii::$app->request->post('fechaInicioRestauracion-acervo-fechainiciorestauracion'),Yii::$app->request->post('fechaCierre-ubicacionexterna-fechacierre'))) 
+
+        if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'),Yii::$app->request->post('fechaInicio-ubicacionexterna-fechainicio'),Yii::$app->request->post('fechaCierre-ubicacionexterna-fechacierre'))) 
         {  
-           //  var_dump(Yii::$app->request->post('fechaInicioRestauracion-acervo-fechainiciorestauracion'));
-           //  var_dump(Yii::$app->request->post('fechaCierre-ubicacionexterna-fechacierre'));
 
-           // die();
-
-            // var_dump(Yii::$app->request->post('UbicacionExterna'));die();
             Yii::$app->session->setFlash('success',
                 [
                     'type' => 'success',

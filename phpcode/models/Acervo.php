@@ -86,7 +86,7 @@ class Acervo extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
+      public function rules()
     {
         return [
             [['descripcion', 'caracteristicas', 'notas'], 'string'],
@@ -97,10 +97,7 @@ class Acervo extends \yii\db\ActiveRecord
             [['nombre', 'descEpoca', 'descUbicacion', 'restauracion'], 'string', 'max' => 255],
             [['nroInventario', 'color', 'nroA', 'nroB', 'nroC', 'nroD'], 'string', 'max' => 45],
             [['forma', 'material', 'lugarprocac'], 'string', 'max' => 100],
-          [['fechaInicioRestauracion'], 'compare', 'compareAttribute'=>'fechaFinRestauracion', 'operator'=>'<=', 'skipOnEmpty'=>true],
-          [['fechaFinRestauracion'], 'compare', 'compareAttribute'=>'fechaInicioRestauracion', 'operator'=>'>='],        
-
-
+            [['fechaFinRestauracion'], 'compare', 'compareAttribute'=>'fechaInicioRestauracion', 'operator'=>'>=','skipOnEmpty'=>true],   
         ];
     }
 
