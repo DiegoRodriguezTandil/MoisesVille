@@ -35,7 +35,7 @@ use kartik\builder\Form;
             ]);
     ?>
 
-    <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
+ <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?> 
 
     <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">

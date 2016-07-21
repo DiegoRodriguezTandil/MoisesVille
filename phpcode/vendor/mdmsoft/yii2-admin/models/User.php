@@ -24,6 +24,12 @@ use mdm\admin\components\Configs;
  * @property string $password write-only password
  *
  * @property UserProfile $profile
+*
+  * @property integer $firstName
+ * @property string $lastName
+  * @property string $username
+   * @property string $password
+ *
  */
 class User extends ActiveRecord implements IdentityInterface
 {

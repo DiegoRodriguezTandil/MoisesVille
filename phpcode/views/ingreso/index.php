@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use kartik\grid\GridView;
+use mdm\admin\components\Helper;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\IngresoSearch */
@@ -36,7 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
 //                'attribute'=>'fechaBaja',   
 //                'format' => ['date', 'php:d/m/Y'], 
 //            ],
-            ['class' => 'yii\grid\ActionColumn'],
+                       
+           ['class' => 'yii\grid\ActionColumn', 
+         'template' => Helper::filterActionColumn('{view}{delete}{update}{imagen}'),]
         ],
     ]);?>
    

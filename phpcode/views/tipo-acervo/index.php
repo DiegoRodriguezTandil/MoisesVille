@@ -7,6 +7,9 @@ use yii\helpers\ArrayHelper;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
 
+use mdm\admin\components\Helper;
+
+
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -39,7 +42,10 @@ $this->params['breadcrumbs'][] = $this->title;
 			    },
                // 'value' => 'tipoAcervo.descripcion'
             ],*/
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+            'class' => 'yii\grid\ActionColumn',
+             'template' => Helper::filterActionColumn('{view}{delete}{update}'),
+            ],
         ],
     ]); 
 

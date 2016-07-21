@@ -14,6 +14,10 @@ use mdm\admin\components\Helper;
  */
 class Assignment extends Object
 {
+        /**
+     * @var integer set default User id 
+     */
+     private $admin='admin';
     /**
      * @var integer User id
      */
@@ -25,11 +29,16 @@ class Assignment extends Object
 
     /**
      * @inheritdoc
+     *adding rule that saying: not assigning id user to the view  
+     *use global var $idAdmin
      */
     public function __construct($id, $user = null, $config = array())
     {
+         if($id!=Yii::$app->params['idAdmin']){
         $this->id = $id;
         $this->user = $user;
+        }
+
         parent::__construct($config);
     }
 
@@ -44,6 +53,7 @@ class Assignment extends Object
         $success = 0;
         foreach ($items as $name) {
             try {
+
                 $item = $manager->getRole($name);
                 $item = $item ? : $manager->getPermission($name);
                 $manager->assign($item, $this->id);
@@ -88,7 +98,14 @@ class Assignment extends Object
         $manager = Yii::$app->getAuthManager();
         $avaliable = [];
         foreach (array_keys($manager->getRoles()) as $name) {
-            $avaliable[$name] = 'role';
+          /**
+          *show all less admin role  
+          */
+            if($name!= $this->admin){
+                $avaliable[$name] = 'role';
+            }
+          
+
         }
 
         foreach (array_keys($manager->getPermissions()) as $name) {

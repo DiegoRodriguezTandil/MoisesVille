@@ -13,10 +13,10 @@ $config = [
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
         ],
+
         'admin' => [
             'class' => 'mdm\admin\Module',
-            'layout' => 'left-menu',
-            
+                'layout' => 'left-menu',
         ], 
 
         'datecontrol' =>  [
@@ -81,6 +81,7 @@ $config = [
         ], 
       'authManager' => [
             'class' => 'yii\rbac\DbManager',
+            // 'class' =>'app\controllers\userController',
         ],
         // 'authManager' => [
         //     'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
@@ -150,12 +151,12 @@ $config = [
             'thumbnail.size' => [128, 128],
             
         ],*/
+
     ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
         'allowActions' => [
             'site/*',
-            'admin/*',
             // 'acervo/*'
             // The actions listed here will be allowed to everyone including guests.
             // So, 'admin/*' should not appear here in the production, of course.

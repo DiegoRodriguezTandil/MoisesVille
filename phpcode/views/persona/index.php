@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use mdm\admin\components\Helper;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PersonaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -33,8 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'telefono',
             // 'localidad_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+        'class' => 'yii\grid\ActionColumn',
+        'template' => Helper::filterActionColumn('{view}{delete}{update}'),
+    ]
         ],
     ]); ?>
 
 </div>
+
+
+
