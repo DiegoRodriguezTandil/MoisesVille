@@ -15,7 +15,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Nuevo Tema'), ['create'], ['class' => 'btn btn-success']) ?>
+    <!--HELPER YII2-ADMIN-->
+       <?php if(Helper::checkRoute('create')){
+            echo Html::a(Yii::t('app','Nuevo Tema'),['create'], ['class' => 'btn btn-success']);
+        }?>
     </p>
 
     <?= GridView::widget([
@@ -29,7 +32,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
             'class' => 'yii\grid\ActionColumn',
              'template' => Helper::filterActionColumn('{view}{delete}{update}'),
-            ],        ],
+            ],        
+
+        ],
     ]); ?>
 
 </div>

@@ -15,9 +15,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Persona'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+<p>
+    <!--HELPER YII2-ADMIN-->
+       <?php if(Helper::checkRoute('create')){
+            echo Html::a(Yii::t('app','Crear Persona'),['create'], ['class' => 'btn btn-success']);
+        }?>
+
+</p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

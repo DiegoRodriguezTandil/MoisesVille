@@ -15,8 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Coleccion'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
+    <!--HELPER YII2-ADMIN-->
+       <?php if(Helper::checkRoute('create')){
+            echo Html::a(Yii::t('app','Nueva coleccion'),['create'], ['class' => 'btn btn-success']);
+        }?>
+   </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
