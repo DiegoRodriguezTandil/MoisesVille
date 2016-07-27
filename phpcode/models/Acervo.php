@@ -471,9 +471,13 @@ class Acervo extends \yii\db\ActiveRecord
                     $temas .= "...";
                     return $temas;
                   }
-                else {
+                else if(isset($r)){
                     $temas .= $r->nombre;
                     $temas .= ", "; 
+                }
+                else{
+                   $temas .= "no tiene";
+                   $temas .= ", "; 
                 }                            
           }
         }         
