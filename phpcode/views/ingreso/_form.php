@@ -1,5 +1,5 @@
 <?php
-
+use kartik\form\ActiveField;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\form\ActiveForm;
@@ -132,7 +132,7 @@ use kartik\grid\GridView;
     <?php
         $dataPersonaDonante = \yii\helpers\ArrayHelper::map(\app\models\Persona::find()->asArray()->all(), 'id', 'nombre');
         
-        echo Form::widget([
+          echo Form::widget([
             'model'=>$model,
             'form'=>$form,
             'columns'=>1,            
@@ -151,8 +151,11 @@ use kartik\grid\GridView;
                 ],
             ]
         ]);    
+    
     ?>
-        
+
+
+
     </div>
     
     <div>       
