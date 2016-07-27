@@ -62,6 +62,12 @@ class AcervoController extends MainController
         $multimediaProvider = new ArrayDataProvider([
             'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
         ]);
+        // if (isset($model->copia)) {
+        // $model->copia='no';
+        // }
+        // $model->copia='doc';
+// var_dump($model->copia);
+//         die();
         return $this->render('view', [
             'model' => $model, 
             'dataProvider' => $multimediaProvider,            
@@ -177,14 +183,17 @@ $ff=$fcierre;
             $model = new Acervo();
             $model->publicar_id = 1;            
         }
+
+
  
-        // // Load Ingreso ID. Request comes from Ingreso form
-        // if(!empty($ingreso_id)){
-        //     $model->ingreso_id = $ingreso_id;
-        //     if($model->isNewRecord){
-        //         $model->nroA = $ingreso_id;
-        //     }
-        // }
+        // Load Ingreso ID. 
+        //Request comes from Ingreso form
+        if(!empty($ingreso_id)){
+            $model->ingreso_id = $ingreso_id;
+            if($model->isNewRecord){
+                $model->nroA = $ingreso_id;
+            }
+        }
         
         // Load Form data into model & Save it
         if ($model->load(Yii::$app->request->post())) {    
