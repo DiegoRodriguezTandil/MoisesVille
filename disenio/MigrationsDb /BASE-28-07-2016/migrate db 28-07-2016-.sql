@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 28, 2016 at 05:26 
+-- Generation Time: Jul 28, 2016 at 07:16 
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 5.5.37
 
@@ -7875,7 +7875,8 @@ INSERT INTO `acervo` (`id`, `nombre`, `descripcion`, `nroInventario`, `forma`, `
 (7743, '', NULL, 'franp1', '', '', 1, NULL, NULL, NULL, 1, NULL, 2, NULL, NULL, NULL, NULL, 0, 0, '', '', '', '', NULL, '', '', '', '', '', '', NULL, 0, NULL, NULL, NULL, 1, 1, '', NULL, NULL, NULL),
 (7744, '', NULL, '626262', '', '', 1, NULL, NULL, NULL, 1, NULL, 2, NULL, NULL, NULL, NULL, 0, 0, '', '', '', '', NULL, '', '', '', '', '', '', NULL, 0, NULL, NULL, NULL, 1, 1, '', NULL, NULL, NULL),
 (7747, 'sas', NULL, 'asd', '123', '123', 2, '123.00', '123.00', '123.00', 2, '123.00', 2, '123.00', '123.00', NULL, 1000039, 2, 1, '123123', 'laprida', '123', '123123', NULL, '123', '123123', '1000039', '44', 'asda', 'ff', NULL, 2, 3, NULL, NULL, 0, 4, '123', NULL, '2016-07-01', '2016-07-02'),
-(7748, 'aa22', NULL, 'aa22', '', '', 1, NULL, NULL, NULL, 1, NULL, 2, NULL, NULL, NULL, NULL, 0, 0, '', '', '', '', NULL, '', '', '', '', '', '', NULL, 0, NULL, NULL, NULL, 1, 1, '', NULL, NULL, NULL);
+(7748, 'aa22', NULL, 'aa22', '', '', 1, NULL, NULL, NULL, 1, NULL, 2, NULL, NULL, NULL, NULL, 0, 0, '', '', '', '', NULL, '', '', '', '', '', '', NULL, 0, NULL, NULL, NULL, 1, 1, '', NULL, NULL, NULL),
+(7749, 'franp1', NULL, 'franp1', '', '', 1, NULL, NULL, NULL, 1, NULL, 2, NULL, NULL, NULL, 1000042, 0, 0, '', '', '', '', NULL, '', '', '1000042', '', 'franp1', '', NULL, 0, NULL, NULL, NULL, 1, 1, '', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -7896,7 +7897,6 @@ CREATE TABLE `auth_assignment` (
 INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('admin', '1', 1468546098),
 ('Jefe Museo', '4', 1469126381),
-('Jefe Personal', '3', 1469622960),
 ('Personal Administrativo', '10', 1469126569),
 ('Personal Administrativo', '11', 1469126589),
 ('Personal Administrativo', '12', 1469126627),
@@ -7904,6 +7904,7 @@ INSERT INTO `auth_assignment` (`item_name`, `user_id`, `created_at`) VALUES
 ('Personal Administrativo', '14', 1469126673),
 ('Personal Administrativo', '15', 1469126704),
 ('Personal Administrativo', '16', 1469126876),
+('Personal Administrativo', '3', 1469725001),
 ('Personal Administrativo', '5', 1469126401),
 ('Personal Administrativo', '6', 1469126422),
 ('Personal Administrativo', '7', 1469126455),
@@ -8433,6 +8434,7 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Personal Administrativo', '/acervo/view'),
 ('Personal Administrativo', '/coleccion/create'),
 ('Personal Administrativo', '/coleccion/index'),
+('Personal Administrativo', '/coleccion/update'),
 ('Personal Administrativo', '/coleccion/view'),
 ('Personal Administrativo', '/ingreso/create'),
 ('Personal Administrativo', '/ingreso/detail'),
@@ -8450,13 +8452,16 @@ INSERT INTO `auth_item_child` (`parent`, `child`) VALUES
 ('Personal Administrativo', '/persona/create'),
 ('Personal Administrativo', '/persona/find'),
 ('Personal Administrativo', '/persona/index'),
+('Personal Administrativo', '/persona/update'),
 ('Personal Administrativo', '/persona/view'),
 ('Personal Administrativo', '/site/index'),
 ('Personal Administrativo', '/tema/create'),
 ('Personal Administrativo', '/tema/index'),
+('Personal Administrativo', '/tema/update'),
 ('Personal Administrativo', '/tema/view'),
 ('Personal Administrativo', '/tipo-acervo/create'),
 ('Personal Administrativo', '/tipo-acervo/index'),
+('Personal Administrativo', '/tipo-acervo/update'),
 ('Personal Administrativo', '/tipo-acervo/view'),
 ('Personal Administrativo', '/tipo-multimedia/create'),
 ('Personal Administrativo', '/tipo-multimedia/index'),
@@ -16954,7 +16959,9 @@ INSERT INTO `ingreso` (`id`, `descripcion`, `fechaEntrada`, `observaciones`, `fe
 (1000035, NULL, NULL, NULL, NULL, 3, 'S', NULL, NULL, NULL, NULL),
 (1000036, NULL, NULL, NULL, NULL, 3, 'S', NULL, NULL, NULL, NULL),
 (1000039, 'asda', '2016-07-02', 'asdasd', '2016-07-01', 1, 'N', NULL, NULL, NULL, 30733),
-(1000040, NULL, NULL, NULL, NULL, 5, 'S', NULL, NULL, NULL, NULL);
+(1000040, NULL, NULL, NULL, NULL, 5, 'S', NULL, NULL, NULL, NULL),
+(1000041, NULL, NULL, NULL, NULL, 3, 'S', NULL, NULL, NULL, NULL),
+(1000042, '444', NULL, '', NULL, 3, 'S', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -24023,7 +24030,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `acervo`
 --
 ALTER TABLE `acervo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7749;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7750;
 --
 -- AUTO_INCREMENT for table `clasificacionGenerica`
 --
@@ -24048,7 +24055,7 @@ ALTER TABLE `formaIngreso`
 -- AUTO_INCREMENT for table `ingreso`
 --
 ALTER TABLE `ingreso`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000041;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1000043;
 --
 -- AUTO_INCREMENT for table `localidad`
 --
