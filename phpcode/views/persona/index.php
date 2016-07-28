@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use mdm\admin\components\Helper;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PersonaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -15,9 +15,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a(Yii::t('app', 'Create Persona'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+<p>
+    <!--HELPER YII2-ADMIN-->
+       <?php if(Helper::checkRoute('create')){
+            echo Html::a(Yii::t('app','Crear Persona'),['create'], ['class' => 'btn btn-success']);
+        }?>
+
+</p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -33,8 +37,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'telefono',
             // 'localidad_id',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+        'class' => 'yii\grid\ActionColumn',
+        'template' => Helper::filterActionColumn('{view}{delete}{update}'),
+    ]
         ],
     ]); ?>
 
 </div>
+
+
+

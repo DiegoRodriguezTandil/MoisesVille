@@ -25,20 +25,26 @@
         "kartik-v/yii2-dynagrid": "dev-master",
         "kartik-v/yii2-mpdf": "dev-master",
         "kartik-v/yii2-builder": "dev-master",
-        "kartik-v/yii2-datecontrol": "dev-master",
-        "kartik-v/yii2-nav-x": "dev-master",
+        "kartik-v/yii2-datecontrol": "@dev",
+        "kartik-v/yii2-nav-x": "*",
         "kartik-v/yii2-widget-select2": "* v2.0.8",
         "kartik-v/bootstrap-popover-x": "dev-master",
         "kartik-v/yii2-tabs-x": "dev-master",
         "bupy7/yii2-gridify-view": "dev-master",
         "kotchuprik/yii2-fotorama-widget": "dev-master",
+<<<<<<< HEAD
         "kartik-v/yii2-widget-growl": "dev-master"
+=======
+        "kartik-v/yii2-dialog": "@dev",
+        "mdmsoft/yii2-admin": "~2.0"
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
         "yiisoft/yii2-debug": "*",
         "yiisoft/yii2-gii": "*",
-        "yiisoft/yii2-faker": "*"
+        "yiisoft/yii2-faker": "*",
+        "kartik-v/yii2-widget-activeform": "1.4.x-dev"
     },
     "config": {
         "process-timeout": 1800

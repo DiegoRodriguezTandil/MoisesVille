@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -14,8 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Coleccion'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
+    <!--HELPER YII2-ADMIN-->
+       <?php if(Helper::checkRoute('create')){
+            echo Html::a(Yii::t('app','Nueva coleccion'),['create'], ['class' => 'btn btn-success']);
+        }?>
+   </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -25,7 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'nombre',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'class' => 'yii\grid\ActionColumn',
+             'template' => Helper::filterActionColumn('{view}{delete}{update}'),
+            ],
         ],
     ]); ?>
 

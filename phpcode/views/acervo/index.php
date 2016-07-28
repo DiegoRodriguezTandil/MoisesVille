@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\GridView;
-
+use mdm\admin\components\Helper;
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\AcervoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -17,8 +17,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Acervo'), ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+       <?php if(Helper::checkRoute('create')){
+            echo Html::a(Yii::t('app','Create Acervo'),['create'], ['class' => 'btn btn-success']);
+        }?>    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -52,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             
            ['class' => 'yii\grid\ActionColumn', 
-            'template' => '{view} {update} {delete} {imagen}',
+         'template' => Helper::filterActionColumn('{view}{delete}{update}{imagen}'),
             'buttons' => [
                 'imagen' => function ($url, $model) {
                 //    $url =Url::to('@web/'.'index.php?r=multimedia/subir&objeto_id='.$model->id);

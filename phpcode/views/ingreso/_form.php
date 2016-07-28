@@ -1,8 +1,8 @@
 <?php
-
+use kartik\form\ActiveField;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use kartik\widgets\ActiveForm;
+use kartik\form\ActiveForm;
 //use yii\helpers\ArrayHelper;
 use kartik\builder\Form;
 //use yii\grid\GridView;
@@ -97,6 +97,7 @@ use kartik\grid\GridView;
         $dataPersona = \yii\helpers\ArrayHelper::map(\app\models\Persona::find()->asArray()->all(), 'id', 'nombre');
         $dataTipoPersona = \yii\helpers\ArrayHelper::map(\app\models\TipoPersona::find()->asArray()->all(), 'id', 'nombre');
         
+<<<<<<< HEAD
 //         $form->field($model, 'nombre', [
 //                'hintType' => ActiveField::HINT_SPECIAL,
 //                'hintSettings' => [
@@ -136,12 +137,44 @@ use kartik\grid\GridView;
                 ],
             ]
         ]);    
+=======
+//        echo Form::widget([
+//            'model'=>$model,
+//            'form'=>$form,
+//            'columns'=>2,            
+//            'attributes'=>[
+//                'persona_id'=>[
+//                        'type'=>Form::INPUT_WIDGET, 
+//                        'widgetClass'=>'\kartik\select2\Select2', 
+//                        'label'=>'Persona Donante',
+//                        'options' => [
+//                            'options' => ['placeholder' => 'Seleccione Persona...'],                           
+//                            'data' => $dataPersona,
+//                            'pluginOptions' => [
+//                                'allowClear' => true
+//                            ],                            
+//                        ],
+//                ],
+//                'tipoPersona_id'=>[
+//                        'type'=>Form::INPUT_WIDGET, 
+//                        'widgetClass'=>'\kartik\select2\Select2', 
+//                        'options' => [
+//                            'options' => ['placeholder' => 'Seleccione Tipo de Persona...'],                           
+//                            'data' => $dataTipoPersona,
+//                            'pluginOptions' => [
+//                                'allowClear' => true
+//                            ],                            
+//                        ],
+//                ],
+//            ]
+//        ]);    
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
     ?>
         
     <?php
         $dataPersonaDonante = \yii\helpers\ArrayHelper::map(\app\models\Persona::find()->asArray()->all(), 'id', 'nombre');
         
-        echo Form::widget([
+          echo Form::widget([
             'model'=>$model,
             'form'=>$form,
             'columns'=>1,            
@@ -160,8 +193,11 @@ use kartik\grid\GridView;
                 ],
             ]
         ]);    
+    
     ?>
-        
+
+
+
     </div>
     
     <div>       
@@ -199,7 +235,7 @@ use kartik\grid\GridView;
                     }
                 },
                 'viewOptions'=>['title'=>'Ver detalles del acervo', 'data-toggle'=>'tooltip'],
-                'updateOptions'=>['url'=>'urlCreator', 'title'=>'Para actualizar el cervo', 'data-toggle'=>'tooltip'],
+                'updateOptions'=>['url'=>'urlCreator', 'title'=>'Para actualizar el Acervo', 'data-toggle'=>'tooltip'],
                 'deleteOptions'=>['url'=>'urlCreator', 'title'=>'Eliminar el acervo', 'data-toggle'=>'tooltip',],
                 'headerOptions'=>['class'=>'kartik-sheet-style'],
                 'buttons'=> [

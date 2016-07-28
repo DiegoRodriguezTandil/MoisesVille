@@ -1,5 +1,9 @@
 /*!
+<<<<<<< HEAD
  * bootstrap-fileinput v4.3.2
+=======
+ * bootstrap-fileinput v4.3.3
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
  * http://plugins.krajee.com/file-input
  *
  * Author: Kartik Visweswaran
@@ -10,6 +14,10 @@
  */
 (function (factory) {
     "use strict";
+<<<<<<< HEAD
+=======
+    //noinspection JSUnresolvedVariable
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
     if (typeof define === 'function' && define.amd) { // jshint ignore:line
         // AMD. Register as an anonymous module.
         define(['jquery'], factory); // jshint ignore:line
@@ -29,7 +37,11 @@
     $.fn.fileinputLocales = {};
     $.fn.fileinputThemes = {};
 
+<<<<<<< HEAD
     var NAMESPACE, MODAL_ID, STYLE_SETTING, OBJECT_PARAMS, DEFAULT_PREVIEW, objUrl, compare, isIE, isEdge, handler,
+=======
+    var NAMESPACE, MODAL_ID, STYLE_SETTING, OBJECT_PARAMS, DEFAULT_PREVIEW, objUrl, compare, isIE, handler,
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
         previewCache, getNum, hasFileAPISupport, hasDragDropSupport, hasFileUploadSupport, addCss, tMain1, tMain2,
         tPreview, tFileIcon, tClose, tCaption, tBtnDefault, tBtnLink, tBtnBrowse, tModalMain, tModal, tProgress, tSize,
         tFooter, tActions, tActionDelete, tActionUpload, tActionZoom, tActionDrag, tTagBef, tTagBef1, tTagBef2, tTagAft,
@@ -70,9 +82,12 @@
         div.parentNode.removeChild(div);
         return status;
     };
+<<<<<<< HEAD
     isEdge = function () {
         return new RegExp('Edge\/[0-9]+', 'i').test(navigator.userAgent);
     };
+=======
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
     handler = function ($el, event, callback, skipNS) {
         var ev = skipNS ? event : event.split(' ').join(NAMESPACE + ' ') + NAMESPACE;
         $el.off(ev).on(ev, callback);
@@ -284,8 +299,12 @@
         /** @namespace div.draggable */
         /** @namespace div.ondragstart */
         /** @namespace div.ondrop */
+<<<<<<< HEAD
         return !isIE(9) && !isEdge() && // Fix for MS Edge drag & drop support bug
             (div.draggable !== undefined || (div.ondragstart !== undefined && div.ondrop !== undefined));
+=======
+        return !isIE(9) && (div.draggable !== undefined || (div.ondragstart !== undefined && div.ondrop !== undefined));
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
     };
     hasFileUploadSupport = function () {
         return hasFileAPISupport() && window.FormData;
@@ -626,9 +645,12 @@
                         break;
                 }
             });
+<<<<<<< HEAD
             if (isEmpty(self.allowedPreviewTypes)) {
                 self.allowedPreviewTypes = defaultPreviewTypes;
             }
+=======
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
             self.fileInputCleared = false;
             self.fileBatchCompleted = true;
             if (!self.isPreviewable) {
@@ -1570,7 +1592,11 @@
         },
         _getMsgSelected: function (n) {
             var self = this, strFiles = n === 1 ? self.fileSingle : self.filePlural;
+<<<<<<< HEAD
             return self.msgSelected.replace('{n}', n).replace('{files}', strFiles);
+=======
+            return n > 0 ? self.msgSelected.replace('{n}', n).replace('{files}', strFiles) : self.msgNoFilesSelected;
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
         },
         _getThumbs: function (css) {
             css = css || '';
@@ -1870,7 +1896,11 @@
             };
             fnSuccess = function (data, textStatus, jqXHR) {
                 /** @namespace data.errorkeys */
+<<<<<<< HEAD
                 var outData = self._getOutData(jqXHR, data), $thumbs = self._getThumbs(), key = 0,
+=======
+                var outData = self._getOutData(jqXHR, data), $thumbs = self._getThumbs(':not(.file-preview-error)'), key = 0,
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
                     keys = isEmpty(data) || isEmpty(data.errorkeys) ? [] : data.errorkeys;
                 if (isEmpty(data) || isEmpty(data.error)) {
                     self._raise('filebatchuploadsuccess', [outData]);
@@ -2226,6 +2256,10 @@
                     return;
                 }
                 if (!canPreview && fileSize > maxPreviewSize) {
+<<<<<<< HEAD
+=======
+                    self.addToStack(file);
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
                     $container.addClass('file-thumb-loading');
                     self._previewDefault(file, previewId);
                     self._initFileActions();
@@ -2401,7 +2435,11 @@
         },
         _setPreviewError: function ($thumb, i, val) {
             var self = this;
+<<<<<<< HEAD
             if (i) {
+=======
+            if (i !== undefined) {
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
                 self.updateStack(i, val);
             }
             if (self.removeFromPreviewOnError) {
@@ -2640,13 +2678,21 @@
                     '0') + '</div>';
         },
         _renderFileFooter: function (caption, size, width, isError) {
+<<<<<<< HEAD
             var self = this, config = self.fileActionSettings, footer, rem = config.showRemove, drg = config.showDrag,
+=======
+            var self = this, config = self.fileActionSettings, rem = config.showRemove, drg = config.showDrag,
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
                 upl = config.showUpload, zoom = config.showZoom, out, template = self._getLayoutTemplate('footer'),
                 indicator = isError ? config.indicatorError : config.indicatorNew,
                 title = isError ? config.indicatorErrorTitle : config.indicatorNewTitle;
             size = self._getSize(size);
             if (self.isUploadable) {
+<<<<<<< HEAD
                 out = template.replace(/\{actions}/g, self._renderFileActions(rem, upl, zoom, drg, false, false, false))
+=======
+                out = template.replace(/\{actions}/g, self._renderFileActions(upl, rem, zoom, drg, false, false, false))
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
                     .replace(/\{caption}/g, caption).replace(/\{size}/g, size).replace(/\{width}/g, width)
                     .replace(/\{progress}/g, self._renderThumbProgress()).replace(/\{indicator}/g, indicator)
                     .replace(/\{indicatorTitle}/g, title);
@@ -3140,7 +3186,11 @@
             borderless: 'btn btn-default',
             close: 'btn btn-default'
         },
+<<<<<<< HEAD
         allowedPreviewTypes: null,
+=======
+        allowedPreviewTypes: defaultPreviewTypes,
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
         allowedPreviewMimeTypes: null,
         allowedFileTypes: null,
         allowedFileExtensions: null,
@@ -3216,6 +3266,10 @@
         uploadLabel: 'Upload',
         uploadTitle: 'Upload selected files',
         msgNo: 'No',
+<<<<<<< HEAD
+=======
+        msgNoFilesSelected: 'No files selected',
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
         msgCancelled: 'Cancelled',
         msgZoomModalHeading: 'Detailed Preview',
         msgSizeTooLarge: 'File "{name}" (<b>{size} KB</b>) exceeds maximum allowed upload size of <b>{maxSize} KB</b>.',

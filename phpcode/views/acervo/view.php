@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use kartik\detail\DetailView;
 use bupy7\gridifyview\GridifyView;
 use kartik\grid\GridView;
+use mdm\admin\components\Helper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Acervo */
@@ -20,16 +21,23 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?php //echo Html::encode($this->title) ?>
         <?php echo " Acervo: ".$model->nombre; ?></h1>
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('<i class="fa glyphicon glyphicon-print"></i> '.Yii::t('app', 'Imprimir'), ['print', 'id' => $model->id], ['class' => 'btn btn-primary',  'target'=>'_blank']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+   
+       <?php if(Helper::checkRoute('Update')){
+            echo Html::a(Yii::t('app','Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ;
+        }?>
+       <?php if(Helper::checkRoute('Imprimir')){
+            echo Html::a(Yii::t('app','Imprimir'), ['print', 'id' => $model->id], ['class' => 'btn btn-primary',  'target'=>'_blank']) ;
+        }?>
+       <?php if(Helper::checkRoute('Delete')){
+            echo Html::a(Yii::t('app','Delete'),  ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
-        ]) ?>
-       
+        ]);
+        }?>
+
         <a href="#fotos" class="btn btn-primary pull-right navigate-top" ><i class="glyphicon glyphicon-picture"></i> Imágenes</a>
    </p>
 
@@ -88,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute'=>'copia_id', 
                         'label'=>'Tipo de Copia',
                         'displayOnly'=>true,
-                        'value'=> $model->copia->nombre,                    
+                        'value'=> isset($model->copia)?$model->copia->nombre:'',                  
                        // 'valueColOptions'=>['style'=>'width:20%'], 
                         'displayOnly'=>true
                     ],

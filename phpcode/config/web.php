@@ -13,8 +13,35 @@ $config = [
         'gridview' =>  [
             'class' => '\kartik\grid\Module'
         ],
+
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+                'layout' => 'left-menu',
+        ], 
+
         'datecontrol' =>  [
             'class' => '\kartik\datecontrol\Module',
+
+        //  'admin' => [
+        //         'class' => 'mdm\admin\Module',
+        //         'layout' => 'left-menu', // it can be '@path/to/your/layout'.
+        //         'controllerMap' => [
+        //             'assignment' => [
+        //                 'class' => 'mdm\admin\controllers\AssignmentController',
+        //                 'userClassName' => 'app\models\User',
+        //                 'idField' => 'id'
+        //             ],
+        //             'other' => [
+        //                 'class' => 'path\to\OtherController', // add another controller
+        //             ],
+        //         ],
+        // 'menus' => [
+        //     'assignment' => [
+        //         'label' => 'Grand Access' // change label
+        //     ],
+        //     'route' => null, // disable menu route 
+        //     ]
+        // ],
             
             // format settings for displaying each date attribute (ICU format example)
             'displaySettings' => [
@@ -52,7 +79,19 @@ $config = [
             'dateFormat' => 'php:d-M-Y',
             'datetimeFormat' => 'php:d-M-Y H:i:s',
             'timeFormat' => 'php:H:i:s',
-        ],        
+        ], 
+      'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            // 'class' =>'app\controllers\userController',
+        ],
+        // 'authManager' => [
+        //     'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+        // ],
+        // 'user' => [
+        //     'identityClass' => 'mdm\admin\models\User',
+        //     'loginUrl' => ['admin/user/login'],
+        // ],
+
         'request' => [
             'cookieValidationKey' => 'dfsdfhsdfhsduhfsduihf2364asd',
         ],
@@ -62,6 +101,8 @@ $config = [
         'user' => [/*
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,*/
+            'identityClass' => 'mdm\admin\models\User',
+            'loginUrl' => ['admin/user/login'],
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,//If you don't have authKey column in your DB, set enableAutoLogin field to false
             'enableSession' => true,
@@ -111,7 +152,21 @@ $config = [
             'thumbnail.size' => [128, 128],
             
         ],*/
+
     ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'site/*',
+            // 'acervo/*'
+            // The actions listed here will be allowed to everyone including guests.
+            // So, 'admin/*' should not appear here in the production, of course.
+            // But in the earlier stages of your development, you may probably want to
+            // add a lot of actions here until you finally completed setting up rbac,
+            // otherwise you may not even take a first step.
+        ]
+    ],
+
     'params' => $params,
 ];
 

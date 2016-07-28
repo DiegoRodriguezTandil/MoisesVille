@@ -11,6 +11,9 @@ use app\assets\AppAsset;
 //use kartik\helpers\Html;
 //use yii\bootstrap\Popover;
 use kartik\nav\NavX;
+use mdm\admin\components\MenuHelper;
+use yii\bootstrap\Nav;
+
 
 AppAsset::register($this);
 ?>
@@ -87,34 +90,15 @@ AppAsset::register($this);
         'innerContainerOptions' => ['class'=>'kv-container'],
         'renderInnerContainer' => true
     ]);
-    if (!Yii::$app->user->isGuest )
-        {        
-            $itemsLeft = [
-                ['label' => 'Inicio','url' => ['/site/index']],        
-                ['label' => Yii::t('app','Ingresos'), 'url' => ['/ingreso'],
-                            'items'=>array(
-                                array('label'=>'Listado de Ingresos', 'url'=>array('/ingreso')),
-                                array('label'=>'Nuevo Ingreso', 'url'=>array('/ingreso/create')),                                
-                              ),],
-                    ['label' => Yii::t('app','Acervo'), 'url' => ['/acervo'],
-                                'items'=>array(
-                                array('label'=>'Listado de Acervos', 'url'=>array('/acervo')),
-                            //    array('label'=>'Nuevo Acervo', 'url'=>array('/acervo/create')),                                
-                              ),],
-                    ['label' => Yii::t('app','Personas'), 'url' => ['/persona']],                    
-                    ['label' => Yii::t('app','Configuración'), 'url' => ['/site/contacto'],
-                        'items'=>array(
-                                array('label'=>'Usuarios', 'url'=>array('/user')),
-                                array('label'=>'Colecciones', 'url'=>array('/coleccion')),
-                                array('label'=>'Temas', 'url'=>array('/tema')),
-                                array('label'=>'Tipos de Acervo', 'url'=>array('/tipo-acervo')),
-                                array('label'=>'Multimedia', 'url'=>array('/multimedia')),
-                              ),
-                    ],
-                   // ['label' => Yii::t('app','Contacto'), 'url' => ['#']],
-            ];
-            echo NavX::widget(['options' => ['class' => 'navbar-nav'], 'items' => $itemsLeft]);
-        }
+
+
+// *************************COMPONENT MenuHelper ****************************************
+//the menu will be displayed according to user permissions   
+ 
+ echo Nav::widget(['options' => ['class' => 'navbar-nav ' ], 'items' =>  MenuHelper::getAssignedMenu(Yii::$app->user->id)]);
+
+// *************************fin component MenuHelper ****************************************
+
     $itemsRight = [
        // ['label' => Yii::t('app','Cuenta'), 'url' => ['#']],
             Yii::$app->user->isGuest ?

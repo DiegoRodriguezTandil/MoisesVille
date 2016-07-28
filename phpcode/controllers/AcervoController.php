@@ -62,6 +62,12 @@ class AcervoController extends MainController
         $multimediaProvider = new ArrayDataProvider([
             'allModels' => Multimedia::findAll(['objetos_id'=>$model->id]),
         ]);
+        // if (isset($model->copia)) {
+        // $model->copia='no';
+        // }
+        // $model->copia='doc';
+// var_dump($model->copia);
+//         die();
         return $this->render('view', [
             'model' => $model, 
             'dataProvider' => $multimediaProvider,            
@@ -108,19 +114,38 @@ class AcervoController extends MainController
         return $pdf->render();
     }
     
-    private function saveUbicacionExterna($acervo_id, $values){
+    private function saveUbicacionExterna($acervo_id, $ubicacion, $finicio,$fcierre){
+$fi=$finicio;
+$ff=$fcierre;
+
         if(
                 isset($acervo_id)
-                && is_array($values)
-                && array_key_exists('ubicacion', $values)
-                && isset($values['ubicacion']) && (trim($values['ubicacion'])!='')
-        )
-        {
-            $ue = new \app\models\UbicacionExterna();
-            $ue->acervo_id = $acervo_id;
-            $ue->fechaInicio = $values['fechaInicio'];
-            $ue->fechaCierre = $values['fechaCierre'];
-            $ue->ubicacion = $values['ubicacion'];
+                && is_array($ubicacion)
+                && array_key_exists('ubicacion', $ubicacion)
+                && isset($ubicacion['ubicacion']) && (trim($ubicacion['ubicacion'])!='')
+        ){
+      
+           if(isset($finicio) &&strlen($finicio)>0){
+                    list($dia, $mes, $anio) = explode("/",$finicio);
+                    $fi= $anio.'-'.$mes.'-'.$dia;
+              }
+            if(isset($fcierre) and strlen($fcierre)>0 ){
+                 list($dia2, $mes2, $anio2) = explode("/",$fcierre);
+                 $ff=$anio2.'-'.$mes2.'-'.$dia2;
+            }
+                     
+
+                 
+                    
+    // var_dump($finicio);
+    //  var_dump($fcierre);die();
+                    
+            
+                $ue = new \app\models\UbicacionExterna();
+                $ue->acervo_id = $acervo_id;
+                $ue->fechaInicio =$fi;
+                $ue->fechaCierre =$ff;
+                $ue->ubicacion = $ubicacion['ubicacion'];
             if($ue->save())
             {
                 return $ue;
@@ -128,6 +153,7 @@ class AcervoController extends MainController
         }
         return false;
     }
+
     
     /**
      * Displays a single Acervo model with images
@@ -155,9 +181,13 @@ class AcervoController extends MainController
         else 
         {
             $model = new Acervo();
+            $model->publicar_id = 1;            
         }
-        
-        // Load Ingreso ID. Request comes from Ingreso form
+
+
+ 
+        // Load Ingreso ID. 
+        //Request comes from Ingreso form
         if(!empty($ingreso_id)){
             $model->ingreso_id = $ingreso_id;
             if($model->isNewRecord){
@@ -167,15 +197,38 @@ class AcervoController extends MainController
         
         // Load Form data into model & Save it
         if ($model->load(Yii::$app->request->post())) {    
+                 $dia='';
+                 $dia2='';
+                 $mes='';
+                 $mes2='';
+                $anio='';
+                $anio2='';
+
+                  $fechaInicio= Yii::$app->request->post('fechaInicioRestauracion-acervo-fechainiciorestauracion');
+                  $fechaFin= Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
+               if(  strlen($fechaFin)>0) {
+                     list($dia2, $mes2, $anio2) = explode("/",$fechaFin);
+                     $model->fechaFinRestauracion=$anio2.'-'.$mes2.'-'.$dia2;
+               }    
+          if(isset($fechaInicio)and  strlen($fechaInicio)>0 ){
+               list($dia, $mes, $anio) = explode("/",$fechaInicio); 
+                 $model->fechaInicioRestauracion=$anio.'-'.$mes.'-'.$dia;//Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
+
+          }
+
             if (!$model->save()) {
-                // exception error de guardado
-            }                
+                // exception err var_dump($model);die();or de guardado
+            }   
+
+
             $acervo_id = $model->id;            
         }        
-        
+ //var_dump(Yii::$app->request);die();
         // Save UbicacionExterna
-        if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'))) 
+
+        if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'),Yii::$app->request->post('fechaInicio-ubicacionexterna-fechainicio'),Yii::$app->request->post('fechaCierre-ubicacionexterna-fechacierre'))) 
         {  
+
             Yii::$app->session->setFlash('success',
                 [
                     'type' => 'success',

@@ -3,7 +3,11 @@
   <metadata>
     <id>bootstrap-fileinput</id>
 	<title>bootstrap-fileinput</title>
+<<<<<<< HEAD
     <version>4.3.2.1</version>
+=======
+    <version>4.3.3</version>
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
     <authors>Kartik Visweswaran</authors>
     <owners>Kartik Visweswaran</owners>
     <licenseUrl>https://github.com/kartik-v/bootstrap-fileinput/blob/master/LICENSE.md</licenseUrl>

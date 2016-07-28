@@ -12,9 +12,12 @@ use kartik\mpdf\Pdf;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends MainController
+
+
+
+class UserController extends MainController 
 {
-    
+    // private $idAdmin=1;
     public function behaviors()
     {
         return array_merge(
@@ -37,8 +40,9 @@ class UserController extends MainController
     public function actionIndex()
     {
         $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+       // var_dump(Yii::$app->request->queryParams);die();
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -52,9 +56,12 @@ class UserController extends MainController
      */
     public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        if($id!=Yii::$app->params['idAdmin']){
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+            ]);
+         }
+         return $this->actionIndex();
     }
 
     /**
@@ -62,11 +69,22 @@ class UserController extends MainController
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+
+  public function actionCreate()
     {
         $model = new User();
+<<<<<<< HEAD
 var_dump(Yii::$app->request->post()); die();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+=======
+            $data[]=Yii::$app->request->post('User');
+            $model->username = isset($data[0]['username']) ? $data[0]['username'] : null;
+            $model->firstName = isset($data[0]['firstName']) ? $data[0]['firstName'] : null;
+            $model->lastName = isset($data[0]['lastName']) ? $data[0]['lastName'] : null;
+            $model->password = isset($data[0]['password']) ? $data[0]['password'] : null;
+            $model->email = isset($data[0]['email']) ? $data[0]['email'] : null;
+    if ($model->load(Yii::$app->request->post()) && $model->save()) {
+>>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -83,15 +101,32 @@ var_dump(Yii::$app->request->post()); die();
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
+        if($id==Yii::$app->params['idAdmin'])
+            {
+                         Yii::$app->session->setFlash('error',
+                        [
+                            //'type' => 'error',
+                            'icon' => 'fa fa-users',
+                            'message' => ' no esta permitido.', 
+                            'title' => 'Error de Actualización',
+                            'positonY' => 'top',
+                            'positonX' => 'left'
+                        ]                    
+                );
+                  return $this->redirect(['view','id'=>$id]);
+            }else{
+
+                    $model = $this->findModel($id);
+
+                    if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    } else {
+                        return $this->render('update', [
+                            'model' => $model,
+                        ]);
+                    }
+                }
     }
 
     /**
@@ -102,16 +137,32 @@ var_dump(Yii::$app->request->post()); die();
      */
     public function actionDelete($id)
     {
+
         try {
-            if($this->findModel($id)->delete()){
-                return $this->redirect(['index']);
+            if($id!=Yii::$app->params['idAdmin']){
+                if($this->findModel($id)->delete()){
+                    return $this->redirect(['index']);
+                }
+            }else{
+                 Yii::$app->session->setFlash('error',
+                [
+                    //'type' => 'error',
+                    'icon' => 'fa fa-users',
+                    'message' => ' no esta permitido.', 
+                    'title' => 'Error de Borrado',
+                    'positonY' => 'top',
+                    'positonX' => 'left'
+                ]                    
+            );
+                  return $this->redirect(['view','id'=>$id]);
             }
+
         } catch (\yii\db\IntegrityException $exc) {
             Yii::$app->session->setFlash('error',
                 [
                     //'type' => 'error',
                     'icon' => 'fa fa-users',
-                    'message' => 'Usuario posee elementos relacionados',
+                    'message' => 'Usuario posee elementos relacionados, o no esta permitido.', 
                     'title' => 'Error de Borrado',
                     'positonY' => 'top',
                     'positonX' => 'left'

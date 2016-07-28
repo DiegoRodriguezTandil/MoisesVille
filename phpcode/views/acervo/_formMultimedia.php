@@ -38,7 +38,7 @@ use yii\widgets\ListView;
         ?>
         </div>
         <div class="col-sm-8">   
-            <h3>Imágenes del Objeto</h3>
+            <h3>Imágenes del Acervo</h3>
             <div class="fotorama"
                 data-width="100%"
                 data-ratio="800/600"

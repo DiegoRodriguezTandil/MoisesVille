@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use kartik\detail\DetailView;
 use kartik\grid\GridView;
+use mdm\admin\components\Helper;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Ingreso */
@@ -16,15 +18,23 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('<i class="fa glyphicon glyphicon-print"></i> '.Yii::t('app', 'Imprimir'), ['print', 'id' => $model->id], ['class' => 'btn btn-primary',  'target'=>'_blank']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+       <?php if(Helper::checkRoute('Update')){
+            echo Html::a(Yii::t('app','Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ;
+        }?>
+       <?php if(Helper::checkRoute('Imprimir')){
+            echo Html::a(Yii::t('app','Imprimir'), ['print', 'id' => $model->id], ['class' => 'btn btn-primary',  'target'=>'_blank']) ;
+        }?>
+       <?php if(Helper::checkRoute('Delete')){
+            echo Html::a(Yii::t('app','Delete'),  ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
             ],
-        ]) ?>
+        ]);
+        }?>
+
+       
    </p>
 
    <div class="ingreso-view" id="top">

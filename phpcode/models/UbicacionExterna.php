@@ -31,10 +31,16 @@ class UbicacionExterna extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['fechaInicio', 'fechaCierre'], 'safe'],
+           
+            
             [['acervo_id'], 'required'],
             [['acervo_id'], 'integer'],
-            [['ubicacion'], 'string', 'max' => 255]
+            [['fechaInicio'], 'safe'],
+            [['ubicacion'], 'string', 'max' => 255],
+             [['fechaCierre'], 'compare', 'compareAttribute'=>'fechaInicio', 'operator'=>'>=','skipOnEmpty'=>true],   
+
+              
+
         ];
     }
 
