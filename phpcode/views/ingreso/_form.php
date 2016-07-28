@@ -97,6 +97,14 @@ use kartik\grid\GridView;
         $dataPersona = \yii\helpers\ArrayHelper::map(\app\models\Persona::find()->asArray()->all(), 'id', 'nombre');
         $dataTipoPersona = \yii\helpers\ArrayHelper::map(\app\models\TipoPersona::find()->asArray()->all(), 'id', 'nombre');
         
+//         $form->field($model, 'nombre', [
+//                'hintType' => ActiveField::HINT_SPECIAL,
+//                'hintSettings' => [
+//                    'showIcon' => false,
+//                    'title' => '<i class="glyphicon glyphicon-info-sign"></i> Nota'
+//                ]
+//                ])->textInput()->hint('Ingrese el nombre/designación con que se describirá el objeto.'); 
+        
         echo Form::widget([
             'model'=>$model,
             'form'=>$form,
@@ -111,7 +119,8 @@ use kartik\grid\GridView;
                             'data' => $dataPersona,
                             'pluginOptions' => [
                                 'allowClear' => true
-                            ],                            
+                            ],    
+                            
                         ],
                 ],
                 'tipoPersona_id'=>[

@@ -44,7 +44,8 @@ $config = [
         ]        
     ],
     'sourceLanguage'=>'en-US',    
-    
+    'aliases'=>[
+        '@asset'=>  dirname(dirname(dirname(dirname(rtrim(dirname($_SERVER['PHP_SELF']), '\\/'))))).'/assets/'],
     'components' => [
         'formatter' => [
             'class' => 'yii\i18n\Formatter',
