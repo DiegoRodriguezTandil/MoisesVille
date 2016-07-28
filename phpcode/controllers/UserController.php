@@ -73,10 +73,6 @@ class UserController extends MainController
   public function actionCreate()
     {
         $model = new User();
-<<<<<<< HEAD
-var_dump(Yii::$app->request->post()); die();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-=======
             $data[]=Yii::$app->request->post('User');
             $model->username = isset($data[0]['username']) ? $data[0]['username'] : null;
             $model->firstName = isset($data[0]['firstName']) ? $data[0]['firstName'] : null;
@@ -84,7 +80,6 @@ var_dump(Yii::$app->request->post()); die();
             $model->password = isset($data[0]['password']) ? $data[0]['password'] : null;
             $model->email = isset($data[0]['email']) ? $data[0]['email'] : null;
     if ($model->load(Yii::$app->request->post()) && $model->save()) {
->>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

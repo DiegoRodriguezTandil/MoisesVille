@@ -12,12 +12,6 @@ use yii\widgets\ListView;
     <div class="row">
         <div class="col-sm-4">   
         <?php 
-    //        echo $form->field($model, 'files[]')->widget(FileInput::classname(), [
-    //            'options'=>['multiple' => true, 'accept'=>'image/*', 'label'=>'Fotos'],
-    //            'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],
-    //                'label'=>'Fotos'
-    //        ]]);
-
             // With model & without ActiveForm
             echo '<label class="control-label">Agregar Fotos</label>';
             echo FileInput::widget([
@@ -28,13 +22,12 @@ use yii\widgets\ListView;
                 'pluginOptions'=>['allowedFileExtensions'=>['jpg','gif','png'],
                 ]]);
         ?>
-
+        </div>
+        <div class="col-sm-4">   
         <?php  
             echo Html::hiddenInput('Multimedia[objeto_id]',$acervo_id);  
             echo Html::hiddenInput('multimedia','si');  
             echo Html::hiddenInput('objeto_id',$acervo_id);          
-
-
         ?>
         </div>
         <div class="col-sm-8">   

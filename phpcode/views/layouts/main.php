@@ -143,12 +143,12 @@ AppAsset::register($this);
         </div>
     </div>
 </div>
-<footer class="footer">
+<footer class="footer" style="background-color:#cecece;">
     <div class="container">
         <p class="pull-left">&copy; Museo Histórico Comunal y de la Colonización Judía
 "Rabino Aarón H. Goldman" - <?= date('Y') ?></p>
 
-        <p class="pull-right"><a href="http://www.qwavee.com">Qwavee</a></p>
+        <p class="pull-right">Desarrollado por <a href="http://www.qwavee.com"><img width="100"src="./images/logo-qwavee.png"></a></p>
     </div>
 </footer>
 

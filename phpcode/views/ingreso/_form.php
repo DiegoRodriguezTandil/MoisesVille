@@ -97,7 +97,6 @@ use kartik\grid\GridView;
         $dataPersona = \yii\helpers\ArrayHelper::map(\app\models\Persona::find()->asArray()->all(), 'id', 'nombre');
         $dataTipoPersona = \yii\helpers\ArrayHelper::map(\app\models\TipoPersona::find()->asArray()->all(), 'id', 'nombre');
         
-<<<<<<< HEAD
 //         $form->field($model, 'nombre', [
 //                'hintType' => ActiveField::HINT_SPECIAL,
 //                'hintSettings' => [
@@ -137,38 +136,6 @@ use kartik\grid\GridView;
                 ],
             ]
         ]);    
-=======
-//        echo Form::widget([
-//            'model'=>$model,
-//            'form'=>$form,
-//            'columns'=>2,            
-//            'attributes'=>[
-//                'persona_id'=>[
-//                        'type'=>Form::INPUT_WIDGET, 
-//                        'widgetClass'=>'\kartik\select2\Select2', 
-//                        'label'=>'Persona Donante',
-//                        'options' => [
-//                            'options' => ['placeholder' => 'Seleccione Persona...'],                           
-//                            'data' => $dataPersona,
-//                            'pluginOptions' => [
-//                                'allowClear' => true
-//                            ],                            
-//                        ],
-//                ],
-//                'tipoPersona_id'=>[
-//                        'type'=>Form::INPUT_WIDGET, 
-//                        'widgetClass'=>'\kartik\select2\Select2', 
-//                        'options' => [
-//                            'options' => ['placeholder' => 'Seleccione Tipo de Persona...'],                           
-//                            'data' => $dataTipoPersona,
-//                            'pluginOptions' => [
-//                                'allowClear' => true
-//                            ],                            
-//                        ],
-//                ],
-//            ]
-//        ]);    
->>>>>>> 12116c092cc70ca1257ca8fe491ca5f63607a322
     ?>
         
     <?php

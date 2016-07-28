@@ -9,7 +9,9 @@ use kartik\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="acervo-form">     
+<div class="acervo-form">   
+      <div class="row">
+        <div class="col-sm-12">   
     <?php 
       
         echo Form::widget([
@@ -32,5 +34,6 @@ use kartik\widgets\ActiveForm;
         ]);
        
     ?>
-
+            </div>
+          </div>
 </div>
