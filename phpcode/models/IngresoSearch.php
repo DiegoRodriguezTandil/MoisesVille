@@ -44,6 +44,7 @@ class IngresoSearch extends Ingreso
      */
     public function search($params)
     {
+
         $query = Ingreso::find();//->where();//(['autoSave'=>'N']);
 
         $dataProvider = new ActiveDataProvider([
@@ -68,12 +69,13 @@ class IngresoSearch extends Ingreso
         if ( ! $this->validate() ) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
+
             $query->joinWith(['persona']);
             return $dataProvider;
         }        
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'ingreso.id' => $this->id,
             'fechaEntrada' => $this->fechaEntrada,
             'fechaBaja' => $this->fechaBaja,
             'user_id' => $this->user_id,
