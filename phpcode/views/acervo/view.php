@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'attribute'=>'copia_id', 
                         'label'=>'Tipo de Copia',
                         'displayOnly'=>true,
-                        'value'=> $model->copia->nombre,                    
+                        'value'=> isset($model->copia)?$model->copia->nombre:'',                  
                        // 'valueColOptions'=>['style'=>'width:20%'], 
                         'displayOnly'=>true
                     ],
