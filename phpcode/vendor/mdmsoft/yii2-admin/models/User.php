@@ -195,4 +195,18 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+    
+    public function attributeLabels(){
+        return [
+            'id' => 'ID',
+	    'username' => 'Usuario',
+	    'auth_key' => 'Auth Key',
+	    'password' => 'Contraseña',
+	    'email' => 'Email',
+	    'created_at' => 'Created At',
+	    'updated_at' => 'Updated At',
+	    'firstName' => 'Nombre',
+	    'lastName' => 'Apellido',
+        ];
+    }
 }

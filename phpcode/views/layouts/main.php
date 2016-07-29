@@ -80,7 +80,7 @@ AppAsset::register($this);
 //    $logo1 = Html::img(Yii::getAlias('@web').'/images/museomoisesville.png', ['height'=>'30']);
 //    $logo = Html::img('@web/gestion.png', ['width'=>'300']);
     NavBar::begin([
-        'brandLabel' => '<img src="' . \Yii::getAlias('@web').'/images/museomoisesville.png' . ' " width="8%" style="float:left;margin-top:-7px; margin-right:10px;"><img src="' .\Yii::getAlias('@web').'/images/gestion.jpg'. ' " width="320" style="float:left;">',
+        'brandLabel' => '<img src="' . \Yii::getAlias('@web').'/images/museomoisesville.png' . ' " width="8%" style="float:left;margin-top:-7px; margin-right:10px;"><img src="' .\Yii::getAlias('@web').'/images/gestion.png'. ' " width="320" style="float:left;">',
         'brandUrl' => 'index.php?r=site/index',
         'brandOptions' => ['title' => 'Gestión de Colecciones', 'style'=>'width:auto'],
         'options' => [
