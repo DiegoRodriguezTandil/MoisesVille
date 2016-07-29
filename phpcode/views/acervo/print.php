@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <p>N° de Registro</p><?=$model->nroInventario;?>
         </div>
         <div style="float:left; width:300px; text-align:center;">
-            <h4>Museo Histórico Comunal <br>y de la colonización judía<br>"Rabino Aarón N. Goldman"</h4>            
+            <h4>Museo Histórico Comunal <br>y de la Colonización Judía<br>"Rabino Aarón N. Goldman"</h4>            
         </div>
         <div style="width:100px; float:right;">
             <p>N° de Orden</p><?=$model->id;?>
