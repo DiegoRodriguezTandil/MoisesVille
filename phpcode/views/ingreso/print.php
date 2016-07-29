@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div style="width:1000px; float:left; font-size: 14px;  border-style: solid;
     border-bottom: dotted #000;">
         <div style="float:left; width:500px; text-align:left;">
-            <h4>Museo Histórico Comunal <br>y de la colonización judía<br>"Rabino Aarón N. Goldman"</h4>            
+            <h4>Museo Histórico Comunal <br>y de la Colonización Judía<br>"Rabino Aarón N. Goldman"</h4>            
         </div>
         <div style="width:100px; float:right;">
             <p>N° Temporario</p>
