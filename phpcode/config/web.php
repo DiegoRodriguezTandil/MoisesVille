@@ -126,22 +126,16 @@ $config = [
                     'levels' => ['error', 'warning'],
                 ],
             ],
-        ],        
+        ],
         'i18n' => [
             'translations' => [
-                'app*' => [
+                '*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@app/messages',
-                    'sourceLanguage' => 'en-US',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'ru-RU',
                     'fileMap' => [
-                        'app' => 'app.php',
-                        'app/error' => 'error.php',
+                        //'main' => 'main.php',
                     ],
-                ],
-                'yii' => [  
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'sourceLanguage' => 'en-US',
-                    'basePath' => '@yii/messages',
                 ],
             ],
         ],
