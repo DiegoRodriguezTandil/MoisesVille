@@ -79,19 +79,26 @@ use kartik\widgets\DepDrop;
             'form'=>$form,           
             'columns'=>3,
             'attributes'=>[       // 3 column layout                
-                'nroA'=>['type'=>Form::INPUT_TEXT, 
+                'nroA'=>[
+                    'type'=>Form::INPUT_TEXT,
                     'label'=>'Nro. Temporario',                    
                     'options'=>[
                         'placeholder'=>'Número Temporario', 
                         'addon' => ['append' => ['content'=>'.00']]
-                    ]],
-                'nroB'=>['type'=>Form::INPUT_TEXT, 
+                    ]
+                ],
+                'nroB'=>[
+                    'type'=>Form::INPUT_TEXT,
                     'label'=>'Nro. de Registro Anterior',
-                    'options'=>['placeholder'=>'Nro. de Registro Anterior']],
+                    'options'=>[
+                            'placeholder'=>'Nro. de Registro Anterior'
+                    ]
+                ],
                 // 'nroC'=>['type'=>Form::INPUT_TEXT, 
                 //     'label'=>'Cantidad',                    
                 //     'options'=>['placeholder'=>'historio',
-                //     ]],
+                //     ]
+                //],
                 'nroD'=>['type'=>Form::INPUT_TEXT, 
                     'label'=>'Elemento en la Familia',                    
                     'options'=>['placeholder'=>'Elemento en la Familia']],

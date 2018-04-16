@@ -46,17 +46,20 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Temas',
                 'attribute' => 'tematextos',
-                ],
+            ],
             [
                 'label' => 'Ubicación',
                 'attribute' => 'ubicaciontexto',
-                ],
-            
-           ['class' => 'yii\grid\ActionColumn', 
-         'template' => Helper::filterActionColumn('{view}{delete}{update}{imagen}'),
+            ],
+            [
+                'label' => 'Nro. de Registro Anterior',
+                'attribute' => 'nroB',
+            ],
+            ['class' => 'yii\grid\ActionColumn',
+            'template' => Helper::filterActionColumn('{view}{delete}{update}{imagen}'),
             'buttons' => [
                 'imagen' => function ($url, $model) {
-                //    $url =Url::to('@web/'.'index.php?r=multimedia/subir&objeto_id='.$model->id);
+                //      $url = Url::to('@web/'.'index.php?r=multimedia/subir&objeto_id='.$model->id);
                         $url = Url::toRoute(['multimedia/create', 'objetos_id' =>$model->id]);
                         return Html::a('<span class="glyphicon glyphicon-picture"></span>', $url, [
                                     'title' => \Yii::t('yii', 'Agregar Imágenes'),
