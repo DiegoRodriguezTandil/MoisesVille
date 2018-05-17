@@ -140,13 +140,7 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
-       /* 'params' => [
-            'uploadPath' => basePath . '/uploads/';,
-            'uploadUrl' => Yii::$app->urlManager->baseUrl . '/uploads/',
-            'thumbnail.size' => [128, 128],
-            
-        ],*/
-
+        'mongodb' => require(__DIR__ . '/mongodb.php'),
     ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',
