@@ -38,7 +38,8 @@
         "phpoffice/phpspreadsheet": "^1.2",
         "kartik-v/yii2-widget-sidenav": "*",
         "yiisoft/yii2-mongodb": "^2.1",
-        "moonlandsoft/yii2-phpexcel": "*"
+        "moonlandsoft/yii2-phpexcel": "*",
+        "needim/noty": "^3.1"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

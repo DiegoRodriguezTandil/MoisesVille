@@ -2,19 +2,33 @@
     use yii\helpers\Html;
     use yii\helpers\Url;
     use yii\helpers\ArrayHelper;
-    use app\models\Coleccion;
     use yii\grid\GridView;
     use yii\widgets\Pjax;
+    use app\models\Categoria;
 ?>
 <?php
     $js = <<<JS
-        $('.categorias').on('click',function() {
-            ajaxurl = $(this).attr('value');
+    
+        $.fn.pressEnter = function(fn) {
+            return this.each(function() {
+                    $(this).bind('enterPress', fn);
+                        $(this).keyup(function(e){
+                            if(e.keyCode == 13)
+                            {
+                              $(this).trigger("enterPress");
+                            }
+                        })
+                });
+        };
+        
+        function getData(ajaxurl) {
+            var search_field = $('#search_field').val();
+            ajaxurl += '&q='+ search_field;
             $.get( ajaxurl , function( data ) {
+                $('#documentos_genealogicos').html(data.info);
                 if (data.result == 'ok'){
-                        $.pjax.reload({container: '#documentos_genealogicos'})
                         var n = noty({
-                                text: data.message,
+                                text: data.mensaje,
                                 type: 'success',
                                 class: 'animated pulse',
                                 layout: 'topRight',
@@ -26,8 +40,8 @@
                         });
                 }else{
                      var n = noty({
-                                text: data.message,
-                                type: 'success',
+                                text: data.mensaje,
+                                type: 'warning',
                                 class: 'animated pulse',
                                 layout: 'topRight',
                                 theme: 'relax',
@@ -38,6 +52,16 @@
                         });
                 }
             });
+        }
+        
+        $('#search_field').pressEnter(function() {
+            ajaxurl = $('#defaultUrlSearch').val();
+            getData(ajaxurl);
+        })
+        
+        $('.categorias').on('click',function() {
+            ajaxurl = $(this).attr('value');
+            getData(ajaxurl);
         });
 JS;
 $this->registerJs($js);
@@ -50,22 +74,29 @@ $this->registerJs($js);
         ?>
     </div>
 </div>
+<div class="row">
+    <div class="col-xs-5">
+        <input id="search_field" type="text" name="q" class="form-control" placeholder="Buscar..."?>
+    </div>
+</div>
 <br>
 <div class="row">
+    <?php $durl = Url::to(['datos-genealogicos/buscar','id' => 1]);
+    echo "<input id=\"defaultUrlSearch\" name=\"prodId\" type=\"hidden\" value='$durl'";
+    
+    ?>
+    <input id="defaultUrlSearch" name="prodId" type="hidden" value="xm234jq">
     <div class="col-xs-3">
         <?php
-            $first = true;
-            $categorias = Coleccion::find()->select(['id', 'nombre'])->all();
+            $categorias = Categoria::find()->select(['id', 'descripcion'])->all();
             foreach ($categorias as $categoria) {
-                if (!$first){
-                    $url = Url::to(['datos-genealicos/buscar','id' => $categoria->id]);
+                
+                    $url = Url::to(['datos-genealogicos/buscar','id' => $categoria->id]);
                     echo"
-                        <span class='categorias' value='{$url}'> {$categoria->nombre} </span>
+                        <span class='categorias' value='{$url}'> {$categoria->descripcion} </span>
                         <br>
-                    ";
-                }else{
-                    $first = FALSE;
-                }
+                
+               ";
             }
         ?>
     </div>
@@ -81,9 +112,7 @@ $this->registerJs($js);
         <div class="row">
             <?php Pjax::begin(['id'=>'documentos_genealogicos']); ?>
                 <?php
-                    foreach ($datos as $dato) {
-                        var_dump($dato);
-                    }
+                    echo $html;
                 ?>
             <?php Pjax::end(); ?>
         </div>

@@ -21,6 +21,7 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'assets/admin/js/noty/packaged/jquery.noty.packaged.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
