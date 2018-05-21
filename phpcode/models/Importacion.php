@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\Categoria;
 
 /**
  * This is the model class for table "importacion".
@@ -14,6 +15,7 @@ use Yii;
  */
 class Importacion extends \yii\db\ActiveRecord
 {
+    public $excelFile;
     /**
      * {@inheritdoc}
      */
@@ -46,5 +48,14 @@ class Importacion extends \yii\db\ActiveRecord
             'categoria_id' => Yii::t('app', 'Categoria ID'),
             'fecha' => Yii::t('app', 'Fecha'),
         ];
+    }
+    
+    public function getNombreCategoria(){
+        $response = null;
+        $Categoria =  Categoria::find()->select('descripcion')->where(['id' => $this->categoria_id ])->one();
+        if (!empty($Categoria->descripcion)){
+            $response = $Categoria->descripcion;
+        }
+        return $response;
     }
 }

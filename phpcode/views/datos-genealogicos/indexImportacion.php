@@ -4,33 +4,50 @@
     use yii\helpers\ArrayHelper;
     use yii\widgets\ActiveForm;
     use kartik\select2\Select2;
-    use app\models\Coleccion;
+    use kartik\file\FileInput;
+    use app\models\Categoria;
 ?>
     <div class="row">
-        <div id="col1" class="col-xs-3">
+        <div id="col1" class="col-xs-4">
             <?php
                 $form = ActiveForm::begin(['id'=>'form-importacion'  ,
                                             'options' => [
+                                                'enctype'=>'multipart/form-data',
                                                 'enableAjaxValidation' => true,
                                             ]
                 ]);
                 
-                $dataTipo = ArrayHelper::map(Coleccion::find()->asArray()->all(), 'id', 'nombre');
-                echo Select2::widget([
-                    'name' => 'Categorias',
-                    'data' => $dataTipo,
-                ]);
-                /*echo $form->field($model, 'uploadFile[]')->fileInput();
-                $form->field($model, 'descripcion')->textInput()->hint('Agregar un descripción al la importacion');*/
-                
+                    $dataTipo = ArrayHelper::map(Categoria::find()->asArray()->all(), 'id', 'descripcion');
+                    echo $form->field($modelImportacion, 'categoria_id')->widget(Select2::classname(), [
+                        'data' => $dataTipo,
+                        'options' => ['placeholder' => 'Seleccionar Categoria ...'],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);
+                    echo $form->field($modelImportacion, 'descripcion')->textarea(['rows' => '6']) ;
+                    echo FileInput::widget([
+                        'model' => $modelImportacion,
+                        'attribute' => 'excelFile',
+                        'options' => [
+                            'multiple' => false,
+                            'allowedExtensions' => ['doc', 'xdoc', 'pdf', 'xlsx', 'xls']
+                        ]
+                    ]);
+                    
                 ActiveForm::end();
             ?>
+            <br>
         </div>
         
-        <div id="col2" class="col-xs-9">
+        <div id="col2" class="col-xs-8">
             <?php
-                echo 'col 2';
-                
+              if (!empty($html)){
+                  echo $html;
+              }
             ?>
         </div>
     </div>
+
+
+    

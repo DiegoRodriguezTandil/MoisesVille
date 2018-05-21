@@ -1,13 +1,17 @@
 <?php
 namespace app\controllers;
 
+
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\mongodb\Query;
+use yii\web\UploadedFile;
+use yii\data\ArrayDataProvider;
+use yii\helpers\Html;
 use app\models\Categoria;
+use app\models\Importacion;
+
     
     
     class DatosGenealogicosController extends MainController{
@@ -17,30 +21,37 @@ use app\models\Categoria;
             $mongodb = Yii::$app->mongodb;
             
             $collection = $mongodb->getCollection('Acervo');
+            $datos = $collection->find([]);
     
-            //ejemplo de insert
-            // $collection->insert(['name' => 'John Smith', 'status' => 1]);
-            
-            
-            //ejemplo de find
-            // $collection->find(); //Lo recorro con un foreach
-            //  $collection->find(['name' => 'John Smith']) //Busqueda con filtrado
-            //  $collection->find(['like' ,'name' , 'John'])  //Busqueda con filtrado
-    
-            $html = $this->renderAjax('resultadosBusqueda', ['cursor' => $collection->find(['like' ,'nombre' , 'Agusti'])]);
+            $html = $this->renderAjax('resultadosBusqueda', ['dataProvider' => $this->createMongoDataProvider($datos)]);
             
             return $this->render('index',['html' => $html ]);
         }
         
         public function actionImportacion(){
-    
-            if (!empty(Yii::$app->request->post())){
-            //Si me hacen un llamado post importo el excel a mi Mongodb
-                $fileName = Yii::$app->request->post('file');
-                $data = \moonland\phpexcel\Excel::import($fileName);
-            }else{
-                //Si me hacen un llamado get renderizo la pantalla
-                return $this->render('indexImportacion');
+            $modelImportacion = new Importacion();
+            if (!empty(Yii::$app->request->post())){ //Si me hacen un llamado post importo el excel a mi Mongodb
+                $modelImportacion->load(Yii::$app->request->post()); //Guardo los datos ingresados por el usuario
+                $modelImportacion->save();
+                $excelRows = $this->getExcelRows($modelImportacion);
+                $collectionName = $modelImportacion->getNombreCategoria();
+                if  (!empty($collectionName)){
+                    $mongodb = Yii::$app->mongodb;
+                    $collection = $mongodb->getCollection($collectionName);
+                    $first = true;
+                    foreach ($excelRows as $excelRow){
+                        $excelRow['importacion_id'] = $modelImportacion->id;
+                        $collection->insert($excelRow);
+                    }
+                    $documentos = $collection->find(['importacion_id' => $modelImportacion->id]);
+                    $html = $this->renderAjax('importPreview',['documentos' => $documentos,'importacion_id' => $modelImportacion->id , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
+                    return $this->render('indexImportacion',[
+                        'modelImportacion' => $modelImportacion,
+                        'html' => $html
+                    ]);
+                }
+            }else{ //Si me hacen un llamado get renderizo la pantalla
+                return $this->render('indexImportacion',['modelImportacion' => $modelImportacion]);
             }
         }
         
@@ -58,11 +69,11 @@ use app\models\Categoria;
                     if (!empty($collectionName)){
                         $mongodb = Yii::$app->mongodb;
                         $collection = $mongodb->getCollection($collectionName->descripcion);
-                        $filter = ['like' ,'nombre' , $searchFeld];
+                        $filter = ['like' ,'Nombre' , $searchFeld];
                         if  (!empty($collection)){
                             if (!empty($collection->count($filter))){
                                 $datos = $collection->find($filter);
-                                $html = $this->renderAjax('resultadosBusqueda', ['cursor' => $datos]);
+                                $html = $this->renderAjax('resultadosBusqueda', ['dataProvider' => $this->createMongoDataProvider($datos)]);
                                 $response = ["result" => "ok", "mensaje" => "Se encontraron resultados en {$collectionName->descripcion}", 'info' => $html ];
                             }else{
                                 $html = $this->renderAjax('resultadosBusqueda', ['mensaje' => 'No se encontraron datos en la busqueda']);
@@ -83,6 +94,98 @@ use app\models\Categoria;
             }
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $response;
+        }
+        
+        //Guardo archivo subido y obtengo todas las tupls del excel, para despues guardarlas en la mongodb
+        private function getExcelRows($model){
+            $excelRows = null;
+            $Excel = UploadedFile::getInstances($model,'excelFile');
+            $Excel = $Excel[0];
+            $fileName = $this->changeFileName($Excel->name);
+            $path =   Yii::getAlias('@webroot').'/ExcelFiles/'.$fileName;
+            
+            if  ($Excel->saveAs($path,true)){
+                $excelRows = \moonland\phpexcel\Excel::import($path);
+            }
+            
+            return $excelRows[0];
+        }
+        
+        private function changeFileName($fileName){
+            $nameOfFile = explode(".", $fileName);
+            $ext = end($nameOfFile);
+            $fecha = new \DateTime();
+            $filename = "{$fecha->getTimestamp()}.{$ext}";
+            return  $filename;
+        }
+        
+        public function actionCancelarImportacion(){
+            $response = ['rta'=>'error', 'message'=> 'No se pudo cancelar la importacion'];
+            $import_id = Yii::$app->request->get('id');
+            if (!empty($import_id)){
+                $importacion = Importacion::find()->where(['id' => $import_id])->one();
+                $collectionName = $importacion->getNombreCategoria();
+                $mongodb = Yii::$app->mongodb;
+                $collection = $mongodb->getCollection($collectionName);
+                $documentos = $collection->find(['importacion_id' => (int) $import_id ]);
+                
+                foreach ($documentos as $documento){
+                    $collection->remove(['_id' => $documento['_id']]);
+                }
+                $response = ['rta'=>'ok', 'message'=>'Se cancelo lo importacion correctamente'];
+            }
+    
+           \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+           return $response;
+        }
+        
+        private function createMongoDataProvider($documents){ //Creo un Data Provider para un gridview
+            $arr = [];
+            $colums = [];
+            $columnas = [];
+            foreach ($documents as $document) {
+                if (empty($colums))
+                    $colums = array_keys($document);
+                $arr[] = $document;
+            }
+            foreach ($colums as $colum){
+                if ($colum == '_id'){
+                    $columnas[] = [
+                        'attribute' => $colum,
+                        'format' => 'raw',
+                        'value'=>function ($data) {
+                            return Html::checkbox('checkbox', false ,['class' => 'agreement', 'value' => $data['_id']]);
+                        }
+                    ];
+                }else if ($colum != 'importacion_id'){
+                    $columnas[] = [  'attribute' => $colum ];
+                }else {
+                    $columnas[] = [
+                        'attribute' => $colum,
+                        'label' => 'Detalle',
+                        'format' => 'raw',
+                        'value'=>function ($data) {
+                            return Html::a("<i class='fa fa-eye'></i>", null,[
+                                    'title' => Yii::t('app', 'Detalle'),
+                                    'class'=>'btn btn-info btn-xs',
+                                ]);
+                        },
+                    ];
+                }
+                
+            }
+            
+            $provider = new ArrayDataProvider([
+                'allModels' => $arr,
+                'pagination' => [
+                    'pageSize' => 150,
+                ],
+                'sort' => [
+                    'attributes' => $colums,
+                ],
+            ]);
+            
+            return ['dataProvider' => $provider, 'columns' => $columnas ];
         }
     
     

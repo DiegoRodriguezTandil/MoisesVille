@@ -39,7 +39,8 @@
         "kartik-v/yii2-widget-sidenav": "*",
         "yiisoft/yii2-mongodb": "^2.1",
         "moonlandsoft/yii2-phpexcel": "*",
-        "needim/noty": "^3.1"
+        "needim/noty": "^3.1",
+        "rmrevin/yii2-fontawesome": "~3.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

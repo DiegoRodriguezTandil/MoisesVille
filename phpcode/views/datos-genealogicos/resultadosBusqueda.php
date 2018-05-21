@@ -1,16 +1,22 @@
 <?php
+    use yii\helpers\Html;
+    use yii\helpers\Url;
+    use yii\grid\GridView;
+    rmrevin\yii\fontawesome\AssetBundle::register($this);
+?>
+<?php
+        if (!empty($dataProvider)){
+            echo GridView::widget([
+                'dataProvider'=> $dataProvider['dataProvider'],
+                'columns'=>  $dataProvider['columns'],
+            ]);
         
-        if (!empty($cursor)){
-            foreach ($cursor as $dato){
-                if  (empty($dato)) {
-                    echo 'No se encontraron resultados para la busqueda';
-                }else{
-                    var_dump($dato);
-                }
-            }
         }else{
-            echo $mensaje;
+            echo 'No se encontraron resultados para la busqueda';
         }
+       
+       
+       
       
     
     ?>

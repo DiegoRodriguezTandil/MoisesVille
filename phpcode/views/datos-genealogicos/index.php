@@ -68,10 +68,22 @@ $this->registerJs($js);
 ?>
 <div class="row">
     <div class="pull-right">
-        <?php
-            echo Html::a("<span class='fa fa-envelope'> Nueva Importacion </span>",Url::to(["datos-genealogicos/importacion/"]));
-            echo Html::a("<span class='fa fa-plus'> Enviar Mail </span>",Url::to(["datos-genealogicos/enviar-mail/"]));
-        ?>
+        <div class="cols-xs-8">
+            <?php
+                echo Html::a("<span class='fa fa-plus'> Nueva Importacion </span>",Url::to(["datos-genealogicos/importacion/"]),[
+                    'title' => Yii::t('app', 'Nueva Importacion'),
+                    'class'=>'btn btn-info btn-xs',
+                ]);
+            ?>
+        
+            <?php
+                echo Html::a("<span class='fa fa-envelope'> Enviar Mail </span>",Url::to(["datos-genealogicos/enviar-mail/"]),[
+                    'title' => Yii::t('app', 'Enviar Mail'),
+                    'class'=>'btn btn-info btn-xs',
+                ]);
+            ?>
+        </div>
+
     </div>
 </div>
 <div class="row">
@@ -95,8 +107,7 @@ $this->registerJs($js);
                     echo"
                         <span class='categorias' value='{$url}'> {$categoria->descripcion} </span>
                         <br>
-                
-               ";
+                    ";
             }
         ?>
     </div>
