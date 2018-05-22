@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\data\ActiveDataProvider;
 
 /**
  * This is the model class for table "seleccion".
@@ -65,6 +66,17 @@ class Seleccion extends \yii\db\ActiveRecord
     public function getCategoria()
     {
         return $this->hasOne(Categoria::className(), ['id' => 'categoria_id']);
+    }
+    
+    public static function getDataProvider()
+    {
+        $query = Seleccion::find()->where(['session' => Yii::$app->session->getId()]);
+       
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        
+        return $dataProvider;
     }
     
 }

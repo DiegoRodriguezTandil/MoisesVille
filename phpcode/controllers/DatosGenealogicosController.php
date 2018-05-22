@@ -1,8 +1,6 @@
 <?php
 namespace app\controllers;
 
-
-use app\models\Seleccion;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
@@ -13,6 +11,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use app\models\Categoria;
 use app\models\Importacion;
+use app\models\Seleccion;
 
     
     
@@ -180,7 +179,13 @@ use app\models\Importacion;
                         'attribute' => '_id',
                         'format' => 'raw',
                         'value'=>function ($data) {
-                            return Html::checkbox('checkbox', false , [
+                            $exist = Seleccion::find()->where([
+                                    'documento_id' => $data['_id'], 'session' => Yii::$app->session->getId()])->one();
+                            $value = false;
+                            if (!empty($exist)){
+                                $value = true;
+                            }
+                            return Html::checkbox('checkbox', $value , [
                                 'class'=>'btn btn-info btn-xs seleccionDocumento',
                                 'categoria_id' => $data['categoria_id'],
                                 'documentNombre' => $data['nombre'],
@@ -263,6 +268,7 @@ use app\models\Importacion;
         }
         
         public function actionSeleccionarDocumentos(){
+            $response = ["result" => "error", "mensaje" => "ocurio un error"];
             $session = Yii::$app->session->getId();
             $documentID = Yii::$app->request->post('document_id');
             $categoria_id = (int) Yii::$app->request->post('categoria_id');
@@ -270,19 +276,19 @@ use app\models\Importacion;
             $accion = (int) Yii::$app->request->post('accion');  // if accion = 1, tupla seleccionada. if accion = 0, tupla deseleccionada
             if ($accion == 0){
                 $tupla = Seleccion::find()->where(['session' => $session, 'documento_id' => $documentID, 'categoria_id' => $categoria_id ])->one();
-                $tupla->delete();
+                if ($tupla->delete())
+                    $response = ["result" => "ok", "mensaje" => "Se elimino el documento de la seleccion"];
             }else if ($accion == 1){
                 $seleccion = new Seleccion();
                 $seleccion->session = $session;
                 $seleccion->documento_id = $documentID;
                 $seleccion->nombre = $documentNombre;
                 $seleccion->categoria_id = $categoria_id;
-                //$seleccion->save();
-                var_dump($seleccion->save());
-                var_dump($seleccion->getErrors());
-                var_dump($session);
+                $seleccion->save();
+                $response = ["result" => "ok", "mensaje" => "Se agrego el documento a la seleccion"];
             }
-            
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $response;
         }
     
     

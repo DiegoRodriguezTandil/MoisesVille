@@ -3,7 +3,6 @@
     use yii\helpers\Url;
     use yii\helpers\ArrayHelper;
     use yii\grid\GridView;
-    use yii\widgets\Pjax;
     use yii\bootstrap\Modal;
     use app\models\Categoria;
     rmrevin\yii\fontawesome\AssetBundle::register($this);
@@ -132,21 +131,8 @@ $this->registerJs($script);
         ?>
     </div>
     
-    <div class="col-xs-9">
-        <div class="row">
-            <?php Pjax::begin(['id'=>'seleccion']); ?>
-            <?php
-               echo 'hola';
-            ?>
-            <?php Pjax::end(); ?>
-        </div>
-        <div class="row">
-            <?php Pjax::begin(['id'=>'documentos_genealogicos']); ?>
-                <?php
-                    echo $html;
-                ?>
-            <?php Pjax::end(); ?>
-        </div>
+    <div class="col-xs-9" id="documentos_genealogicos">
+                <?php echo $html; ?>
     </div>
     
 </div>
