@@ -5,18 +5,15 @@
     rmrevin\yii\fontawesome\AssetBundle::register($this);
 ?>
 <?php
-        if (!empty($dataProvider)){
+        //var_dump($dataProvider['columns']);
+        $colums  = $dataProvider['columns'];
+        if (!empty($dataProvider['dataProvider']) && !empty($dataProvider['columns'])){
             echo GridView::widget([
                 'dataProvider'=> $dataProvider['dataProvider'],
-                'columns'=>  $dataProvider['columns'],
+                'columns'=>  [$colums[1],$colums[2],$colums[3],$colums[4],$colums[5]],
             ]);
         
         }else{
             echo 'No se encontraron resultados para la busqueda';
         }
-       
-       
-       
-      
-    
-    ?>
+?>

@@ -2,6 +2,7 @@
 namespace app\controllers;
 
 
+use app\models\Seleccion;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\db\Exception;
@@ -31,25 +32,48 @@ use app\models\Importacion;
         public function actionImportacion(){
             $modelImportacion = new Importacion();
             if (!empty(Yii::$app->request->post())){ //Si me hacen un llamado post importo el excel a mi Mongodb
-                $modelImportacion->load(Yii::$app->request->post()); //Guardo los datos ingresados por el usuario
-                $modelImportacion->save();
-                $excelRows = $this->getExcelRows($modelImportacion);
-                $collectionName = $modelImportacion->getNombreCategoria();
-                if  (!empty($collectionName)){
-                    $mongodb = Yii::$app->mongodb;
-                    $collection = $mongodb->getCollection($collectionName);
-                    $first = true;
-                    foreach ($excelRows as $excelRow){
-                        $excelRow['importacion_id'] = $modelImportacion->id;
-                        $collection->insert($excelRow);
+                try{
+    
+                    $modelImportacion->load(Yii::$app->request->post()); //Guardo los datos ingresados por el usuario
+                    $modelImportacion->save();
+                    $excelRows = $this->getExcelRows($modelImportacion);
+                    $collectionName = $modelImportacion->getNombreCategoria();
+                    if  (!empty($collectionName)){
+                        $mongodb = Yii::$app->mongodb;
+                        $collection = $mongodb->getCollection($collectionName);
+                        $first = true;
+                        foreach ($excelRows as $excelRow){
+                            $excelRow = array_change_key_case($excelRow);     // Le hago un lowercase a las keys del arreglo del excel
+                            if (array_key_exists('nombre', $excelRow)){  //Me aseguro que tenga la columna nombre
+                                if (!empty($excelRow['nombre'])){               //Si el campo no es nulo guardo
+                                    $excelRow['importacion_id'] = $modelImportacion->id; //guardo el id de la importacion, asi se puede borrar
+                                    $arrayKeys = array_keys($excelRow);
+                                    foreach ($arrayKeys as $arrayKey){
+                                        if (!empty($excelRow[$arrayKey]))
+                                            if (!empty( $excelRow['detalle']))
+                                                $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].'; ';
+                                            else
+                                                $excelRow['detalle'] = "<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].'; ';
+                                    }
+                                    $collection->insert($excelRow);
+                                }
+                            }else{
+                                throw new \Exception('Error: El archivo no contiene una columna llamada Nombre');
+                            }
+                        }
+                        $documentos = $collection->find(['importacion_id' => $modelImportacion->id]);
+                        $html = $this->renderAjax('importPreview',['documentos' => $documentos,'importacion_id' => $modelImportacion->id , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
                     }
-                    $documentos = $collection->find(['importacion_id' => $modelImportacion->id]);
-                    $html = $this->renderAjax('importPreview',['documentos' => $documentos,'importacion_id' => $modelImportacion->id , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
-                    return $this->render('indexImportacion',[
-                        'modelImportacion' => $modelImportacion,
-                        'html' => $html
-                    ]);
+                
+                }catch (\Exception $e){
+                    $html = "<h3 style='font-style: italic; font-weight: bold; color: red;'>". $e->getMessage() ."</h3>";
                 }
+                
+                return $this->render('indexImportacion',[
+                    'modelImportacion' => $modelImportacion,
+                    'html' => $html
+                ]);
+                
             }else{ //Si me hacen un llamado get renderizo la pantalla
                 return $this->render('indexImportacion',['modelImportacion' => $modelImportacion]);
             }
@@ -62,14 +86,13 @@ use app\models\Importacion;
         public function actionBuscar(){
             $searchFeld = Yii::$app->request->get('q');
             $collectionID = Yii::$app->request->get('id');
-            
             try{
                 if (!empty($collectionID)){
                     $collectionName = Categoria::find()->where(['id' => $collectionID])->one();
                     if (!empty($collectionName)){
                         $mongodb = Yii::$app->mongodb;
                         $collection = $mongodb->getCollection($collectionName->descripcion);
-                        $filter = ['like' ,'Nombre' , $searchFeld];
+                        $filter = ['like','nombre',$searchFeld];
                         if  (!empty($collection)){
                             if (!empty($collection->count($filter))){
                                 $datos = $collection->find($filter);
@@ -140,52 +163,106 @@ use app\models\Importacion;
         }
         
         private function createMongoDataProvider($documents){ //Creo un Data Provider para un gridview
-            $arr = [];
-            $colums = [];
+            $colums = ['nombre','detalle','_id','importacion_id'];
             $columnas = [];
             foreach ($documents as $document) {
-                if (empty($colums))
-                    $colums = array_keys($document);
                 $arr[] = $document;
             }
             foreach ($colums as $colum){
                 if ($colum == '_id'){
-                    $columnas[] = [
-                        'attribute' => $colum,
+                    $columnas[1] = [
+                        'label'=> 'seleccion',
+                        'attribute' => '_id',
                         'format' => 'raw',
                         'value'=>function ($data) {
-                            return Html::checkbox('checkbox', false ,['class' => 'agreement', 'value' => $data['_id']]);
+                            return Html::checkbox('checkbox', false , ['class' => 'agreement', 'value' => $data['_id']]);
                         }
                     ];
-                }else if ($colum != 'importacion_id'){
-                    $columnas[] = [  'attribute' => $colum ];
-                }else {
-                    $columnas[] = [
-                        'attribute' => $colum,
-                        'label' => 'Detalle',
+                }else if ($colum == 'importacion_id'){
+                    $columnas[4] = [
+                        'label' => 'Importacion',
+                        'attribute' => 'importacion_id'
+                    ];
+                }else if ($colum == 'detalle') {
+                    $columnas[3] = [
+                        'attribute' => 'detalle',
                         'format' => 'raw',
                         'value'=>function ($data) {
-                            return Html::a("<i class='fa fa-eye'></i>", null,[
-                                    'title' => Yii::t('app', 'Detalle'),
-                                    'class'=>'btn btn-info btn-xs',
-                                ]);
-                        },
+                            if (!empty($data['detalle'])){
+                                $response = $data['detalle'];
+                                if (strlen($response) > 80){
+                                    $response = substr($response,0,77).' ...';
+                                }
+                                return $response ;
+                            }
+                            
+                        }
                     ];
+                }else{
+                        $columnas[2] = [
+                            'attribute' => 'nombre'
+                        ];
+                    }
                 }
-                
-            }
             
-            $provider = new ArrayDataProvider([
-                'allModels' => $arr,
-                'pagination' => [
-                    'pageSize' => 150,
-                ],
-                'sort' => [
-                    'attributes' => $colums,
-                ],
-            ]);
+            //COLUMNA DETALLE
+            $columnas[5] = [
+                'attribute' => '_id',
+                'label' => 'Ver Mas',
+                'format' => 'raw',
+                'value'=>function ($data) {
+                    return Html::a("<i class='fa fa-eye'></i>", null ,[
+                        'title' => Yii::t('app', 'Detalle'),
+                        'class'=>'btn btn-info btn-xs detalleDocumento',
+                    ]);
+                },
+            ];
+            
+            $provider = null;
+            if (!empty($arr))
+                $provider = new ArrayDataProvider([
+                    'allModels' => $arr,
+                    'pagination' => [
+                        'pageSize' => 150,
+                    ],
+                    'sort' => [
+                        'attributes' => $columnas,
+                    ],
+                ]);
             
             return ['dataProvider' => $provider, 'columns' => $columnas ];
+        }
+        
+        public function actionShowMongoDocument(){  //Busco el documento para despues mostrar los datos en el modal
+            $categoriaID = Yii::$app->request->get('categoria_id');
+            $documentID = Yii::$app->request->get('document_id');
+            
+            $categoria = Categoria::find()->where(['id' => $categoriaID ])->one();
+            $collectionName =  $categoria->descripcion;
+            $mongodb = Yii::$app->mongodb;
+            $collection = $mongodb->getCollection($collectionName);
+            $mongoId = new \MongoDB\BSON\ObjectID($documentID);
+            $datos = $collection->find(['_id' => $mongoId]);
+            
+        }
+        
+        public function actionSeleccionarDocumentos(){
+            $session = Yii::$app->request->get('session');
+            $documentID = Yii::$app->request->get('document_id');
+            $documentID = Yii::$app->request->get('categoria_id');
+            $documentNombre =  Yii::$app->request->get('documentNombre');
+            $accion = Yii::$app->request->get('accion');                // if accion = 1, tupla seleccionada. if accion = 0, tupla deseleccionada
+            if ($accion == 0){
+                Seleccion::find()->where(['session' => 123])->all();
+            }elseif ($accion == 1){
+                $seleccion = new Seleccion();
+                $seleccion->session = $session;
+                $seleccion->documento_id = $documentID;
+                $seleccion->nombre = $documentNombre;
+                $seleccion->categoria_id = $categoria_id;
+                $seleccion->save();
+            }
+            
         }
     
     

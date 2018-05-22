@@ -4,9 +4,18 @@
     use yii\helpers\ArrayHelper;
     use yii\grid\GridView;
     use yii\widgets\Pjax;
+    use yii\bootstrap\Modal;
     use app\models\Categoria;
 ?>
 <?php
+    $script = <<< JS
+    $(function() {
+        $('.detalleDocumento').click(function () {
+            $('#modal').modal('show').find('#divDocumento').load($(this).attr('value'));
+        });
+    });
+JS;
+
     $js = <<<JS
     
         $.fn.pressEnter = function(fn) {
@@ -65,6 +74,16 @@
         });
 JS;
 $this->registerJs($js);
+$this->registerJs($script);
+?>
+<?php
+    Modal::begin([
+        'id' => 'modal',
+        'header' => '<h4 style="margin-top: 0px;margin-bottom: 0px;">Detalle Documento</h4>',
+        'options' => ['tabindex' => false ],
+    ]);
+    echo "<div id='divDocumento'></div>";
+    Modal::end();
 ?>
 <div class="row">
     <div class="pull-right">
