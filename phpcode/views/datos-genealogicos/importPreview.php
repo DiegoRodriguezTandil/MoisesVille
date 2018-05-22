@@ -55,12 +55,14 @@ JS;
     </div>
     <div class="row">
         <?php
-            $colums  = $dataProvider['columns'];
-            if (!empty($dataProvider['dataProvider']) && !empty($dataProvider['columns']))
-            echo GridView::widget([
-                'dataProvider'=> $dataProvider['dataProvider'],
-                'columns'=>  [$colums[2],$colums[3],$colums[4],$colums[5]],
-            ]);
+            if (!empty($dataProvider['dataProvider']) && !empty($dataProvider['columns'])){
+                $colums  = $dataProvider['columns'];
+                echo GridView::widget([
+                    'dataProvider'=> $dataProvider['dataProvider'],
+                    'columns'=>  [$colums[2],$colums[3],$colums[4],$colums[5]],
+                ]);
+            }
+            
         ?>
     </div>
 </div>

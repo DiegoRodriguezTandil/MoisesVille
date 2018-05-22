@@ -7,15 +7,7 @@
     use kartik\select2\Select2;
     use kartik\file\FileInput;
     use app\models\Categoria;
-    
-    $script = <<< JS
-    $(function() {
-        $('.detalleDocumento').click(function () {
-            $('#modal').modal('show').find('#divDocumento').load($(this).attr('value'));
-        });
-    });
-JS;
-    $this->registerJs($script);
+    rmrevin\yii\fontawesome\AssetBundle::register($this);
 ?>
     <?php
         Modal::begin([

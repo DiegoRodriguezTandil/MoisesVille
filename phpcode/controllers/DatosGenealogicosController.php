@@ -10,6 +10,7 @@ use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use app\models\Categoria;
 use app\models\Importacion;
 
@@ -46,15 +47,19 @@ use app\models\Importacion;
                             $excelRow = array_change_key_case($excelRow);     // Le hago un lowercase a las keys del arreglo del excel
                             if (array_key_exists('nombre', $excelRow)){  //Me aseguro que tenga la columna nombre
                                 if (!empty($excelRow['nombre'])){               //Si el campo no es nulo guardo
-                                    $excelRow['importacion_id'] = $modelImportacion->id; //guardo el id de la importacion, asi se puede borrar
                                     $arrayKeys = array_keys($excelRow);
                                     foreach ($arrayKeys as $arrayKey){
-                                        if (!empty($excelRow[$arrayKey]))
-                                            if (!empty( $excelRow['detalle']))
-                                                $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].'; ';
-                                            else
-                                                $excelRow['detalle'] = "<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].'; ';
+                                        if ($arrayKey != 'nombre'){
+                                            if (!empty($excelRow[$arrayKey])){
+                                                if (!empty( $excelRow['detalle']))
+                                                    $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].'; ';
+                                                else
+                                                    $excelRow['detalle'] = "<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].'; ';
+                                            }
+                                        }
                                     }
+                                    $excelRow['importacion_id'] = $modelImportacion->id; //guardo el id de la importacion, asi se puede borrar
+                                    $excelRow['categoria_id'] = $modelImportacion->categoria_id; //guardo el id de la importacion, asi se puede borrar
                                     $collection->insert($excelRow);
                                 }
                             }else{
@@ -171,27 +176,34 @@ use app\models\Importacion;
             foreach ($colums as $colum){
                 if ($colum == '_id'){
                     $columnas[1] = [
-                        'label'=> 'seleccion',
+                        'label'=> 'Selección',
                         'attribute' => '_id',
                         'format' => 'raw',
                         'value'=>function ($data) {
-                            return Html::checkbox('checkbox', false , ['class' => 'agreement', 'value' => $data['_id']]);
+                            return Html::checkbox('checkbox', false , [
+                                'class'=>'btn btn-info btn-xs seleccionDocumento',
+                                'categoria_id' => $data['categoria_id'],
+                                'documentNombre' => $data['nombre'],
+                                'document_id' =>$data['_id'],
+                                'url' => Url::to(['datos-genealogicos/seleccionar-documentos'])
+                            ]);
                         }
                     ];
                 }else if ($colum == 'importacion_id'){
                     $columnas[4] = [
-                        'label' => 'Importacion',
+                        'label' => 'Nro. Imprt',
                         'attribute' => 'importacion_id'
                     ];
                 }else if ($colum == 'detalle') {
                     $columnas[3] = [
+                        'label' => 'Detalle',
                         'attribute' => 'detalle',
                         'format' => 'raw',
                         'value'=>function ($data) {
                             if (!empty($data['detalle'])){
                                 $response = $data['detalle'];
-                                if (strlen($response) > 80){
-                                    $response = substr($response,0,77).' ...';
+                                if (strlen($response) > 90){
+                                    $response = substr($response,0,87).' ...';
                                 }
                                 return $response ;
                             }
@@ -208,12 +220,16 @@ use app\models\Importacion;
             //COLUMNA DETALLE
             $columnas[5] = [
                 'attribute' => '_id',
-                'label' => 'Ver Mas',
+                'label' => 'Mas',
                 'format' => 'raw',
                 'value'=>function ($data) {
                     return Html::a("<i class='fa fa-eye'></i>", null ,[
                         'title' => Yii::t('app', 'Detalle'),
                         'class'=>'btn btn-info btn-xs detalleDocumento',
+                        'value' => Url::to(['datos-genealogicos/show-mongo-document',
+                            'id' =>$data['_id'],
+                            'categoria_id' => $data['categoria_id'],
+                        ])
                     ]);
                 },
             ];
@@ -247,20 +263,24 @@ use app\models\Importacion;
         }
         
         public function actionSeleccionarDocumentos(){
-            $session = Yii::$app->request->get('session');
-            $documentID = Yii::$app->request->get('document_id');
-            $documentID = Yii::$app->request->get('categoria_id');
-            $documentNombre =  Yii::$app->request->get('documentNombre');
-            $accion = Yii::$app->request->get('accion');                // if accion = 1, tupla seleccionada. if accion = 0, tupla deseleccionada
+            $session = Yii::$app->session->getId();
+            $documentID = Yii::$app->request->post('document_id');
+            $categoria_id = (int) Yii::$app->request->post('categoria_id');
+            $documentNombre =  Yii::$app->request->post('documentNombre');
+            $accion = (int) Yii::$app->request->post('accion');  // if accion = 1, tupla seleccionada. if accion = 0, tupla deseleccionada
             if ($accion == 0){
-                Seleccion::find()->where(['session' => 123])->all();
-            }elseif ($accion == 1){
+                $tupla = Seleccion::find()->where(['session' => $session, 'documento_id' => $documentID, 'categoria_id' => $categoria_id ])->one();
+                $tupla->delete();
+            }else if ($accion == 1){
                 $seleccion = new Seleccion();
                 $seleccion->session = $session;
                 $seleccion->documento_id = $documentID;
                 $seleccion->nombre = $documentNombre;
                 $seleccion->categoria_id = $categoria_id;
-                $seleccion->save();
+                //$seleccion->save();
+                var_dump($seleccion->save());
+                var_dump($seleccion->getErrors());
+                var_dump($session);
             }
             
         }

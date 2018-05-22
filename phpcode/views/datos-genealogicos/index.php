@@ -6,6 +6,7 @@
     use yii\widgets\Pjax;
     use yii\bootstrap\Modal;
     use app\models\Categoria;
+    rmrevin\yii\fontawesome\AssetBundle::register($this);
 ?>
 <?php
     $script = <<< JS
@@ -106,7 +107,7 @@ $this->registerJs($script);
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-5">
+    <div class="col-xs-2">
         <input id="search_field" type="text" name="q" class="form-control" placeholder="Buscar..."?>
     </div>
 </div>
@@ -117,7 +118,7 @@ $this->registerJs($script);
     
     ?>
     <input id="defaultUrlSearch" name="prodId" type="hidden" value="xm234jq">
-    <div class="col-xs-3">
+    <div class="col-xs-2">
         <?php
             $categorias = Categoria::find()->select(['id', 'descripcion'])->all();
             foreach ($categorias as $categoria) {

@@ -13,11 +13,15 @@ use Yii;
  * @property int $categoria_id
  * @property string $fecha
  * @property int $session
+ * @property string $documento_id
+ *
+ * @property Categoria $categoria
+ * @property Categoria $categoria0
  */
 class Seleccion extends \yii\db\ActiveRecord
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function tableName()
     {
@@ -25,20 +29,22 @@ class Seleccion extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['nombre', 'apellido', 'categoria_id'], 'required'],
-            [['categoria_id', 'session'], 'integer'],
+            [['nombre', 'categoria_id', 'session', 'documento_id'], 'required'],
+            [['categoria_id'], 'integer'],
             [['fecha'], 'safe'],
-            [['nombre', 'apellido'], 'string', 'max' => 255],
+            [['nombre', 'apellido','session'], 'string', 'max' => 255],
+            [['documento_id'], 'string', 'max' => 100],
+            [['categoria_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['categoria_id' => 'id']],
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function attributeLabels()
     {
@@ -49,6 +55,16 @@ class Seleccion extends \yii\db\ActiveRecord
             'categoria_id' => Yii::t('app', 'Categoria ID'),
             'fecha' => Yii::t('app', 'Fecha'),
             'session' => Yii::t('app', 'Session'),
+            'documento_id' => Yii::t('app', 'Documento ID'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategoria()
+    {
+        return $this->hasOne(Categoria::className(), ['id' => 'categoria_id']);
+    }
+    
 }
