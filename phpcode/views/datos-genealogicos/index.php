@@ -108,13 +108,13 @@ $this->registerJs($script);
 <div class="row">
     <div class="col-xs-2">
         <input id="search_field" type="text" name="q" class="form-control" placeholder="Buscar..."?>
+        <input id="UrlSearch" type="hidden" value="<?php echo Url::to(['datos-genealogicos/buscar']);?>">
     </div>
 </div>
 <br>
 <div class="row">
     <?php $durl = Url::to(['datos-genealogicos/buscar','id' => 1]);
     echo "<input id=\"defaultUrlSearch\" name=\"prodId\" type=\"hidden\" value='$durl'";
-    
     ?>
     <input id="defaultUrlSearch" name="prodId" type="hidden" value="xm234jq">
     <div class="col-xs-2">
@@ -131,8 +131,14 @@ $this->registerJs($script);
         ?>
     </div>
     
-    <div class="col-xs-9" id="documentos_genealogicos">
+    <div class="col-xs-9" >
+        <div class="row" >
+            <div id="documentos_genealogicos">
                 <?php echo $html; ?>
+            </div>
+           
+        </div>
+        
     </div>
     
 </div>

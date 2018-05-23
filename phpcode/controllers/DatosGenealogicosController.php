@@ -290,6 +290,13 @@ use app\models\Seleccion;
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $response;
         }
+        
+        public function actionRenderSeleccion(){
+            $html = $this->renderAjax('seleccion');
+            $response = ["result" => "ok", "html_seleccion" => $html];
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $response;
+        }
     
     
     }

@@ -19,8 +19,13 @@
             accion : accion
         }
         $.post( ajaxurl , data ,function( data ) {
-                $.pjax.reload({container:"#seleccion"});
                 if (data.result == 'ok'){
+                        ajaxurl = $('#urlRefresh').val();
+                        $.get(ajaxurl,function(data) {
+                            if (data.result == 'ok'){
+                                $('#seleccion').html(data.html_seleccion);
+                            }
+                        });
                         var n = noty({
                                 text: data.mensaje,
                                 type: 'success',
@@ -33,7 +38,7 @@
                                 killer : true,
                         });
                 }else{
-                     var n = noty({
+                    var n = noty({
                                 text: data.mensaje,
                                 type: 'warning',
                                 class: 'animated pulse',
@@ -43,7 +48,7 @@
                                 force: false, // adds notification to the beginning of queue when set to true
                                 modal: false, // si pongo true me hace el efecto de pantalla gris
                                 killer : true,
-                        });
+                    });
                 }
         });
     })
@@ -59,23 +64,14 @@ JS;
     $this->registerJs($js);
     
 ?>
+    <input id="urlRefresh" type="hidden" value="<?php echo Url::to(['datos-genealogicos/render-seleccion']); ?>">
     <div class="row">
-        <?php Pjax::begin(['id'=>'seleccion']); ?>
-        <?php
-            $dataProvider2 = \app\models\Seleccion::getDataProvider();
-            if (!empty($dataProvider2)){
-                echo GridView::widget([
-                    'dataProvider'=> $dataProvider2,
-                    'columns' => [
-                        'nombre',
-                        'categoria_id',
-                    ],
-                ]);
-            }
-        ?>
-        <?php Pjax::end(); ?>
+        <div id="seleccion">
+        
+        </div>
     </div>
-    <div class="row">
+
+    <div id="gridview_documentos">
         <?php
             if (!empty($dataProvider['dataProvider']) && !empty($dataProvider['columns'])){
                 $colums  = $dataProvider['columns'];
@@ -83,9 +79,10 @@ JS;
                     'dataProvider'=> $dataProvider['dataProvider'],
                     'columns'=>  [$colums[1],$colums[2],$colums[3],$colums[4],$colums[5]],
                 ]);
-            
+        
             }else{
                 echo 'No se encontraron resultados para la busqueda';
             }
         ?>
     </div>
+    
