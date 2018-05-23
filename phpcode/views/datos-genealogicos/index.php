@@ -72,6 +72,10 @@ JS;
             ajaxurl = $(this).attr('value');
             getData(ajaxurl);
         });
+        
+        $('.sendMail').click(function () {
+            $('#modalMail').modal('show').modal({backdrop: 'static',keyboard: false}).find('#formMail').load($(this).attr('url'));
+        });
 JS;
 $this->registerJs($js);
 $this->registerJs($script);
@@ -82,7 +86,14 @@ $this->registerJs($script);
         'header' => '<h4 style="margin-top: 0px;margin-bottom: 0px;">Detalle Documento</h4>',
         'options' => ['tabindex' => false ],
     ]);
-    echo "<div id='divDocumento'></div>";
+    echo "<div id='divDocumento' ></div>";
+    Modal::end();
+    Modal::begin([
+        'id' => 'modalMail',
+        'header' => '<h4 style="margin-top: 0px;margin-bottom: 0px;">Envio de Mail</h4>',
+        'options' => ['tabindex' => false ],
+    ]);
+    echo "<div id='formMail' ></div>";
     Modal::end();
 ?>
 <div class="row">
@@ -96,9 +107,10 @@ $this->registerJs($script);
             ?>
         
             <?php
-                echo Html::a("<span class='fa fa-envelope'> Enviar Mail </span>",Url::to(["datos-genealogicos/enviar-mail/"]),[
+                echo Html::a("<span class='fa fa-envelope'> Enviar Mail </span>",null,[
                     'title' => Yii::t('app', 'Enviar Mail'),
-                    'class'=>'btn btn-info btn-xs',
+                    'class'=>'btn btn-info btn-xs sendMail',
+                    'url' => Url::to(["datos-genealogicos/enviar-mail/"]),
                 ]);
             ?>
         </div>

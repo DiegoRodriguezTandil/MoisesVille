@@ -16,7 +16,8 @@ use app\models\Seleccion;
     
     
     class DatosGenealogicosController extends MainController{
-        
+       
+        //render de la pagina principal
         public function actionIndex(){
     
             $mongodb = Yii::$app->mongodb;
@@ -29,6 +30,7 @@ use app\models\Seleccion;
             return $this->render('index',['html' => $html ]);
         }
         
+        //recibe un archivo Excel e importa los datos en la mongoDB
         public function actionImportacion(){
             $modelImportacion = new Importacion();
             if (!empty(Yii::$app->request->post())){ //Si me hacen un llamado post importo el excel a mi Mongodb
@@ -83,10 +85,50 @@ use app\models\Seleccion;
             }
         }
         
+        //render de modal de mail
         public function actionEnviarMail(){
-            return $this->render('mandarMail');
+            return $this->renderAjax('modalMail');
         }
         
+        //Funcion que recibe los datos para mandar un mail que luego llama a "mandarMail"
+        public function actionSendMail(){
+            $email = Yii::$app->request->post('email');
+            $persona = Yii::$app->request->post('destinatario');
+            $descripcion = Yii::$app->request->post('detail');
+            $informeCompleto = Yii::$app->request->post('informe');
+            $response = ['result' => 'error', 'mensaje' => 'No se pudo enviar el mail'];
+            
+            $documentos = $this->findDocumentsSelected();
+            
+            if (empty($informeCompleto)){
+                $response =  $this->mandarMail($documentos,$email,'InformeCompleto');
+            }else{
+                $response = $this->mandarMail($documentos,$email,'InformeReducido');
+            }
+            
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return $response;
+        }
+    
+        //funcion que recibe los documentos, renderiza el template del mail y lo envia
+        private function mandarMail($documentos,$clienteMail,$tipoMail){
+            $response = ['result' => 'error', 'mensaje' => 'Ocurrio un mail al enviar el mail'];
+            
+            $cuerpoHtml = $this->renderAjax($tipoMail,['documentos' => $documentos]);
+            $mail = Yii::$app->mailer->compose()
+                    ->setFrom('adiaz@qwavee.com')
+                    ->setTo($clienteMail)
+                    ->setTextBody('Museo Histórico Comunal y de la Colonización Judía')
+                    ->setSubject('Envio de Datos Genealógicos')
+                    ->setHtmlBody($cuerpoHtml);
+            
+            if ($mail->send()){
+                $response = ['result' => 'ok', 'mensaje' => 'Se envio el mail correctamente'];
+            }
+            return $response;
+        }
+        
+        //Funcion que busca los documentos en la mongoDB
         public function actionBuscar(){
             $searchFeld = Yii::$app->request->get('q');
             $collectionID = Yii::$app->request->get('id');
@@ -138,6 +180,7 @@ use app\models\Seleccion;
             return $excelRows[0];
         }
         
+        //Cambio el nombre los excel para guardalos
         private function changeFileName($fileName){
             $nameOfFile = explode(".", $fileName);
             $ext = end($nameOfFile);
@@ -146,6 +189,7 @@ use app\models\Seleccion;
             return  $filename;
         }
         
+        //Borra los datos de importacion segund id
         public function actionCancelarImportacion(){
             $response = ['rta'=>'error', 'message'=> 'No se pudo cancelar la importacion'];
             $import_id = Yii::$app->request->get('id');
@@ -166,6 +210,7 @@ use app\models\Seleccion;
            return $response;
         }
         
+        //Crea el DataProvider para mostrar datos de los documentos de mongodb
         private function createMongoDataProvider($documents){ //Creo un Data Provider para un gridview
             $colums = ['nombre','detalle','_id','importacion_id'];
             $columnas = [];
@@ -231,8 +276,8 @@ use app\models\Seleccion;
                     return Html::a("<i class='fa fa-eye'></i>", null ,[
                         'title' => Yii::t('app', 'Detalle'),
                         'class'=>'btn btn-info btn-xs detalleDocumento',
-                        'value' => Url::to(['datos-genealogicos/show-mongo-document',
-                            'id' =>$data['_id'],
+                        'url' => Url::to(['datos-genealogicos/render-modal',
+                            'documento_id' =>$data['_id'],
                             'categoria_id' => $data['categoria_id'],
                         ])
                     ]);
@@ -254,19 +299,18 @@ use app\models\Seleccion;
             return ['dataProvider' => $provider, 'columns' => $columnas ];
         }
         
-        public function actionShowMongoDocument(){  //Busco el documento para despues mostrar los datos en el modal
-            $categoriaID = Yii::$app->request->get('categoria_id');
-            $documentID = Yii::$app->request->get('document_id');
-            
+        //Devuelve un documento Mongo dado una categoria e ID
+        public function getDocument($categoriaID,$documentID){
             $categoria = Categoria::find()->where(['id' => $categoriaID ])->one();
             $collectionName =  $categoria->descripcion;
             $mongodb = Yii::$app->mongodb;
             $collection = $mongodb->getCollection($collectionName);
             $mongoId = new \MongoDB\BSON\ObjectID($documentID);
             $datos = $collection->find(['_id' => $mongoId]);
-            
+            return $datos;
         }
         
+        //Funcion que selecciona y deselecciona documentos de la tabla seleccion
         public function actionSeleccionarDocumentos(){
             $response = ["result" => "error", "mensaje" => "ocurio un error"];
             $session = Yii::$app->session->getId();
@@ -291,12 +335,32 @@ use app\models\Seleccion;
             return $response;
         }
         
+        //Render de la tabla Seleccion
         public function actionRenderSeleccion(){
             $html = $this->renderAjax('seleccion');
             $response = ["result" => "ok", "html_seleccion" => $html];
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $response;
         }
+        
+        //Render del Modal de Detalle de documento MongoDB
+        public function actionRenderModal(){
+            $categoriaID = Yii::$app->request->get('categoria_id');
+            $documentID = Yii::$app->request->get('documento_id');
+            $documento = $this->getDocument($categoriaID,$documentID['oid']);
+            $html = $this->renderAjax('modalDetalle',['mongoDocument' => $documento]);
+            $response = ["result" => "ok", "html_seleccion" => $html];
+            return $html;
+        }
     
+        //Busca en la tabla seleccion que documentos fueron seleccionados durante la session y los devuelve
+        private function findDocumentsSelected(){
+            $documents = [];
+            $seleccionados = Seleccion::find()->where(['session' => Yii::$app->session->getId() ])->all();
+            foreach ($seleccionados as $seleccion){
+                $documents[] = $this->getDocument($seleccion->categoria_id,$seleccion->documento_id);
+            }
+            return $documents;
+        }
     
     }

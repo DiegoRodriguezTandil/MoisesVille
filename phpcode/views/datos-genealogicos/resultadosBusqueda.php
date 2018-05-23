@@ -56,7 +56,7 @@ JS;
     $script = <<< JS
     $(function() {
         $('.detalleDocumento').click(function () {
-            $('#modal').modal('show').find('#divDocumento').load($(this).attr('value'));
+            $('#modal').modal('show').modal({backdrop: 'static',keyboard: false}).find('#divDocumento').load($(this).attr('url'));
         });
     });
 JS;
@@ -65,6 +65,7 @@ JS;
     
 ?>
     <input id="urlRefresh" type="hidden" value="<?php echo Url::to(['datos-genealogicos/render-seleccion']); ?>">
+    <input id="urlModal" type="hidden" value="<?php echo Url::to(['datos-genealogicos/render-modal']); ?>">
     <div class="row">
         <div id="seleccion">
         
