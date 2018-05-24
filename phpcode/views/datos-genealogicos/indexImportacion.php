@@ -8,6 +8,7 @@
     use kartik\file\FileInput;
     use app\models\Categoria;
     rmrevin\yii\fontawesome\AssetBundle::register($this);
+    $this->title = "Importacion de Datos Genealógicos";
 ?>
     <?php
         Modal::begin([

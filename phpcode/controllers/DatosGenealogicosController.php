@@ -100,9 +100,9 @@ use app\models\Seleccion;
             $documentos = $this->findDocumentsSelected();
             
             if (empty($informeCompleto)){
-                $response =  $this->mandarMail($documentos,$email,'InformeReducido');
+                $response =  $this->mandarMail($documentos,$email,'InformeReducido',$persona,$descripcion);
             }else{
-                $response = $this->mandarMail($documentos,$email,'InformeCompleto');
+                $response = $this->mandarMail($documentos,$email,'InformeCompleto',$persona,$descripcion);
             }
             
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -110,10 +110,10 @@ use app\models\Seleccion;
         }
     
         //funcion que recibe los documentos, renderiza el template del mail y lo envia
-        private function mandarMail($documentos,$clienteMail,$tipoMail){
+        private function mandarMail($documentos,$clienteMail,$tipoMail,$destinatario,$detalle){
             $response = ['result' => 'error', 'mensaje' => 'Ocurrio un mail al enviar el mail'];
             if (!empty($documentos)){
-                $cuerpoHtml = $this->renderAjax($tipoMail,['documentos' => $documentos]);
+                $cuerpoHtml = $this->renderAjax($tipoMail,['documentos' => $documentos,'destinatario' => $destinatario,'detalle' => $detalle ]);
                 $mail = Yii::$app->mailer->compose()
                     ->setFrom('adiaz@qwavee.com')
                     ->setTo($clienteMail)

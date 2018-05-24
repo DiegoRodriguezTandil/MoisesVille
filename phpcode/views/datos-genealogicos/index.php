@@ -6,6 +6,7 @@
     use yii\bootstrap\Modal;
     use app\models\Categoria;
     rmrevin\yii\fontawesome\AssetBundle::register($this);
+    $this->title = "Datos Genealógicos";
 ?>
 <?php
     $script = <<< JS
@@ -130,12 +131,8 @@ $this->registerJs($script);
         <?php
             $categorias = Categoria::find()->select(['id', 'descripcion'])->all();
             foreach ($categorias as $categoria) {
-                
                     $url = Url::to(['datos-genealogicos/buscar','id' => $categoria->id]);
-                    echo"
-                        <span class='categorias' value='{$url}'> {$categoria->descripcion} </span>
-                        <br>
-                    ";
+                    echo"<span class='categorias' value='{$url}'> {$categoria->descripcion} </span> <br>";
             }
         ?>
     </div>
