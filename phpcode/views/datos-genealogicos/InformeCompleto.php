@@ -1,7 +1,5 @@
 <?php
-    if (!empty($documentos)){
-        foreach ($documentos as $documento){
-            var_dump($documento);
-        }
-    }
+    echo "INFORME COMPLETO";
+    var_dump($documentos);
+    
 ?>

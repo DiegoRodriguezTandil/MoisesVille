@@ -52,12 +52,5 @@ class Categoria extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Seleccion::className(), ['categoria_id' => 'id']);
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSeleccions0()
-    {
-        return $this->hasMany(Seleccion::className(), ['categoria_id' => 'id']);
-    }
+    
 }

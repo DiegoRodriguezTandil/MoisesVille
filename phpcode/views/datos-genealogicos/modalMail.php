@@ -66,16 +66,15 @@ CSS;
     $Js = <<<JS
         $("#sendMail").on('click',function() {
             var fields = $( "#formMail :input" ).serializeArray();
-            console.log(fields);
             var ajaxurl = $('#urlSendMail').attr('url');
             var n = noty({
                             text: 'Aguarde, se esta enviando el mail',
-                            type: 'success',
+                            type: 'info',
                             class: 'animated pulse',
                             layout: 'topRight',
                             theme: 'relax',
-                            timeout: 7000, // delay for closing event. Set false for sticky notifications
-                            force: false, // adds notification to the beginning of queue when set to true
+                            timeout: 8000, // delay for closing event. Set false for sticky notifications
+                            force: true, // adds notification to the beginning of queue when set to true
                             modal: false, // si pongo true me hace el efecto de pantalla gris
                             killer : true,
             });
@@ -90,7 +89,7 @@ CSS;
                             class: 'animated pulse',
                             layout: 'topRight',
                             theme: 'relax',
-                            timeout: 3000, // delay for closing event. Set false for sticky notifications
+                            timeout: 7000, // delay for closing event. Set false for sticky notifications
                             force: false, // adds notification to the beginning of queue when set to true
                             modal: false, // si pongo true me hace el efecto de pantalla gris
                             killer : true,
@@ -98,11 +97,11 @@ CSS;
                 }else{
                     var n = noty({
                             text: data.mensaje,
-                            type: 'warning',
+                            type: 'error',
                             class: 'animated pulse',
                             layout: 'topRight',
                             theme: 'relax',
-                            timeout: 3000, // delay for closing event. Set false for sticky notifications
+                            timeout: 7000, // delay for closing event. Set false for sticky notifications
                             force: false, // adds notification to the beginning of queue when set to true
                             modal: false, // si pongo true me hace el efecto de pantalla gris
                             killer : true,

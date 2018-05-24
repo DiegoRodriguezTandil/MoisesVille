@@ -97,13 +97,12 @@ use app\models\Seleccion;
             $descripcion = Yii::$app->request->post('detail');
             $informeCompleto = Yii::$app->request->post('informe');
             $response = ['result' => 'error', 'mensaje' => 'No se pudo enviar el mail'];
-            
             $documentos = $this->findDocumentsSelected();
             
             if (empty($informeCompleto)){
-                $response =  $this->mandarMail($documentos,$email,'InformeCompleto');
+                $response =  $this->mandarMail($documentos,$email,'InformeReducido');
             }else{
-                $response = $this->mandarMail($documentos,$email,'InformeReducido');
+                $response = $this->mandarMail($documentos,$email,'InformeCompleto');
             }
             
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -113,17 +112,20 @@ use app\models\Seleccion;
         //funcion que recibe los documentos, renderiza el template del mail y lo envia
         private function mandarMail($documentos,$clienteMail,$tipoMail){
             $response = ['result' => 'error', 'mensaje' => 'Ocurrio un mail al enviar el mail'];
-            
-            $cuerpoHtml = $this->renderAjax($tipoMail,['documentos' => $documentos]);
-            $mail = Yii::$app->mailer->compose()
+            if (!empty($documentos)){
+                $cuerpoHtml = $this->renderAjax($tipoMail,['documentos' => $documentos]);
+                $mail = Yii::$app->mailer->compose()
                     ->setFrom('adiaz@qwavee.com')
                     ->setTo($clienteMail)
                     ->setTextBody('Museo Histórico Comunal y de la Colonización Judía')
                     ->setSubject('Envio de Datos Genealógicos')
                     ->setHtmlBody($cuerpoHtml);
-            
-            if ($mail->send()){
-                $response = ['result' => 'ok', 'mensaje' => 'Se envio el mail correctamente'];
+    
+                if ($mail->send()){
+                    $response = ['result' => 'ok', 'mensaje' => 'Se envio el mail correctamente'];
+                }
+            }else{
+                $response = ['result' => 'error', 'mensaje' => 'No se seleccionaron documentos para enviar'];
             }
             return $response;
         }
@@ -222,6 +224,7 @@ use app\models\Seleccion;
                     $columnas[1] = [
                         'label'=> 'Selección',
                         'attribute' => '_id',
+                        'headerOptions' => ['style' => 'width:7%'],
                         'format' => 'raw',
                         'value'=>function ($data) {
                             $exist = Seleccion::find()->where([
@@ -331,14 +334,6 @@ use app\models\Seleccion;
                 $seleccion->save();
                 $response = ["result" => "ok", "mensaje" => "Se agrego el documento a la seleccion"];
             }
-            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            return $response;
-        }
-        
-        //Render de la tabla Seleccion
-        public function actionRenderSeleccion(){
-            $html = $this->renderAjax('seleccion');
-            $response = ["result" => "ok", "html_seleccion" => $html];
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $response;
         }

@@ -1,8 +1,5 @@
 <?php
-    if (!empty($documentos)){
-        foreach ($documentos as $documento){
-            echo $documento['nombre'];
-            echo $documento['categoria_id'];
-        }
-    }
+    echo "INFORME REDUCIDO";
+    var_dump($documentos);
+
 ?>
