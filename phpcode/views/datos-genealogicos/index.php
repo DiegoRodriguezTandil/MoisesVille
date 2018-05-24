@@ -65,30 +65,21 @@ CSS;
                     $("#"+key).html(" "+arr[key]+" - ");
                 }
                 if (data.result == 'ok'){
-                        var n = noty({
-                                text: data.mensaje,
-                                type: 'success',
-                                class: 'animated pulse',
-                                layout: 'topRight',
-                                theme: 'relax',
-                                timeout: 3000, // delay for closing event. Set false for sticky notifications
-                                force: false, // adds notification to the beginning of queue when set to true
-                                modal: false, // si pongo true me hace el efecto de pantalla gris
-                                killer : true,
-                        });
-                $('#documentos_genealogicos').html(data.info);
+                    var n = noty({
+                            text: data.mensaje,
+                            type: 'success',
+                            class: 'animated pulse',
+                            layout: 'topRight',
+                            theme: 'relax',
+                            timeout: 3000, // delay for closing event. Set false for sticky notifications
+                            force: false, // adds notification to the beginning of queue when set to true
+                            modal: false, // si pongo true me hace el efecto de pantalla gris
+                            killer : true,
+                    });
+                    $('#documentos_genealogicos').html(data.info);
                 }else{
-                     var n = noty({
-                                text: data.mensaje,
-                                type: 'error',
-                                class: 'animated pulse',
-                                layout: 'topRight',
-                                theme: 'relax',
-                                timeout: 3000, // delay for closing event. Set false for sticky notifications
-                                force: false, // adds notification to the beginning of queue when set to true
-                                modal: false, // si pongo true me hace el efecto de pantalla gris
-                                killer : true,
-                        });
+                    
+                    $('#documentos_genealogicos').html(data.info);
                 }
             });
         }

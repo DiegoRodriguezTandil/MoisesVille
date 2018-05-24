@@ -80,6 +80,8 @@
     $('.deleteSeleccion').on('click',function() {
         var ajaxurl = $(this).attr('url');
         var categoria_id = $(this).attr('categoria_id');
+        $('.categorias').removeClass('active');
+        $("#cat"+categoria_id).closest('a').addClass('active');
         var data = {
         categoria_id :  $(this).attr('categoria_id'),
         document_id  : $(this).attr('document_id'),
