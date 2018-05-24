@@ -112,28 +112,31 @@ use app\models\Seleccion;
         //funcion que recibe los documentos, renderiza el template del mail y lo envia
         private function mandarMail($documentos,$clienteMail,$tipoMail,$destinatario,$detalle){
             $response = ['result' => 'error', 'mensaje' => 'Ocurrio un mail al enviar el mail'];
-            if (!empty($documentos)){
-                $cuerpoHtml = $this->renderAjax($tipoMail,['documentos' => $documentos,'destinatario' => $destinatario,'detalle' => $detalle ]);
-                $mail = Yii::$app->mailer->compose()
-                    ->setFrom('adiaz@qwavee.com')
-                    ->setTo($clienteMail)
-                    ->setTextBody('Museo Histórico Comunal y de la Colonización Judía')
-                    ->setSubject('Envio de Datos Genealógicos')
-                    ->setHtmlBody($cuerpoHtml);
-    
-                if ($mail->send()){
-                    $response = ['result' => 'ok', 'mensaje' => 'Se envio el mail correctamente'];
+            try{
+                if (!empty($documentos)){
+                    $cuerpoHtml = $this->renderAjax($tipoMail,['documentos' => $documentos,'destinatario' => $destinatario,'detalle' => $detalle ]);
+                    $mail = Yii::$app->mailer->compose()
+                        ->setFrom('adiaz@qwavee.com')
+                        ->setTo($clienteMail)
+                        ->setTextBody('Museo Histórico Comunal y de la Colonización Judía')
+                        ->setSubject('Envio de Datos Genealógicos')
+                        ->setHtmlBody($cuerpoHtml);
+        
+                    if ($mail->send()){
+                        $response = ['result' => 'ok', 'mensaje' => 'Se envio el mail correctamente'];
+                    }
+                }else{
+                    $response = ['result' => 'error', 'mensaje' => 'No se seleccionaron documentos para enviar'];
                 }
-            }else{
-                $response = ['result' => 'error', 'mensaje' => 'No se seleccionaron documentos para enviar'];
+            }catch (Exception $e){
+                
             }
+           
             return $response;
         }
         
-        //Funcion que busca los documentos en la mongoDB
-        public function actionBuscar(){
-            $searchFeld = Yii::$app->request->get('q');
-            $collectionID = Yii::$app->request->get('id');
+        //Funcion privada de busqueda de documentos por categoria
+        private function filterSearch($searchFeld,$collectionID){
             try{
                 if (!empty($collectionID)){
                     $collectionName = Categoria::find()->where(['id' => $collectionID])->one();
@@ -150,7 +153,6 @@ use app\models\Seleccion;
                                 $html = $this->renderAjax('resultadosBusqueda', ['mensaje' => 'No se encontraron datos en la busqueda']);
                                 $response = ["result" => "error", "mensaje" => "No se encontraron resultados en {$collectionName->descripcion}", 'info' => $html ];
                             }
-                           
                         }else{
                             throw new Exception('No se encontraron datos en '.$collectionName->descripcion);
                         }
@@ -163,6 +165,16 @@ use app\models\Seleccion;
             }catch (Exception $e){
                 $response = ["result" => "error", "mensaje" => $e->getMessage()];
             }
+            return $response;
+        }
+        
+        //Accion llamada desde el index que busca los documentos en la mongoDB
+        public function actionBuscar(){
+            $searchFeld = Yii::$app->request->get('q');
+            $collectionID = Yii::$app->request->get('id');
+            $response = $this->filterSearch($searchFeld,$collectionID);
+            $count = $this->buscarInAllCollections($searchFeld);
+            $response['count'] = $count;
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $response;
         }
@@ -356,6 +368,18 @@ use app\models\Seleccion;
                 $documents[] = $this->getDocument($seleccion->categoria_id,$seleccion->documento_id);
             }
             return $documents;
+        }
+        
+        private function buscarInAllCollections($searchFeld){
+            $mongodb = Yii::$app->mongodb;
+            $categorias = Categoria::find()->all();
+            $count = [];
+            foreach ($categorias as $categoria){
+                $collection = $mongodb->getCollection($categoria->descripcion);
+                $filter = ['like','nombre',$searchFeld];
+                $count['cat'.$categoria->id] = $collection->count($filter);
+            }
+            return $count;
         }
     
     }

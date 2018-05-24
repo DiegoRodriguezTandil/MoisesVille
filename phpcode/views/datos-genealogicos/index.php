@@ -2,7 +2,6 @@
     use yii\helpers\Html;
     use yii\helpers\Url;
     use yii\helpers\ArrayHelper;
-    use yii\grid\GridView;
     use yii\bootstrap\Modal;
     use app\models\Categoria;
     rmrevin\yii\fontawesome\AssetBundle::register($this);
@@ -16,6 +15,31 @@
         });
     });
 JS;
+    $Css = <<<CSS
+    .vertical-menu {
+        width:auto;
+        height: auto;
+        overflow-y: auto;
+    }
+    
+    .vertical-menu a {
+        background-color: #eee; /* Grey background color */
+        color: black; /* Black text color */
+        display: block; /* Make the links appear below each other */
+        padding: 12px; /* Add some padding */
+        text-decoration: none; /* Remove underline from links */
+    }
+    
+    .vertical-menu a:hover {
+        background-color: #ccc; /* Dark grey background on mouse-over */
+    }
+    
+    .vertical-menu a.active {
+        background-color: #32b3ff; /* Add a green color to the "active/current" link */
+        color: white;
+    }
+CSS;
+    $this->registerCss($Css);
 
     $js = <<<JS
     
@@ -35,7 +59,11 @@ JS;
             var search_field = $('#search_field').val();
             ajaxurl += '&q='+ search_field;
             $.get( ajaxurl , function( data ) {
-                $('#documentos_genealogicos').html(data.info);
+                var arr = data.count;
+                for (var key in arr) {
+                    console.log(key);
+                    $("#"+key).html(" "+arr[key]+" - ");
+                }
                 if (data.result == 'ok'){
                         var n = noty({
                                 text: data.mensaje,
@@ -48,6 +76,7 @@ JS;
                                 modal: false, // si pongo true me hace el efecto de pantalla gris
                                 killer : true,
                         });
+                $('#documentos_genealogicos').html(data.info);
                 }else{
                      var n = noty({
                                 text: data.mensaje,
@@ -70,6 +99,8 @@ JS;
         })
         
         $('.categorias').on('click',function() {
+            $('.categorias').removeClass('active');
+            $(this).addClass('active');
             ajaxurl = $(this).attr('value');
             getData(ajaxurl);
         });
@@ -124,17 +155,21 @@ $this->registerJs($script);
     echo "<input id=\"defaultUrlSearch\" name=\"prodId\" type=\"hidden\" value='$durl'";
     ?>
     <input id="defaultUrlSearch" name="prodId" type="hidden" value="xm234jq">
-    <div class="col-xs-2">
+    <div class="col-xs-3">
         <input id="search_field" type="text" name="q" class="form-control" placeholder="Buscar..."?>
         <input id="UrlSearch" type="hidden" value="<?php echo Url::to(['datos-genealogicos/buscar']);?>">
         <br>
-        <?php
-            $categorias = Categoria::find()->select(['id', 'descripcion'])->all();
-            foreach ($categorias as $categoria) {
-                    $url = Url::to(['datos-genealogicos/buscar','id' => $categoria->id]);
-                    echo"<span class='categorias' value='{$url}'> {$categoria->descripcion} </span> <br>";
-            }
-        ?>
+        <div class="vertical-menu">
+            <?php
+                $categorias = Categoria::find()->select(['id', 'descripcion'])->all();
+                foreach ($categorias as $categoria) {
+                        $url = Url::to(['datos-genealogicos/buscar','id' => $categoria->id]);
+                        echo"<a class='categorias' value='{$url}'> <span id='cat{$categoria->id}' class=''></span> {$categoria->descripcion}  </a>
+                             ";
+                }
+            ?>
+        </div>
+        
     </div>
     
     <div class="col-xs-9" >
