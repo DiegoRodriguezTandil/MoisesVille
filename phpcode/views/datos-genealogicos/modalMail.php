@@ -64,6 +64,7 @@
 
 CSS;
     $Js = <<<JS
+            
         $("#sendMail").on('click',function() {
             var fields = $( "#formMail :input" ).serializeArray();
             var ajaxurl = $('#urlSendMail').attr('url');

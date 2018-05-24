@@ -12,7 +12,14 @@
     $(function() {
         $('.detalleDocumento').click(function () {
             $('#modal').modal('show').find('#divDocumento').load($(this).attr('value'));
+           
         });
+        $('#modal').on('shown.bs.modal', function (e) {
+           $('body').pressEsc(function() {
+                    $('#modal').modal('toggle');
+                    $(this).unbind();
+            })
+        })
     });
 JS;
     $Css = <<<CSS
@@ -54,6 +61,18 @@ CSS;
                         })
                 });
         };
+
+        $.fn.pressEsc = function(fn) {
+                    return this.each(function() {
+                            $(this).bind('escPress', fn);
+                                $(this).keyup(function(e){
+                                    if(e.keyCode == 27)
+                                    {
+                                      $(this).trigger("escPress");
+                                    }
+                                })
+                        });
+                };
         
         function getData(ajaxurl) {
             var search_field = $('#search_field').val();
@@ -78,7 +97,6 @@ CSS;
                     });
                     $('#documentos_genealogicos').html(data.info);
                 }else{
-                    
                     $('#documentos_genealogicos').html(data.info);
                 }
             });
@@ -98,6 +116,7 @@ CSS;
         
         $('.sendMail').click(function () {
             $('#modalMail').modal('show').modal({backdrop: 'static',keyboard: false}).find('#formMail').load($(this).attr('url'));
+            
         });
 JS;
 $this->registerJs($js);
@@ -109,14 +128,14 @@ $this->registerJs($script);
         'header' => '<h4 style="margin-top: 0px;margin-bottom: 0px;">Detalle Documento</h4>',
         'options' => ['tabindex' => false ],
     ]);
-    echo "<div id='divDocumento' ></div>";
+    echo "<div id='divDocumento' class='modalDatos'></div>";
     Modal::end();
     Modal::begin([
         'id' => 'modalMail',
         'header' => '<h4 style="margin-top: 0px;margin-bottom: 0px;">Envio de Mail</h4>',
         'options' => ['tabindex' => false ],
     ]);
-    echo "<div id='formMail' ></div>";
+    echo "<div id='formMail' class='modalDatos' ></div>";
     Modal::end();
 ?>
 <div class="row">
