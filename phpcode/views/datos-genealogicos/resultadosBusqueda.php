@@ -135,7 +135,7 @@ JS;
                             'columns' => [
                                 'nombre',
                                 [
-                                    'label' => 'Categoria',
+                                    'label' => 'Categoría',
                                     'attribute' => 'categoria_id',
                                     'format' => 'raw',
                                     'value' => function($data){

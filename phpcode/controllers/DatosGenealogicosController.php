@@ -52,10 +52,15 @@ use app\models\Seleccion;
                                     foreach ($arrayKeys as $arrayKey){
                                         if ($arrayKey != 'nombre'){
                                             if (!empty($excelRow[$arrayKey])){
-                                                if (!empty( $excelRow['detalle']))
-                                                    $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].'; ';
-                                                else
-                                                    $excelRow['detalle'] = "<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].'; ';
+                                                if (!empty( $excelRow['detalle'])) {
+                                                    $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].' '; //detalle para las grillas
+                                                    $excelRow['detalleFull'] =   $excelRow['detalleFull'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey]."<br>";  //detalle para el modal
+                                                }
+                                                
+                                                else{
+                                                    $excelRow['detalle'] = "<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].' ';
+                                                    $excelRow['detalleFull'] =  $excelRow['detalle']."<br>";
+                                                }
                                             }
                                         }
                                     }
@@ -285,7 +290,7 @@ use app\models\Seleccion;
             //COLUMNA DETALLE
             $columnas[5] = [
                 'attribute' => '_id',
-                'label' => 'Mas',
+                'label' => 'Más',
                 'format' => 'raw',
                 'value'=>function ($data) {
                     return Html::a("<i class='fa fa-eye'></i>", null ,[
