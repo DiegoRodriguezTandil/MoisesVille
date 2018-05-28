@@ -22,7 +22,7 @@ use app\models\Seleccion;
     
             $mongodb = Yii::$app->mongodb;
             
-            $collection = $mongodb->getCollection('Acervo');
+            $collection = $mongodb->getCollection('Acervo'); //Acervo default collection
             $datos = $collection->find([]);
     
             $html = $this->renderAjax('resultadosBusqueda', ['dataProvider' => $this->createMongoDataProvider($datos)]);
@@ -304,7 +304,7 @@ use app\models\Seleccion;
                 $provider = new ArrayDataProvider([
                     'allModels' => $arr,
                     'pagination' => [
-                        'pageSize' => 150,
+                        'pageSize' => 1120,
                     ],
                     'sort' => [
                         'attributes' => $columnas,

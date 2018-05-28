@@ -39,12 +39,20 @@
     })
 JS;
     $this->registerJs($js);
+    $script = <<< JS
+    $(function() {
+        $('.detalleDocumento').click(function () {
+            $('#modal').modal('show').modal({backdrop: 'static',keyboard: false}).find('#divDocumento').load($(this).attr('url'));
+        });
+    });
+JS;
+    $this->registerJs($script);
 ?>
 <div id="documentosMongo">
     <div class="row">
         <div class="pull-right">
             <?php
-                echo Html::a("<span class='fa fa-envelope'> Cancelar Importacion </span>",null,[
+                echo Html::a("<span class='fa fa-trash'> Cancelar Importacion </span>",null,[
                         'title' => Yii::t('app', 'Cancelar Importacion'),
                         'id'=>'drop_import',
                         'value'=>   Url::to(["datos-genealogicos/cancelar-importacion/",'id' => $importacion_id]),
@@ -57,12 +65,13 @@ JS;
         <?php
             if (!empty($dataProvider['dataProvider']) && !empty($dataProvider['columns'])){
                 $colums  = $dataProvider['columns'];
-                echo GridView::widget([
-                    'dataProvider'=> $dataProvider['dataProvider'],
-                    'columns'=>  [$colums[2],$colums[3],$colums[4],$colums[5]],
-                ]);
+                \yii\widgets\Pjax::begin();
+                    echo GridView::widget([
+                        'dataProvider'=> $dataProvider['dataProvider'],
+                        'columns'=>  [$colums[2],$colums[3],$colums[4],$colums[5]],
+                    ]);
+                \yii\widgets\Pjax::end();
             }
-            
         ?>
     </div>
 </div>

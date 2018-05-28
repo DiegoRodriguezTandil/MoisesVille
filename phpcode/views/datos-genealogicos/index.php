@@ -80,27 +80,21 @@ CSS;
             $.get( ajaxurl , function( data ) {
                 var arr = data.count;
                 for (var key in arr) {
-                    console.log(key);
                     $("#"+key).html(" "+arr[key]+" - ");
                 }
                 if (data.result == 'ok'){
-                    var n = noty({
-                            text: data.mensaje,
-                            type: 'success',
-                            class: 'animated pulse',
-                            layout: 'topRight',
-                            theme: 'relax',
-                            timeout: 3000, // delay for closing event. Set false for sticky notifications
-                            force: false, // adds notification to the beginning of queue when set to true
-                            modal: false, // si pongo true me hace el efecto de pantalla gris
-                            killer : true,
-                    });
+                   
                     $('#documentos_genealogicos').html(data.info);
                 }else{
                     $('#documentos_genealogicos').html(data.info);
                 }
             });
         }
+        
+        $(document).ready(function() {
+            $('#cat1').closest('a').addClass('active');
+        })
+        
         
         $('#search_field').pressEnter(function() {
             ajaxurl = $('#defaultUrlSearch').val();
