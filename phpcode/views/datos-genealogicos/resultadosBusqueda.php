@@ -133,7 +133,11 @@ JS;
                             'dataProvider'=> $dataProvider2,
                             'summary'=>'',
                             'columns' => [
-                                'nombre',
+                                [
+                                    'label' => 'Nombre / Apellido',
+                                    'attribute' => 'nombre',
+                                    'headerOptions' => ['style' => 'width:7%'],
+                                ],
                                 [
                                     'label' => 'Categoría',
                                     'attribute' => 'categoria_id',

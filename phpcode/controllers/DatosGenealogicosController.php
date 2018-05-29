@@ -16,7 +16,9 @@ use app\models\Seleccion;
     
     
     class DatosGenealogicosController extends MainController{
-       
+    
+        private $specialCharacters = ['.',',','-'];
+    
         //render de la pagina principal
         public function actionIndex(){
     
@@ -30,56 +32,40 @@ use app\models\Seleccion;
             return $this->render('index',['html' => $html ]);
         }
         
+        private function getMongoCollection($collectionName){
+            $mongodb = Yii::$app->mongodb;
+            $collection = $mongodb->getCollection($collectionName);
+            return $collection;
+            
+        }
+        
         //recibe un archivo Excel e importa los datos en la mongoDB
         public function actionImportacion(){
             $modelImportacion = new Importacion();
             if (!empty(Yii::$app->request->post())){ //Si me hacen un llamado post importo el excel a mi Mongodb
                 try{
-    
                     $modelImportacion->load(Yii::$app->request->post()); //Guardo los datos ingresados por el usuario
                     $modelImportacion->save();
+                    $importacionID =  $modelImportacion->id;
                     $excelRows = $this->getExcelRows($modelImportacion);
                     $collectionName = $modelImportacion->getNombreCategoria();
                     if  (!empty($collectionName)){
-                        $mongodb = Yii::$app->mongodb;
-                        $collection = $mongodb->getCollection($collectionName);
-                        $first = true;
+                        $collection = $this->getMongoCollection($collectionName);
                         foreach ($excelRows as $excelRow){
-                            $excelRow = array_change_key_case($excelRow);     // Le hago un lowercase a las keys del arreglo del excel
-                            if (array_key_exists('nombre', $excelRow)){  //Me aseguro que tenga la columna nombre
-                                if (!empty($excelRow['nombre'])){               //Si el campo no es nulo guardo
-                                    $arrayKeys = array_keys($excelRow);
-                                    foreach ($arrayKeys as $arrayKey){
-                                        if ($arrayKey != 'nombre'){
-                                            if (!empty($excelRow[$arrayKey])){
-                                                if (!empty( $excelRow['detalle'])) {
-                                                    $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].' '; //detalle para las grillas
-                                                    $excelRow['detalleFull'] =   $excelRow['detalleFull'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey]."<br>";  //detalle para el modal
-                                                }
-                                                
-                                                else{
-                                                    $excelRow['detalle'] = "<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].' ';
-                                                    $excelRow['detalleFull'] =  $excelRow['detalle']."<br>";
-                                                }
-                                            }
-                                        }
-                                    }
-                                    $excelRow['importacion_id'] = $modelImportacion->id; //guardo el id de la importacion, asi se puede borrar
-                                    $excelRow['categoria_id'] = $modelImportacion->categoria_id; //guardo el id de la importacion, asi se puede borrar
-                                    $collection->insert($excelRow);
-                                }
-                            }else{
-                                throw new \Exception('Error: El archivo no contiene una columna llamada Nombre');
-                            }
+                            $mongoDocument = $this->prepareExcelRow($excelRow,$importacionID ,$modelImportacion->categoria_id);
+                            if (!empty($mongoDocument))
+                                $collection->insert($mongoDocument);
                         }
-                        $documentos = $collection->find(['importacion_id' => $modelImportacion->id]);
-                        $html = $this->renderAjax('importPreview',['documentos' => $documentos,'importacion_id' => $modelImportacion->id , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
+                        $documentos = $collection->find(['importacion_id' => $importacionID]);
+                        $html = $this->renderAjax('importPreview',['documentos' => $documentos,'importacion_id' => $importacionID , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
                     }
-                
                 }catch (\Exception $e){
-                    $html = "<h3 style='font-style: italic; font-weight: bold; color: red;'>". $e->getMessage() ."</h3>";
+                    $html =  "
+                                <h3 style='font-style: italic; font-weight: bold; color: red;'>". $e->getMessage() ."</h3>
+                                <p> El archivo debe contener al menos una columna llamada nombre </p>
+                            ";
                 }
-                
+
                 return $this->render('indexImportacion',[
                     'modelImportacion' => $modelImportacion,
                     'html' => $html
@@ -88,6 +74,45 @@ use app\models\Seleccion;
             }else{ //Si me hacen un llamado get renderizo la pantalla
                 return $this->render('indexImportacion',['modelImportacion' => $modelImportacion]);
             }
+        }
+        
+        private function prepareExcelRow($excelRow,$importacionId,$categoriaId){
+            $excelRow = array_change_key_case($excelRow);     // Le hago un lowercase a las keys del arreglo del excel
+            if (array_key_exists('nombre', $excelRow)){  //Me aseguro que tenga la columna nombre
+                if (!empty($excelRow['nombre'])){             //Si el campo no es nulo guardo
+                    $arrayKeys = array_keys($excelRow);
+                    foreach ($arrayKeys as $arrayKey){
+                        if ($arrayKey != 'nombre'){
+                            foreach ($this->specialCharacters as $specialCharacter){
+                                if (strpos($arrayKey,$specialCharacter)){
+                                    $newKey = str_replace($specialCharacter,'',$arrayKey);
+                                    $excelRow[$newKey] = $excelRow[$arrayKey];
+                                    unset($excelRow[$arrayKey]);
+                                }
+                            }
+                            if (!empty($excelRow[$arrayKey])){
+                                if (!empty( $excelRow['detalle'])) {
+                                    $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].' ';
+                                    $excelRow['detalleFull'] =   $excelRow['detalleFull'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey]."<br>";  
+                                }
+                                else{
+                                    $excelRow['detalle'] = "<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].' ';
+                                    $excelRow['detalleFull'] =  $excelRow['detalle']."<br>";
+                                }
+                            }
+                        }
+                    }
+                    $excelRow['importacion_id'] = $importacionId; //guardo el id de la importacion, asi se puede borrar
+                    $excelRow['categoria_id'] = $categoriaId; //guardo el id de la categoria
+                   
+                }else{
+                    $excelRow = null;
+                }
+                
+            }else{
+                throw new \Exception('Error: El archivo no contiene una columna llamada Nombre.');
+            }
+            return $excelRow;
         }
         
         //render de modal de mail
@@ -140,6 +165,19 @@ use app\models\Seleccion;
             return $response;
         }
         
+        //Creacion de filtro por defecto de busqueda
+        private function getDefaultFilter($searchFeld){
+            $filter = [];
+            if (!empty($searchFeld)){
+                $regex = new \MongoDB\BSON\Regex("/^$searchFeld/i");
+                $filterApellido = ['apellido' => $regex];
+                $filterNombre = ['nombre' => $regex];
+                $filter = ['$or' => [$filterNombre,$filterApellido]];
+                $filter = ['like','nombre',$searchFeld];
+            }
+            return $filter;
+        }
+        
         //Funcion privada de busqueda de documentos por categoria
         private function filterSearch($searchFeld,$collectionID){
             try{
@@ -148,7 +186,7 @@ use app\models\Seleccion;
                     if (!empty($collectionName)){
                         $mongodb = Yii::$app->mongodb;
                         $collection = $mongodb->getCollection($collectionName->descripcion);
-                        $filter = ['like','nombre',$searchFeld];
+                        $filter = $this->getDefaultFilter($searchFeld);
                         if  (!empty($collection)){
                             if (!empty($collection->count($filter))){
                                 $datos = $collection->find($filter);
@@ -196,13 +234,15 @@ use app\models\Seleccion;
     
                 if  ($Excel->saveAs($path,true)){
                     $excelRows = \moonland\phpexcel\Excel::import($path);
+                    if (!empty($excelRows[0])){
+                        $excelRows = $excelRows[0];
+                    }
                 }
             }
            
-            if (!empty($excelRows[0])){
-                $reponse = $excelRows[0];
+            if (!empty($excelRows)){
+                $reponse = $excelRows;
             }
-            
             return $reponse;
         }
         
@@ -289,7 +329,9 @@ use app\models\Seleccion;
                     ];
                 }else{
                         $columnas[2] = [
-                            'attribute' => 'nombre'
+                                'label' => 'Nombre / Apellido',
+                                'attribute' => 'nombre',
+                                'headerOptions' => ['style' => 'width:7%'],
                         ];
                     }
                 }
@@ -388,7 +430,7 @@ use app\models\Seleccion;
             $count = [];
             foreach ($categorias as $categoria){
                 $collection = $mongodb->getCollection($categoria->descripcion);
-                $filter = ['like','nombre',$searchFeld];
+                $filter =   $this->getDefaultFilter($searchFeld);
                 $count['cat'.$categoria->id] = $collection->count($filter);
             }
             return $count;
