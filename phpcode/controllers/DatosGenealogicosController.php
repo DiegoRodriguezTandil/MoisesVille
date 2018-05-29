@@ -386,5 +386,22 @@ use app\models\Seleccion;
             }
             return $count;
         }
+        
+        public function actionAgregarCat(){
+            $nombreCategoria = Yii::$app->request->get('nombreCategoria');
+            $response = ['result' => 'error', 'mensaje' => 'No se pudo agregar la categoria'];
+            if (!empty($nombreCategoria)){
+                $categoria = new Categoria();
+                $categoria->descripcion = $nombreCategoria;
+                if ($categoria->save()){
+                    $response = ['result' => true, 'mensaje' => 'Se agrego la categoria corectamente'];
+                    \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                    return $response;
+                }
+            }else{
+                $html = $this->renderAjax('modalCategoria');
+                return $html;
+            }
+        }
     
     }

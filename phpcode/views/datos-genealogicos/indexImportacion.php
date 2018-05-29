@@ -9,6 +9,15 @@
     use app\models\Categoria;
     rmrevin\yii\fontawesome\AssetBundle::register($this);
     $this->title = "Importacion de Datos Genealógicos";
+    
+    $script = <<< JS
+    $(function() {
+        $('.nuevaCat').click(function () {
+            $('#modalCat').modal('show').modal({backdrop: 'static',keyboard: false}).find('#divCategoria').load($(this).attr('url'));
+        });
+    });
+JS;
+    $this->registerJs($script);
 ?>
     <?php
         Modal::begin([
@@ -17,6 +26,15 @@
             'options' => ['tabindex' => false ],
         ]);
         echo "<div id='divDocumento'></div>";
+        Modal::end();
+    ?>
+    <?php
+        Modal::begin([
+            'id' => 'modalCat',
+            'header' => '<h4 style="margin-top: 0px;margin-bottom: 0px;">Agregar Categoria</h4>',
+            'options' => ['tabindex' => false ],
+        ]);
+        echo "<div id='divCategoria'></div>";
         Modal::end();
     ?>
     <div class="row">
@@ -28,16 +46,24 @@
                                                 'enableAjaxValidation' => true,
                                             ]
                 ]);
-                
+                \yii\widgets\Pjax::begin(['id' => 'allCategorias']);
                 $dataTipo = ArrayHelper::map(Categoria::find()->asArray()->all(), 'id', 'descripcion');
                 echo $form->field($modelImportacion, 'categoria_id')->widget(Select2::classname(), [
+                    'name' => 'selectCat',
                     'data' => $dataTipo,
                     'options' => ['placeholder' => 'Seleccionar Categoria ...'],
                     'pluginOptions' => [
-                        'allowClear' => true
+                        'allowClear' => false
                     ],
                 ]);
-                echo $form->field($modelImportacion, 'descripcion')->textarea(['rows' => '6']) ;
+                \yii\widgets\Pjax::end([]);
+                echo Html::a("<span class='fa fa-plus'> Nueva Categoria </span>",null,[
+                    'title' => Yii::t('app', 'Agregar Categoria'),
+                    'class'=>'btn btn-info btn-xs nuevaCat',
+                    'url' => Url::to(["datos-genealogicos/agregar-cat/"]),
+                ]);
+    
+                echo $form->field($modelImportacion, 'descripcion')->textarea(['rows' => '4']) ;
                 echo FileInput::widget([
                     'model' => $modelImportacion,
                     'attribute' => 'excelFile',

@@ -45,7 +45,7 @@ class Importacion extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'descripcion' => Yii::t('app', 'Descripcion'),
-            'categoria_id' => Yii::t('app', 'Categoria ID'),
+            'categoria_id' => Yii::t('app', 'Categoria'),
             'fecha' => Yii::t('app', 'Fecha'),
         ];
     }
