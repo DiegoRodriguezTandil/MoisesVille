@@ -31,7 +31,7 @@ JS;
     <?php
         Modal::begin([
             'id' => 'modalCat',
-            'header' => '<h4 style="margin-top: 0px;margin-bottom: 0px;">Agregar Categoria</h4>',
+            'header' => '<h4 style="margin-top: 0px;margin-bottom: 0px;">Agregar Categoría</h4>',
             'options' => ['tabindex' => false ],
         ]);
         echo "<div id='divCategoria'></div>";
@@ -51,13 +51,13 @@ JS;
                 echo $form->field($modelImportacion, 'categoria_id')->widget(Select2::classname(), [
                     'name' => 'selectCat',
                     'data' => $dataTipo,
-                    'options' => ['placeholder' => 'Seleccionar Categoria ...'],
+                    'options' => ['placeholder' => 'Seleccionar Categoría ...'],
                     'pluginOptions' => [
                         'allowClear' => false
                     ],
                 ]);
                 \yii\widgets\Pjax::end([]);
-                echo Html::a("<span class='fa fa-plus'> Nueva Categoria </span>",null,[
+                echo Html::a("<span class='fa fa-plus'> Nueva Categoría </span>",null,[
                     'title' => Yii::t('app', 'Agregar Categoria'),
                     'class'=>'btn btn-info btn-xs nuevaCat',
                     'url' => Url::to(["datos-genealogicos/agregar-cat/"]),

@@ -136,7 +136,7 @@ $this->registerJs($script);
     <div class="pull-right">
         <div class="cols-xs-8">
             <?php
-                echo Html::a("<span class='fa fa-plus'> Nueva Importacion </span>",Url::to(["datos-genealogicos/importacion/"]),[
+                echo Html::a("<span class='fa fa-plus'> Nueva Importación </span>",Url::to(["datos-genealogicos/importacion/"]),[
                     'title' => Yii::t('app', 'Nueva Importacion'),
                     'class'=>'btn btn-info btn-xs',
                 ]);
