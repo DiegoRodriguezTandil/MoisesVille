@@ -21,17 +21,16 @@ use app\models\Seleccion;
     
         //render de la pagina principal
         public function actionIndex(){
-    
-            $mongodb = Yii::$app->mongodb;
             
-            $collection = $mongodb->getCollection('Acervo'); //Acervo default collection
-            $datos = $collection->find([]);
+            $collection = $this->getMongoCollection('Acervo'); //Acervo default collection
+            $datos = $collection->find($this->getDefaultFilter());
     
             $html = $this->renderAjax('resultadosBusqueda', ['dataProvider' => $this->createMongoDataProvider($datos)]);
             
             return $this->render('index',['html' => $html ]);
         }
         
+        //Obtengo la coleccion de mongo desde el nombre
         private function getMongoCollection($collectionName){
             $mongodb = Yii::$app->mongodb;
             $collection = $mongodb->getCollection($collectionName);
@@ -76,6 +75,7 @@ use app\models\Seleccion;
             }
         }
         
+        //Preparo una fila de excel para que se pueda guardar despues en la mongoDB
         private function prepareExcelRow($excelRow,$importacionId,$categoriaId){
             $excelRow = array_change_key_case($excelRow);     // Le hago un lowercase a las keys del arreglo del excel
             if (array_key_exists('nombre', $excelRow)){  //Me aseguro que tenga la columna nombre
@@ -166,7 +166,7 @@ use app\models\Seleccion;
         }
         
         //Creacion de filtro por defecto de busqueda
-        private function getDefaultFilter($searchFeld){
+        private function getDefaultFilter($searchFeld=NULL){
             $filter = [];
             if (!empty($searchFeld)){
                 $regex = new \MongoDB\BSON\Regex("/^$searchFeld/i");
