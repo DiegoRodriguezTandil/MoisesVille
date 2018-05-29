@@ -95,9 +95,10 @@ CSS;
             $('#cat1').closest('a').addClass('active');
         })
         
-        
         $('#search_field').pressEnter(function() {
             ajaxurl = $('#defaultUrlSearch').val();
+            $('.categorias').removeClass('active');
+            $('#cat1').closest('a').addClass('active');
             getData(ajaxurl);
         })
         

@@ -173,7 +173,7 @@ JS;
     </div>
 <br>
     <div id="gridview_documentos">
-        <h3 style="margin:  0px;"> Resultados de Busqueda </h3>
+        <h3 style="margin:  0px;"> Resultados de Búsqueda </h3>
         <div style="overflow-y: scroll;  max-height:400px">
             <?php
                 Pjax::begin([]);
