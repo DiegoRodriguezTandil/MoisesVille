@@ -69,7 +69,7 @@ CSS;
             var fields = $( "#formMail :input" ).serializeArray();
             var ajaxurl = $('#urlSendMail').attr('url');
             var n = noty({
-                            text: 'Aguarde, se esta enviando el mail',
+                            text: 'Aguarde, se está enviando el mail',
                             type: 'info',
                             class: 'animated pulse',
                             layout: 'topRight',

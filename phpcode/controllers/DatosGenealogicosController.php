@@ -92,11 +92,11 @@ use app\models\Seleccion;
                             }
                             if (!empty($excelRow[$arrayKey])){
                                 if (!empty( $excelRow['detalle'])) {
-                                    $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].' ';
-                                    $excelRow['detalleFull'] =   $excelRow['detalleFull'].' '."<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey]."<br>";  
+                                    $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey].' ';
+                                    $excelRow['detalleFull'] =   $excelRow['detalleFull'].' '."<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey]."<br>";
                                 }
                                 else{
-                                    $excelRow['detalle'] = "<b>".$arrayKey.': '."</b>".$excelRow[$arrayKey].' ';
+                                    $excelRow['detalle'] = "<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey].' ';
                                     $excelRow['detalleFull'] =  $excelRow['detalle']."<br>";
                                 }
                             }
@@ -153,7 +153,7 @@ use app\models\Seleccion;
                         ->setHtmlBody($cuerpoHtml);
         
                     if ($mail->send()){
-                        $response = ['result' => 'ok', 'mensaje' => 'Se envio el mail correctamente'];
+                        $response = ['result' => 'ok', 'mensaje' => 'Se envío el mail correctamente'];
                     }
                 }else{
                     $response = ['result' => 'error', 'mensaje' => 'No se seleccionaron documentos para enviar'];
