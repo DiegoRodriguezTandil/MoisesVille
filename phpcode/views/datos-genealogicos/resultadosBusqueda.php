@@ -174,7 +174,7 @@ JS;
 <br>
     <div id="gridview_documentos">
         <h3 style="margin:  0px;"> Resultados de Busqueda </h3>
-        <div style="overflow-y: scroll;  max-height:500px">
+        <div style="overflow-y: scroll;  max-height:400px">
             <?php
                 Pjax::begin([]);
                 if (!empty($dataProvider['dataProvider']) && !empty($dataProvider['columns'])){

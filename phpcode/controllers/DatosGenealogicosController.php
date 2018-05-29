@@ -186,17 +186,24 @@ use app\models\Seleccion;
         
         //Guardo archivo subido y obtengo todas las tupls del excel, para despues guardarlas en la mongodb
         private function getExcelRows($model){
+            $reponse = null;
             $excelRows = null;
             $Excel = UploadedFile::getInstances($model,'excelFile');
             $Excel = $Excel[0];
-            $fileName = $this->changeFileName($Excel->name);
-            $path =   Yii::getAlias('@webroot').'/ExcelFiles/'.$fileName;
-            
-            if  ($Excel->saveAs($path,true)){
-                $excelRows = \moonland\phpexcel\Excel::import($path);
+            if (!empty($Excel)){
+                $fileName = $this->changeFileName($Excel->name);
+                $path =   Yii::getAlias('@webroot').'/ExcelFiles/'.$fileName;
+    
+                if  ($Excel->saveAs($path,true)){
+                    $excelRows = \moonland\phpexcel\Excel::import($path);
+                }
+            }
+           
+            if (!empty($excelRows[0])){
+                $reponse = $excelRows[0];
             }
             
-            return $excelRows[0];
+            return $reponse;
         }
         
         //Cambio el nombre los excel para guardalos
