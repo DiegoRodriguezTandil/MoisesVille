@@ -163,7 +163,7 @@ $this->registerJs($script);
         <input id="search_field" type="text" name="q" class="form-control" placeholder="Buscar..."?>
         <input id="UrlSearch" type="hidden" value="<?php echo Url::to(['datos-genealogicos/buscar']);?>">
         <br>
-        <div class="vertical-menu">
+        <div class="vertical-menu" style="overflow-y: scroll;  max-height:400px">
             <?php
                 $categorias = Categoria::find()->select(['id', 'descripcion'])->all();
                 foreach ($categorias as $categoria) {
