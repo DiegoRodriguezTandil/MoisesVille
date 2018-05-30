@@ -45,6 +45,32 @@ JS;
         background-color: #32b3ff; /* Add a green color to the "active/current" link */
         color: white;
     }
+
+    .loader {
+        border: 16px solid #32b3ff; /* Light grey */
+        border-top: 16px solid #000000; /* Blue */
+        border-radius: 50%;
+        height: 90px;
+        margin: 100px auto 0;
+        width: 90px;
+        text-align: center;
+        animation: spin 2s linear infinite;
+    }
+    
+    .loader > div {
+      width: 18px;
+      height: 18px;
+      background-color: rgba(2,13,7,0.33);
+      border-radius: 100%;
+      display: inline-block;
+      -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+      animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 CSS;
     $this->registerCss($Css);
 
@@ -77,6 +103,7 @@ CSS;
         function getData(ajaxurl) {
             var search_field = $('#search_field').val();
             ajaxurl += '&q='+ search_field;
+            $('#gridview_documentos').html('<div class="loader" ></div>');
             $.get( ajaxurl , function( data ) {
                 var arr = data.count;
                 for (var key in arr) {
@@ -88,6 +115,8 @@ CSS;
                 }else{
                     $('#documentos_genealogicos').html(data.info);
                 }
+            }).fail(function() {
+                $('#gridview_documentos').html("<h4>Ocurrio un error durante la busqueda de documentos</h4>");
             });
         }
         

@@ -61,6 +61,7 @@
                 document_id  : $(this).attr('document_id'),
                 accion : accion
             }
+            $('#seleccion').html('<div class="loader center"></div>');
             $.post( ajaxurl , data ,function( data ) {
                     if (data.result == 'ok'){
                             ajaxurl = getUrlRefresh(categoria_id);
@@ -87,6 +88,7 @@
             document_id  : $(this).attr('document_id'),
             accion : $(this).attr('accion')
             }
+            $('#documentos_genealogicos').html('<div class="loader center"></div>');
             $.post( ajaxurl , data ,function( data ) {
                 if (data.result == 'ok'){
                     ajaxurl = getUrlRefresh(categoria_id);
@@ -134,9 +136,9 @@ JS;
                             'summary'=>'',
                             'columns' => [
                                 [
-                                    'label' => 'Nombre / Apellido',
+                                    'label' => 'Nombre ',
                                     'attribute' => 'nombre',
-                                    'headerOptions' => ['style' => 'width:7%'],
+                                    'headerOptions' => ['style' => 'width:27%'],
                                 ],
                                 [
                                     'label' => 'Categoría',
@@ -176,7 +178,7 @@ JS;
         </div>
     </div>
 <br>
-    <div id="gridview_documentos">
+    <div id="gridview_documentos" style="text-aling: center;" >
         <h3 style="margin:  0px;"> Resultados de Búsqueda </h3>
         <div style="overflow-y: scroll;  max-height:400px">
             <?php

@@ -2,6 +2,7 @@
     use yii\helpers\Html;
     use yii\helpers\Url;
     use yii\grid\GridView;
+    use yii\widgets\Pjax;
     
     
     $js = <<<JS
@@ -65,12 +66,12 @@ JS;
         <?php
             if (!empty($dataProvider['dataProvider']) && !empty($dataProvider['columns'])){
                 $colums  = $dataProvider['columns'];
-                \yii\widgets\Pjax::begin();
+                Pjax::begin();
                     echo GridView::widget([
                         'dataProvider'=> $dataProvider['dataProvider'],
                         'columns'=>  [$colums[2],$colums[3],$colums[4],$colums[5]],
                     ]);
-                \yii\widgets\Pjax::end();
+                Pjax::end();
             }
         ?>
     </div>

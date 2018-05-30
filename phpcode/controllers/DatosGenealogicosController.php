@@ -169,11 +169,9 @@ use app\models\Seleccion;
         private function getDefaultFilter($searchFeld=NULL){
             $filter = [];
             if (!empty($searchFeld)){
-                $regex = new \MongoDB\BSON\Regex("/^$searchFeld/i");
-                $filterApellido = ['apellido' => $regex];
-                $filterNombre = ['nombre' => $regex];
+                $filterApellido = ['apellido' =>  new \MongoDB\BSON\Regex(".*$searchFeld*.", 'i'),];
+                $filterNombre =['nombre' =>  new \MongoDB\BSON\Regex(".*$searchFeld*.", 'i'),];
                 $filter = ['$or' => [$filterNombre,$filterApellido]];
-                $filter = ['like','nombre',$searchFeld];
             }
             return $filter;
         }
@@ -213,11 +211,16 @@ use app\models\Seleccion;
         
         //Accion llamada desde el index que busca los documentos en la mongoDB
         public function actionBuscar(){
-            $searchFeld = Yii::$app->request->get('q');
-            $collectionID = Yii::$app->request->get('id');
-            $response = $this->filterSearch($searchFeld,$collectionID);
-            $count = $this->buscarInAllCollections($searchFeld);
-            $response['count'] = $count;
+            try{
+                $searchFeld = Yii::$app->request->get('q');
+                $collectionID = Yii::$app->request->get('id');
+                $response = $this->filterSearch($searchFeld,$collectionID);
+                $count = $this->buscarInAllCollections($searchFeld);
+                $response['count'] = $count;
+            }catch (\Exception $e){
+                $response = ['result' => 'error', 'mensaje' => 'Ocurrio un error durante la busqueda'];
+            }
+          
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $response;
         }
@@ -329,7 +332,7 @@ use app\models\Seleccion;
                     ];
                 }else{
                         $columnas[2] = [
-                                'label' => 'Nombre / Apellido',
+                                'label' => 'Nombre',
                                 'attribute' => 'nombre',
                                 'headerOptions' => ['style' => 'width:7%'],
                         ];
