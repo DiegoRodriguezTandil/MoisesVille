@@ -182,23 +182,18 @@ JS;
         <h3 style="margin:  0px;"> Resultados de Búsqueda </h3>
         <div style="overflow-y: scroll;  max-height:400px">
             <?php
-                Pjax::begin([]);
-                if (!empty($dataProvider['dataProvider']) && !empty($dataProvider['columns'])){
-                    $colums  = $dataProvider['columns'];
-                    echo GridView::widget([
-                        'dataProvider'=> $dataProvider['dataProvider'],
-                        'floatHeader'=>true,
-                        'hover' => true,
-                        'floatHeaderOptions' => [
-                            'position' => 'absolute'
-                        ],
-                        'summary'=>'',
-                        'columns'=>  [$colums[1],$colums[2],$colums[3],$colums[4],$colums[5]],
-                    ]);
-                }else{
-                    echo 'No se encontraron resultados para la busqueda';
-                }
-                Pjax::end();
+                    if (!empty($dataProvider['dataProvider']) && !empty($dataProvider['columns'])){
+                        $colums  = $dataProvider['columns'];
+                        Pjax::begin([]);
+                            echo GridView::widget([
+                                'dataProvider'=> $dataProvider['dataProvider'],
+                                'summary'=>'',
+                                'columns'=>  [$colums[1],$colums[2],$colums[3],$colums[4],$colums[5]],
+                            ]);
+                        Pjax::end();
+                    }else{
+                        echo 'No se encontraron resultados para la busqueda';
+                    }
             ?>
         </div>
        

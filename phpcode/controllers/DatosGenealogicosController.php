@@ -56,7 +56,7 @@ use app\models\Seleccion;
                                 $collection->insert($mongoDocument);
                         }
                         $documentos = $collection->find(['importacion_id' => $importacionID]);
-                        $html = $this->renderAjax('importPreview',['documentos' => $documentos,'importacion_id' => $importacionID , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
+                        $html = $this->renderAjax('importPreview',['importacion_id' => $importacionID , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
                     }
                 }catch (\Exception $e){
                     $html =  "
@@ -83,13 +83,19 @@ use app\models\Seleccion;
                     $arrayKeys = array_keys($excelRow);
                     foreach ($arrayKeys as $arrayKey){
                         if ($arrayKey != 'nombre'){
+                            
                             foreach ($this->specialCharacters as $specialCharacter){
                                 if (strpos($arrayKey,$specialCharacter)){
                                     $newKey = str_replace($specialCharacter,'',$arrayKey);
                                     $excelRow[$newKey] = $excelRow[$arrayKey];
                                     unset($excelRow[$arrayKey]);
+                                    $arrayKey =  $newKey;
                                 }
                             }
+                            
+                            //CONVIERTO LOS ROW ASCII A UTF-8 POR PROBLEMAS DE CODIFICIACION AL IMPRIMIR POR HTML EL DATO
+                            $excelRow[$arrayKey] = iconv("UTF-8","ASCII//TRANSLIT",$excelRow[$arrayKey]);
+                            
                             if (!empty($excelRow[$arrayKey])){
                                 if (!empty( $excelRow['detalle'])) {
                                     $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey].' ';
@@ -220,7 +226,7 @@ use app\models\Seleccion;
             }catch (\Exception $e){
                 $response = ['result' => 'error', 'mensaje' => 'Ocurrio un error durante la busqueda'];
             }
-          
+            mb_convert_encoding($response['info'], 'UTF-8', 'UTF-8');
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $response;
         }
@@ -283,7 +289,7 @@ use app\models\Seleccion;
         private function createMongoDataProvider($documents){ //Creo un Data Provider para un gridview
             $colums = ['nombre','detalle','_id','importacion_id'];
             $columnas = [];
-            foreach ($documents as $document) {
+            foreach ($documents as $key=>$document) {
                 $arr[] = $document;
             }
             foreach ($colums as $colum){
