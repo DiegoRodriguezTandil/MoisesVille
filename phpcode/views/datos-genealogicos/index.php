@@ -12,14 +12,7 @@
     $(function() {
         $('.detalleDocumento').click(function () {
             $('#modal').modal('show').find('#divDocumento').load($(this).attr('value'));
-           
         });
-        $('#modal').on('shown.bs.modal', function (e) {
-           $('body').pressEsc(function() {
-                    $('#modal').modal('toggle');
-                    $(this).unbind();
-            })
-        })
     });
 JS;
     $Css = <<<CSS

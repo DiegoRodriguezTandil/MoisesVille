@@ -50,6 +50,10 @@
                 }
             })
         })
+        
+        $('#closeModal').click(function() {
+            $('#modalCat').modal('toggle');
+        });
 JS;
 
     $this->registerJs($js);
@@ -75,8 +79,9 @@ JS;
         
         </div>
         <div class="col-xs-5">
-            <div class="pull-right">
-                <button id="addCat" type="button" class="btn btn-default">Agregar Categoria</button>
+            <div class="row">
+                <button id="closeModal" type="button" class="btn btn-danger">Cancelar</button>
+                <button id="addCat" type="button" class="btn btn-info">Agregar Categoria</button>
             </div>
         </div>
     </div>

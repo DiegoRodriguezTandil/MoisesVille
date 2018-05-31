@@ -110,6 +110,10 @@ CSS;
                 }
              });
         });
+
+        $('#closeModal').click(function() {
+            $('#modalMail').modal('toggle');
+        });
 JS;
     $this->registerJs($Js);
     $this->registerCss($css);
@@ -149,13 +153,15 @@ JS;
     </div>
     <br>
     <div class="row">
-        <div class="col-xs-6">
-        
+        <div class="col-xs-7">
+
         </div>
         <div class="col-xs-5">
-            <div class="pull-right">
-                <button id="sendMail" type="button" class="btn btn-default">Enviar Mail</button>
+            <div class="row">
+                <button id="closeModal" type="button" class="btn btn-danger">Cancelar Envio</button>
+                <button id="sendMail" type="button" class="btn btn-info">Enviar Mail</button>
             </div>
         </div>
     </div>
 </form>
+

@@ -13,8 +13,6 @@ use app\models\Categoria;
 use app\models\Importacion;
 use app\models\Seleccion;
 
-    
-    
     class DatosGenealogicosController extends MainController{
     
         private $specialCharacters = ['.',',','-'];
@@ -433,6 +431,7 @@ use app\models\Seleccion;
             return $documents;
         }
         
+        //Funcion que cuenta la cantidad de registro por categoria
         private function buscarInAllCollections($searchFeld){
             $mongodb = Yii::$app->mongodb;
             $categorias = Categoria::find()->all();
@@ -445,6 +444,7 @@ use app\models\Seleccion;
             return $count;
         }
         
+        //Funcion que crea nuevas categorias
         public function actionAgregarCat(){
             $nombreCategoria = Yii::$app->request->get('nombreCategoria');
             $response = ['result' => 'error', 'mensaje' => 'No se pudo agregar la categoria'];
