@@ -57,8 +57,9 @@ use app\models\Seleccion;
                         $html = $this->renderAjax('importPreview',['importacion_id' => $importacionID , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
                     }
                 }catch (\Exception $e){
+                    // echo $e->getMessage()
                     $html =  "
-                                <h3 style='font-style: italic; font-weight: bold; color: red;'>". $e->getMessage() ."</h3>
+                                <h3 style='font-style: italic; font-weight: bold; color: red;'>". "Ocurrio un error durante la importacion" ."</h3>
                                 <p> El archivo debe contener al menos una columna llamada nombre </p>
                             ";
                 }
@@ -77,40 +78,44 @@ use app\models\Seleccion;
         private function prepareExcelRow($excelRow,$importacionId,$categoriaId){
             $excelRow = array_change_key_case($excelRow);     // Le hago un lowercase a las keys del arreglo del excel
             if (array_key_exists('nombre', $excelRow)){  //Me aseguro que tenga la columna nombre
-                if (!empty($excelRow['nombre'])){             //Si el campo no es nulo guardo
-                    $arrayKeys = array_keys($excelRow);
-                    foreach ($arrayKeys as $arrayKey){
-                        if ($arrayKey != 'nombre'){
-                            
-                            foreach ($this->specialCharacters as $specialCharacter){
-                                if (strpos($arrayKey,$specialCharacter)){
-                                    $newKey = str_replace($specialCharacter,'',$arrayKey);
-                                    $excelRow[$newKey] = $excelRow[$arrayKey];
-                                    unset($excelRow[$arrayKey]);
-                                    $arrayKey =  $newKey;
+                if (array_key_exists('apellido',$excelRow)){
+                    if (!empty($excelRow['nombre'])){             //Si el campo no es nulo guardo
+                        $arrayKeys = array_keys($excelRow);
+                        foreach ($arrayKeys as $arrayKey){
+                            if ($arrayKey != 'nombre'){
+                
+                                foreach ($this->specialCharacters as $specialCharacter){
+                                    if (strpos($arrayKey,$specialCharacter)){
+                                        $newKey = str_replace($specialCharacter,'',$arrayKey);
+                                        $excelRow[$newKey] = $excelRow[$arrayKey];
+                                        unset($excelRow[$arrayKey]);
+                                        $arrayKey =  $newKey;
+                                    }
                                 }
-                            }
-                            
-                            //CONVIERTO LOS ROW ASCII A UTF-8 POR PROBLEMAS DE CODIFICIACION AL IMPRIMIR POR HTML EL DATO
-                            $excelRow[$arrayKey] = iconv("UTF-8","ASCII//TRANSLIT",$excelRow[$arrayKey]);
-                            
-                            if (!empty($excelRow[$arrayKey])){
-                                if (!empty( $excelRow['detalle'])) {
-                                    $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey].' ';
-                                    $excelRow['detalleFull'] =   $excelRow['detalleFull'].' '."<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey]."<br>";
-                                }
-                                else{
-                                    $excelRow['detalle'] = "<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey].' ';
-                                    $excelRow['detalleFull'] =  $excelRow['detalle']."<br>";
+                
+                                //CONVIERTO LOS ROW ASCII A UTF-8 POR PROBLEMAS DE CODIFICIACION AL IMPRIMIR POR HTML EL DATO
+                                $excelRow[$arrayKey] = iconv("UTF-8","ASCII//TRANSLIT",$excelRow[$arrayKey]);
+                
+                                if (!empty($excelRow[$arrayKey])){
+                                    if (!empty( $excelRow['detalle'])) {
+                                        $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey].' ';
+                                        $excelRow['detalleFull'] =   $excelRow['detalleFull'].' '."<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey]."<br>";
+                                    }
+                                    else{
+                                        $excelRow['detalle'] = "<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey].' ';
+                                        $excelRow['detalleFull'] =  $excelRow['detalle']."<br>";
+                                    }
                                 }
                             }
                         }
+                        $excelRow['importacion_id'] = $importacionId; //guardo el id de la importacion, asi se puede borrar
+                        $excelRow['categoria_id'] = $categoriaId; //guardo el id de la categoria
+        
+                    }else{
+                        $excelRow = null;
                     }
-                    $excelRow['importacion_id'] = $importacionId; //guardo el id de la importacion, asi se puede borrar
-                    $excelRow['categoria_id'] = $categoriaId; //guardo el id de la categoria
-                   
                 }else{
-                    $excelRow = null;
+                    throw new \Exception('Error: El archivo no contiene una columna llamada Apellido.');
                 }
                 
             }else{
@@ -364,9 +369,7 @@ use app\models\Seleccion;
             if (!empty($arr))
                 $provider = new ArrayDataProvider([
                     'allModels' => $arr,
-                    'pagination' => [
-                        'pageSize' => 1120,
-                    ],
+                    'pagination' => false,
                     'sort' => [
                         'attributes' => $columnas,
                     ],

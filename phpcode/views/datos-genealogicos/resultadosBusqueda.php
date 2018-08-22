@@ -84,9 +84,9 @@
             $('.categorias').removeClass('active');
             $("#cat"+categoria_id).closest('a').addClass('active');
             var data = {
-            categoria_id :  $(this).attr('categoria_id'),
-            document_id  : $(this).attr('document_id'),
-            accion : $(this).attr('accion')
+                categoria_id :  $(this).attr('categoria_id'),
+                document_id  : $(this).attr('document_id'),
+                accion : $(this).attr('accion')
             }
             $('#documentos_genealogicos').html('<div class="loader center"></div>');
             $.post( ajaxurl , data ,function( data ) {
