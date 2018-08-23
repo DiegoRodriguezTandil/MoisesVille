@@ -247,11 +247,19 @@ use app\models\Seleccion;
         
         //Guardo archivo subido y obtengo todas las tupls del excel, para despues guardarlas en la mongodb
         private function getExcelRows($model){
+            $valid = false;
+            $types = array('Excel2007', 'Excel5');
             $reponse = null;
             $excelRows = null;
             $Excel = UploadedFile::getInstances($model,'excelFile');
             $Excel = $Excel[0];
             if (!empty($Excel)){
+                foreach ($types as $type) {
+                    $reader = \PHPExcel_IOFactory::createReader($type);
+                    if (!$reader->canRead($Excel->name)) {
+                        echo "No se pudo leer el archivo";
+                    }
+                }
                 $fileName = $this->changeFileName($Excel->name);
                 $path =   Yii::getAlias('@webroot').'/ExcelFiles/'.$fileName;
                 
@@ -265,9 +273,7 @@ use app\models\Seleccion;
                             $excelRows = $excelRows[0];
                         }
                     }
-                
             }
-           
             if (!empty($excelRows)){
                 $reponse = $excelRows;
             }
