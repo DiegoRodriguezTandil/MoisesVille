@@ -95,11 +95,13 @@ use app\models\Seleccion;
                 
                                 //CONVIERTO LOS ROW ASCII A UTF-8 POR PROBLEMAS DE CODIFICIACION AL IMPRIMIR POR HTML EL DATO
                                 $excelRow[$arrayKey] = iconv("UTF-8","ASCII//TRANSLIT",$excelRow[$arrayKey]);
+                                $NewArrayKey = iconv("UTF-8","ASCII//TRANSLIT",$arrayKey);
+                                $NewArrayKey = strtolower($NewArrayKey);
                 
                                 if (!empty($excelRow[$arrayKey])){
                                     if (!empty( $excelRow['detalle'])) {
-                                        $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey].' ';
-                                        $excelRow['detalleFull'] =   $excelRow['detalleFull'].' '."<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey]."<br>";
+                                        $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".ucfirst($NewArrayKey).': '."</b>".$excelRow[$arrayKey].' ';
+                                        $excelRow['detalleFull'] =   $excelRow['detalleFull'].' '."<b>".ucfirst($NewArrayKey).': '."</b>".$excelRow[$arrayKey]."<br>";
                                     }
                                     else{
                                         $excelRow['detalle'] = "<b>".ucfirst($arrayKey).': '."</b>".$excelRow[$arrayKey].' ';
@@ -243,11 +245,20 @@ use app\models\Seleccion;
             if (!empty($Excel)){
                 $fileName = $this->changeFileName($Excel->name);
                 $path =   Yii::getAlias('@webroot').'/ExcelFiles/'.$fileName;
-    
-                if  ($Excel->saveAs($path,true)){
-                    $excelRows = \moonland\phpexcel\Excel::import($path);
-                    if (!empty($excelRows[0])){
-                        $excelRows = $excelRows[0];
+                try{
+                    if  ($Excel->saveAs($path,true)){
+                        $excelRows = \moonland\phpexcel\Excel::import($path);
+                        if (!empty($excelRows[0])){
+                            $excelRows = $excelRows[0];
+                        }
+                    }
+                }catch (Exception $e){
+                    mkdir( Yii::getAlias('@webroot').'/ExcelFiles/',0700);
+                    if  ($Excel->saveAs($path,true)){
+                        $excelRows = \moonland\phpexcel\Excel::import($path);
+                        if (!empty($excelRows[0])){
+                            $excelRows = $excelRows[0];
+                        }
                     }
                 }
             }
