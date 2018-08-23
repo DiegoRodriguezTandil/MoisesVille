@@ -235,34 +235,45 @@ use app\models\Seleccion;
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return $response;
         }
+    
+        function folder_exist($folder)
+        {
+            // Get canonicalized absolute pathname
+            $path = realpath($folder);
+        
+            // If it exist, check if it's a directory
+            return ($path !== false AND is_dir($path)) ? $path : false;
+        }
         
         //Guardo archivo subido y obtengo todas las tupls del excel, para despues guardarlas en la mongodb
         private function getExcelRows($model){
+            $valid = false;
+            $types = array('Excel2007', 'Excel5');
             $reponse = null;
             $excelRows = null;
             $Excel = UploadedFile::getInstances($model,'excelFile');
             $Excel = $Excel[0];
             if (!empty($Excel)){
-                $fileName = $this->changeFileName($Excel->name);
-                $path =   Yii::getAlias('@webroot').'/ExcelFiles/'.$fileName;
-                try{
-                    if  ($Excel->saveAs($path,true)){
-                        $excelRows = \moonland\phpexcel\Excel::import($path);
-                        if (!empty($excelRows[0])){
-                            $excelRows = $excelRows[0];
-                        }
-                    }
-                }catch (Exception $e){
-                    mkdir( Yii::getAlias('@webroot').'/ExcelFiles/',0700);
-                    if  ($Excel->saveAs($path,true)){
-                        $excelRows = \moonland\phpexcel\Excel::import($path);
-                        if (!empty($excelRows[0])){
-                            $excelRows = $excelRows[0];
-                        }
+                foreach ($types as $type) {
+                    $reader = \PHPExcel_IOFactory::createReader($type);
+                    if (!$reader->canRead($Excel->name)) {
+                        echo "No se pudo leer el archivo";
                     }
                 }
+                $fileName = $this->changeFileName($Excel->name);
+                $path =   Yii::getAlias('@webroot').'/ExcelFiles/'.$fileName;
+                
+                    if (!$this->folder_exist(Yii::getAlias('@webroot').'/ExcelFiles/')){
+                        mkdir(Yii::getAlias('@webroot').'/ExcelFiles/',0700);
+                    }
+                   
+                    if  ($Excel->saveAs($path,true)){
+                        $excelRows = \moonland\phpexcel\Excel::import($path);
+                        if (!empty($excelRows[0])){
+                            $excelRows = $excelRows[0];
+                        }
+                    }
             }
-           
             if (!empty($excelRows)){
                 $reponse = $excelRows;
             }
