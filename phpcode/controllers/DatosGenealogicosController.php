@@ -45,6 +45,9 @@ use app\models\Seleccion;
                     $modelImportacion->save();
                     $importacionID =  $modelImportacion->id;
                     $excelRows = $this->getExcelRows($modelImportacion);
+                    if (empty($excelRows)){
+                        throw new Exception('El archivo tiene que se un excel');
+                    }
                     $collectionName = $modelImportacion->getNombreCategoria();
                     if  (!empty($collectionName)){
                         $collection = $this->getMongoCollection($collectionName);
@@ -57,10 +60,10 @@ use app\models\Seleccion;
                         $html = $this->renderAjax('importPreview',['importacion_id' => $importacionID , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
                     }
                 }catch (\Exception $e){
-                    echo $e->getMessage();
+                    //echo $e->getMessage();
                     $html =  "
                                 <h3 style='font-style: italic; font-weight: bold; color: red;'>". "Ocurrio un error durante la importacion" ."</h3>
-                                <p> El archivo debe contener al menos una columna llamada nombre </p>
+                                <p> El archivo debe ser un Excel y contener al menos una columna llamada Nombre. </p>
                             ";
                 }
 
@@ -247,36 +250,31 @@ use app\models\Seleccion;
         
         //Guardo archivo subido y obtengo todas las tupls del excel, para despues guardarlas en la mongodb
         private function getExcelRows($model){
-            $valid = false;
-            $types = array('Excel2007', 'Excel5');
             $reponse = null;
             $excelRows = null;
             $Excel = UploadedFile::getInstances($model,'excelFile');
             $Excel = $Excel[0];
             if (!empty($Excel)){
-                foreach ($types as $type) {
-                    $reader = \PHPExcel_IOFactory::createReader($type);
-                    if (!$reader->canRead($Excel->name)) {
-                        echo "No se pudo leer el archivo";
-                    }
-                }
                 $fileName = $this->changeFileName($Excel->name);
+                $fileName = strtolower($fileName);
                 $path =   Yii::getAlias('@webroot').'/ExcelFiles/'.$fileName;
-                
+                if (strpos($fileName, 'xls')){
                     if (!$this->folder_exist(Yii::getAlias('@webroot').'/ExcelFiles/')){
                         mkdir(Yii::getAlias('@webroot').'/ExcelFiles/',0700);
                     }
-                   
+    
                     if  ($Excel->saveAs($path,true)){
                         $excelRows = \moonland\phpexcel\Excel::import($path);
                         if (!empty($excelRows[0])){
                             $excelRows = $excelRows[0];
                         }
                     }
+                }
+                if (!empty($excelRows)){
+                    $reponse = $excelRows;
+                }
             }
-            if (!empty($excelRows)){
-                $reponse = $excelRows;
-            }
+           
             return $reponse;
         }
         
