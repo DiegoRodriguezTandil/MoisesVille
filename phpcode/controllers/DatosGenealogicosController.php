@@ -57,7 +57,7 @@ use app\models\Seleccion;
                         $html = $this->renderAjax('importPreview',['importacion_id' => $importacionID , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
                     }
                 }catch (\Exception $e){
-                    // echo $e->getMessage()
+                    echo $e->getMessage();
                     $html =  "
                                 <h3 style='font-style: italic; font-weight: bold; color: red;'>". "Ocurrio un error durante la importacion" ."</h3>
                                 <p> El archivo debe contener al menos una columna llamada nombre </p>
@@ -93,11 +93,11 @@ use app\models\Seleccion;
                                     }
                                 }
                 
-                                //CONVIERTO LOS ROW ASCII A UTF-8 POR PROBLEMAS DE CODIFICIACION AL IMPRIMIR POR HTML EL DATO
-                                $excelRow[$arrayKey] = iconv("UTF-8","ASCII//TRANSLIT",$excelRow[$arrayKey]);
+                              /*  //CONVIERTO LOS ROW ASCII A UTF-8 POR PROBLEMAS DE CODIFICIACION AL IMPRIMIR POR HTML EL DATO
+                                $excelRow[$arrayKey] = iconv("UTF-8","ASCII//TRANSLIT",$excelRow[$arrayKey]);   */
                                 $NewArrayKey = iconv("UTF-8","ASCII//TRANSLIT",$arrayKey);
                                 $NewArrayKey = strtolower($NewArrayKey);
-                
+                              
                                 if (!empty($excelRow[$arrayKey])){
                                     if (!empty( $excelRow['detalle'])) {
                                         $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".ucfirst($NewArrayKey).': '."</b>".$excelRow[$arrayKey].' ';
