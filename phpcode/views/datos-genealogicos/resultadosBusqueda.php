@@ -64,11 +64,11 @@
             $('#seleccion').html('<div class="loader center"></div>');
             $.post( ajaxurl , data ,function( data ) {
                     if (data.result == 'ok'){
+                            sendSuccessMessage(data.mensaje);
                             ajaxurl = getUrlRefresh(categoria_id);
                             $.get(ajaxurl,function(data) {
                                 if (data.result == 'ok'){
                                     $('#documentos_genealogicos').html(data.info);
-                                     sendSuccessMessage(data.mensaje);
                                 }
                             });
                     }else{
