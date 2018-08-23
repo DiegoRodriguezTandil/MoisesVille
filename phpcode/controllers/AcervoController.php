@@ -183,9 +183,6 @@ $ff=$fcierre;
             $model = new Acervo();
             $model->publicar_id = 1;            
         }
-
-
- 
         // Load Ingreso ID. 
         //Request comes from Ingreso form
         if(!empty($ingreso_id)){
@@ -197,34 +194,28 @@ $ff=$fcierre;
         
         // Load Form data into model & Save it
         if ($model->load(Yii::$app->request->post())) {    
-                 $dia='';
-                 $dia2='';
-                 $mes='';
-                 $mes2='';
-                $anio='';
-                $anio2='';
+            $dia='';
+            $dia2='';
+            $mes='';
+            $mes2='';
+            $anio='';
+            $anio2='';
 
-                  $fechaInicio= Yii::$app->request->post('fechaInicioRestauracion-acervo-fechainiciorestauracion');
-                  $fechaFin= Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
-               if(  strlen($fechaFin)>0) {
-                     list($dia2, $mes2, $anio2) = explode("/",$fechaFin);
-                     $model->fechaFinRestauracion=$anio2.'-'.$mes2.'-'.$dia2;
-               }    
-          if(isset($fechaInicio)and  strlen($fechaInicio)>0 ){
-               list($dia, $mes, $anio) = explode("/",$fechaInicio); 
-                 $model->fechaInicioRestauracion=$anio.'-'.$mes.'-'.$dia;//Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
-
-          }
-
+            $fechaInicio= Yii::$app->request->post('fechaInicioRestauracion-acervo-fechainiciorestauracion');
+            $fechaFin= Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
+            if(  strlen($fechaFin)>0) {
+                list($dia2, $mes2, $anio2) = explode("/",$fechaFin);
+                $model->fechaFinRestauracion=$anio2.'-'.$mes2.'-'.$dia2;
+            }
+            if(isset($fechaInicio)and  strlen($fechaInicio)>0 ){
+                list($dia, $mes, $anio) = explode("/",$fechaInicio);
+                $model->fechaInicioRestauracion=$anio.'-'.$mes.'-'.$dia;//Yii::$app->request->post('fechaFinRestauracion-acervo-fechafinrestauracion');
+            }
             if (!$model->save()) {
-                // exception err var_dump($model);die();or de guardado
-            }   
-
-
-            $acervo_id = $model->id;            
-        }        
- //var_dump(Yii::$app->request);die();
-        // Save UbicacionExterna
+            // exception err var_dump($model);die();or de guardado
+            }
+            $acervo_id = $model->id;
+        }
 
         if ($this->saveUbicacionExterna($acervo_id,Yii::$app->request->post('UbicacionExterna'),Yii::$app->request->post('fechaInicio-ubicacionexterna-fechainicio'),Yii::$app->request->post('fechaCierre-ubicacionexterna-fechacierre'))) 
         {  
@@ -252,8 +243,8 @@ $ff=$fcierre;
             $multimedia = new Multimedia(); 
             $multimedia->objetos_id = $acervo_id;
             $multimedia->tipoMultimedia_id = 1; // Tipo Imagen
-
-            $ext = end((explode(".", $file->name)));
+            $arrAux = explode(".", $file->name);
+            $ext    = array_pop($arrAux);
             $filename = $acervo_id."_".Yii::$app->security->generateRandomString().".{$ext}";
             $multimedia->path = $multimedia->getImageFilePath() . $filename;
             if ($file->saveAs($multimedia->path, true)){
