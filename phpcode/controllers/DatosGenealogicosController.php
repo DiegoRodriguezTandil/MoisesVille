@@ -60,7 +60,7 @@ use app\models\Seleccion;
                         $html = $this->renderAjax('importPreview',['importacion_id' => $importacionID , 'dataProvider' => $this->createMongoDataProvider($documentos)]);
                     }
                 }catch (\Exception $e){
-                    //echo $e->getMessage();
+                    echo $e->getMessage();
                     $html =  "
                                 <h3 style='font-style: italic; font-weight: bold; color: red;'>". "Ocurrio un error durante la importacion" ."</h3>
                                 <p> El archivo debe ser un Excel y contener al menos una columna llamada Nombre. </p>
@@ -76,10 +76,18 @@ use app\models\Seleccion;
                 return $this->render('indexImportacion',['modelImportacion' => $modelImportacion]);
             }
         }
-        
+    
+        function array_change_key_case_unicode($arr, $c = CASE_LOWER) {
+            $c = ($c == CASE_LOWER) ? MB_CASE_LOWER : MB_CASE_UPPER;
+            foreach ($arr as $k => $v) {
+                $ret[mb_convert_case($k, $c, "UTF-8")] = $v;
+            }
+            return $ret;
+        }
+    
         //Preparo una fila de excel para que se pueda guardar despues en la mongoDB
         private function prepareExcelRow($excelRow,$importacionId,$categoriaId){
-            $excelRow = array_change_key_case($excelRow);     // Le hago un lowercase a las keys del arreglo del excel
+            $excelRow = $this->array_change_key_case_unicode($excelRow,CASE_LOWER);
             if (array_key_exists('nombre', $excelRow)){  //Me aseguro que tenga la columna nombre
                 if (array_key_exists('apellido',$excelRow)){
                     if (!empty($excelRow['nombre'])){             //Si el campo no es nulo guardo
@@ -96,11 +104,11 @@ use app\models\Seleccion;
                                     }
                                 }
                 
-                              /*  //CONVIERTO LOS ROW ASCII A UTF-8 POR PROBLEMAS DE CODIFICIACION AL IMPRIMIR POR HTML EL DATO
+                                /*//CONVIERTO LOS ROW ASCII A UTF-8 POR PROBLEMAS DE CODIFICIACION AL IMPRIMIR POR HTML EL DATO
                                 $excelRow[$arrayKey] = iconv("UTF-8","ASCII//TRANSLIT",$excelRow[$arrayKey]);   */
                                 $NewArrayKey = iconv("UTF-8","ASCII//TRANSLIT",$arrayKey);
                                 $NewArrayKey = strtolower($NewArrayKey);
-                              
+                                
                                 if (!empty($excelRow[$arrayKey])){
                                     if (!empty( $excelRow['detalle'])) {
                                         $excelRow['detalle'] =   $excelRow['detalle'].' '."<b>".ucfirst($NewArrayKey).': '."</b>".$excelRow[$arrayKey].' ';
