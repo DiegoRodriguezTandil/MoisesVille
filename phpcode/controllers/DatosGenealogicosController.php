@@ -89,7 +89,7 @@ use app\models\Seleccion;
         private function prepareExcelRow($excelRow,$importacionId,$categoriaId){
             $excelRow = $this->array_change_key_case_unicode($excelRow,CASE_LOWER);
             if (array_key_exists('nombre', $excelRow)){  //Me aseguro que tenga la columna nombre
-                if (array_key_exists('apellido',$excelRow)){
+                //if (array_key_exists('apellido',$excelRow)){
                     if (!empty($excelRow['nombre'])){             //Si el campo no es nulo guardo
                         $arrayKeys = array_keys($excelRow);
                         foreach ($arrayKeys as $arrayKey){
@@ -127,9 +127,9 @@ use app\models\Seleccion;
                     }else{
                         $excelRow = null;
                     }
-                }else{
+               /* }else{
                     throw new \Exception('Error: El archivo no contiene una columna llamada Apellido.');
-                }
+                }*/
                 
             }else{
                 throw new \Exception('Error: El archivo no contiene una columna llamada Nombre.');
@@ -491,6 +491,80 @@ use app\models\Seleccion;
                 $html = $this->renderAjax('modalCategoria');
                 return $html;
             }
+        }
+        
+        public function prepareDocument($document,$origin){
+            $response = false;
+            $collectionName = Categoria::find()->where(['id' => $origin])->one();
+            $collection = $this->getMongoCollection($collectionName['descripcion']);
+            
+            try{
+                $mongoDocument = $this->prepareExcelRow($document,99 , $origin);
+                if (!empty($mongoDocument)) {
+
+                    if ($collection->insert($mongoDocument)) {
+                        $response = TRUE;
+                    }
+                }
+            }catch (\Exception $e){
+                echo "<p style='color: red'>  <br /> No se pudo migrar el documento </p>\n";
+                echo $e->getMessage();
+            }
+            
+            return $response;
+        }
+        
+        public function actionImportarcsv(){
+    
+            $document = [];
+            $config = ['columna' => 0, 'resultado' => 1, 'tupla' => 2, 'cod' => 4];
+    
+            $lastTupla = 0;
+            $lastOrigen = '';
+            $cont = 0;
+            try {
+                $handle  = fopen(Yii::getAlias('@webroot').'/csv/cat46.csv','r');
+                $length = 0;
+                $delimiter = ",";
+                while (($csv = fgetcsv ( $handle,  $length ,  $delimiter)) !== FALSE ){
+            
+                    if ($cont > 0  ){    //193813   - 261947
+                        if (array_key_exists($config['tupla'],$csv)){
+                            if ($csv[$config['tupla']] !== $lastTupla){
+                                $lastTupla =  $csv[$config['tupla']];
+        
+                                if ($cont > 1){
+                                    $this->prepareDocument($document,$lastOrigen); // Inserto el documento en la mongo db, buscando a que categoria corresponde segun el origen
+                                }
+    
+                                if (array_key_exists($config['cod'],$csv)){
+                                    
+                                    if ($lastOrigen !== $csv[$config['cod']]){
+                                        $lastOrigen = $csv[$config['cod']];
+                                        $mensaje = $csv[3];
+                                    }
+                                }
+                                
+        
+                                echo "<p style='color: red'>  <br /> $cont </p>\n";
+                                $document = [];
+                            }
+    
+                            $document[$csv[$config['columna']]] = $csv[$config['resultado']];
+                        }
+                       
+                    }
+                    
+                    $cont++;
+                }
+        
+            } catch (Exception $e){
+                echo $e->getMessage();
+            }
+    
+            fclose($handle);
+    
+    
         }
     
     }

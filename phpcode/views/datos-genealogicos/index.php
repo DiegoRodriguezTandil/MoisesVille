@@ -100,7 +100,13 @@ CSS;
             $.get( ajaxurl , function( data ) {
                 var arr = data.count;
                 for (var key in arr) {
-                    $("#"+key).html(" "+arr[key]+" - ");
+                    let a = $("#"+key).closest("a");
+                    if (arr[key] > 0){
+                        a.show();
+                        $("#"+key).html(" "+arr[key]+" - ");
+                    }else{
+                        a.hide();
+                    }
                 }
                 if (data.result == 'ok'){
                    
@@ -161,6 +167,13 @@ $this->registerJs($script);
             <?php
                 echo Html::a("<span class='fa fa-plus'> Nueva Importación </span>",Url::to(["datos-genealogicos/importacion/"]),[
                     'title' => Yii::t('app', 'Nueva Importacion'),
+                    'class'=>'btn btn-info btn-xs',
+                ]);
+            ?>
+            
+            <?php
+                echo Html::a("<span class='fa fa-plus'> Importación CSV </span>",Url::to(["datos-genealogicos/importarCSV/"]),[
+                    'title' => Yii::t('app', 'Nueva CSV'),
                     'class'=>'btn btn-info btn-xs',
                 ]);
             ?>
