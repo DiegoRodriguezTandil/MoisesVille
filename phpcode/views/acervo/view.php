@@ -268,17 +268,25 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php
 
-        $widget = \kotchuprik\fotorama\Widget::begin([
+   /*     $widget = \kotchuprik\fotorama\Widget::begin([
         'version' => '4.5.2',
         'options' => [
             'nav' => 'thumbs',
         ],
-        ]);
+        ]);*/
 
-        foreach($dataProvider->getModels() as $img)   
-             echo Html::img( '@web' .$img->webPath);
+        foreach($dataProvider->getModels() as $img)   {
+            //var_dump($img);
+            $options = ['style' => ['max-width' => '900px', 'max-height' => '600px']];
+            echo "<div class='row'>";
+            echo Html::img( '@web' .$img->webPath,$options);
+            echo Html::a('<i class="fa fa-fw fa-trash"> Borrar Foto </i>',['multimedia/delete', 'id' => $img->id, 'acervo_id' => $model->id ], ['class' => 'btn btn-black', 'title' => 'Eliminar foto']);
+            echo "</div>";
+        }
 
-        $widget->end();
+            //echo Html::img( '@web' .$img->webPath);
+
+     //   $widget->end();
         echo '</br></br>';
         ?>
     </div>

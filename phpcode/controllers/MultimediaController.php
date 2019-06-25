@@ -15,22 +15,6 @@ use yii\web\UploadedFile;
 class MultimediaController extends MainController
 {
     
-    public function behaviors()
-    {
-        return array_merge(
-                parent::behaviors(),
-                [
-                    'verbs' => [
-                        'class' => VerbFilter::className(),
-                        'actions' => [
-                            'delete' => ['post'],
-                        ],
-                    ],
-                ]
-            );
-    }
-
-
     /**
      * Lists all Multimedia models.
      * @return mixed
@@ -220,23 +204,21 @@ class MultimediaController extends MainController
      * @param integer $tipoMultimedia_id
      * @return mixed
      */
-    public function actionDelete($id)
-    {              
-        try {
-            if(($this->findModel($id)->delete() && ($this->findModel($id)->deleteImage()))){
-                Yii::$app->session->setFlash('success',
-                [
-                    'type' => 'success',
-                    'icon' => 'fa fa-users',
-                    'message' => 'El elemento multimedia se eliminó exitosamente',
-                    'title' => 'Elemento eliminado',
-                    'positonY' => 'top',
-                    'positonX' => 'left'
-                ]                    
-                );
-                return $this->redirect(['index']);
-            }
-        } catch (\yii\db\IntegrityException $exc) {
+    public function actionDelete($id,$acervo_id)
+    {
+        $multimedia_model = $this->findModel($id);
+        if($multimedia_model->delete()){
+            Yii::$app->session->setFlash('success',
+            [
+                'type' => 'success',
+                'icon' => 'fa fa-users',
+                'message' => 'El elemento multimedia se eliminó exitosamente',
+                'title' => 'Elemento eliminado',
+                'positonY' => 'top',
+                'positonX' => 'left'
+            ]
+            );
+        }else{
             Yii::$app->session->setFlash('error',
                 [
                     //'type' => 'error',
@@ -245,10 +227,11 @@ class MultimediaController extends MainController
                     'title' => 'Error de Borrado',
                     'positonY' => 'top',
                     'positonX' => 'left'
-                ]                    
+                ]
             );
-            return $this->redirect(['view','id'=>$id]);
         }
+        //return $this->redirect(['view','id'=>$id]);
+        return $this->redirect(['acervo/view','id' => $acervo_id]);
     }
 
     /**
